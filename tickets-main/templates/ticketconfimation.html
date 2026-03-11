@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AAVADINGI Ticket Confirmed! {{ serial }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 6rem;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 6.5rem;
+            color: #28a745;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8c00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+        }
+        .glass-card {
+            background: rgba(20, 15, 60, 0.32);
+            border: 1px solid rgba(255, 215, 0, 0.18);
+            border-radius: 24px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+            padding: 2.5rem 2rem;
+            margin: 2.5rem 0;
+        }
+        .ticket-qr {
+            max-width: 280px;
+            border: 8px solid #ffd700;
+            border-radius: 16px;
+            box-shadow: 0 15px 45px rgba(255,215,0,0.3);
+            margin: 2rem auto;
+        }
+        .ticket-detail {
+            font-size: 1.3rem;
+            margin: 1rem 0;
+            color: rgba(255,255,255,0.9);
+        }
+        .ticket-detail strong {
+            color: #ffea80;
+        }
+        .btn-action {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.35s;
+            margin: 1rem 0.8rem;
+        }
+        .btn-download {
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #111;
+            box-shadow: 0 10px 30px rgba(255,170,0,0.4);
+        }
+        .btn-download:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 45px rgba(255,170,0,0.55);
+        }
+        .btn-share {
+            background: #25D366;
+            color: white;
+        }
+        .btn-share:hover {
+            background: #20b058;
+            transform: translateY(-3px);
+        }
+        .alert-success-custom {
+            background: rgba(40,167,69,0.18);
+            border: 1px solid rgba(40,167,69,0.45);
+            color: #d4f4dd;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        footer {
+            margin-top: 5rem;
+            padding: 2.5rem 0 4rem;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,215,0,0.12);
+        }
+        .social-icons a {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.8rem;
+            margin: 0 1rem;
+            transition: all 0.3s;
+        }
+        .social-icons a:hover {
+            color: #ffd700;
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <i class="fas fa-check-circle success-icon"></i>
+
+        <h1 class="brand-title">AAVADINGI 2026</h1>
+        <h2 class="mb-4 fw-bold">Your Ticket is Confirmed!</h2>
+
+        <div class="alert alert-success-custom fade-in">
+            <strong>Payment Successful!</strong><br>
+            Thank you for being part of Chennai's biggest celebration of talent, diversity & inclusion.<br>
+            Your digital ticket has been sent to your email.
+        </div>
+
+        <div class="glass-card">
+
+            <h3 class="mb-4" style="color:#ffea80;">Ticket Details</h3>
+
+            <p class="ticket-detail">
+                <strong>Ticket Type:</strong> {{ category_name }}
+            </p>
+            <p class="ticket-detail">
+                <strong>Ticket Serial:</strong> #{{ serial }}
+            </p>
+            <p class="ticket-detail">
+                <strong>Amount Paid:</strong> ₹{{ price }}
+            </p>
+            <p class="ticket-detail mb-4">
+                <strong>Entry Date:</strong> [Event Date – update as needed]
+            </p>
+
+            <img src="/qr/{{ serial }}/{{ category_key }}" alt="Your Entry QR Code" class="ticket-qr img-fluid">
+
+            <p class="mt-4 mb-3" style="font-size:1.1rem;">
+                Show this QR code at the venue entrance — no need to print!
+            </p>
+
+            <div class="mt-5">
+                <a href="/ticket/download/{{ serial }}" class="btn btn-action btn-download" download>
+                    <i class="fas fa-download me-2"></i> Download Ticket (PDF)
+                </a>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5">
+            <h5 class="highlight-gold mb-3">What Happens Next?</h5>
+            <ul class="list-unstyled" style="font-size:1.1rem; max-width:600px; margin:0 auto;">
+                <li class="mb-2">→ Your unique QR code is now active for entry</li>
+                <li class="mb-2">→ Keep this page or the downloaded file handy</li>
+                <li class="mb-2">→ Arrive early — see you at the celebration!</li>
+            </ul>
+        </div>
+
+        <div class="mt-5">
+            <a href="/" class="btn btn-primary" style="margin-right: 1rem;">← Back to Home</a>
+            <a href="/start" class="btn btn-secondary">Book More Tickets</a>
+        </div>
+
+        <div class="mt-4">
+            <p class="text-muted">
+                Questions? Contact support:<br>
+                <a href="mailto:info@aavadingi.com" class="support-link" target="_blank">
+                    <i class="fas fa-envelope me-1"></i> Email Support
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="social-icons mb-3">
+            <a href="https://instagram.com/aavadingi" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/@aavadingi" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://facebook.com/aavadingi" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+
+        <p class="copyright">
+            © 2026 AAVADINGI. All rights reserved.<br>
+            <a href="/privacy-policy" style="color:rgba(255,215,0,0.7);">Privacy Policy</a> •
+            <a href="/terms-and-conditions" style="color:rgba(255,215,0,0.7);">Terms & Conditions</a>
+        </p>
+    </footer>
+
+</body>
+</html>

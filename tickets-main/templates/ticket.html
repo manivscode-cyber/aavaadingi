@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Your AAVADINGI 2026 Ticket #{{ serial }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8c00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 0.8rem;
+        }
+        .tagline {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #ffea80;
+            margin-bottom: 2.5rem;
+        }
+        .bulk-offer {
+            background: linear-gradient(135deg, rgba(255,215,0,0.28), rgba(255,140,0,0.22));
+            border: 1px solid rgba(255,215,0,0.45);
+            border-radius: 18px;
+            padding: 1.6rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff8d4;
+            box-shadow: 0 12px 40px rgba(255,170,0,0.35);
+        }
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .ticket-card {
+            background: rgba(20, 15, 60, 0.32);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 22px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+            padding: 2rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        .ticket-card:hover,
+        .ticket-card.selected {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(255,215,0,0.4);
+            border-color: #ffd700;
+        }
+        .ticket-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        .ticket-card label {
+            display: block;
+            cursor: pointer;
+        }
+        .ticket-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(255,215,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+        }
+        .ticket-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #ffea80;
+            margin-bottom: 0.8rem;
+        }
+        .ticket-perks {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1.2rem;
+        }
+        .ticket-price {
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .quantity-section {
+            background: rgba(20, 15, 60, 0.32);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.5);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.8rem;
+            margin: 1.5rem 0 2.5rem;
+        }
+        .qty-btn {
+            width: 55px;
+            height: 55px;
+            font-size: 1.8rem;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .qty-btn:hover {
+            background: rgba(255,215,0,0.2);
+            transform: scale(1.1);
+        }
+        #quantity {
+            width: 110px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,215,0,0.4);
+            color: white;
+            border-radius: 12px;
+            padding: 0.8rem;
+        }
+        .total-preview {
+            background: rgba(255,215,0,0.08);
+            border: 1px solid rgba(255,215,0,0.35);
+            border-radius: 18px;
+            padding: 2rem;
+            margin: 3rem 0 4rem;
+            text-align: center;
+        }
+        .total-amount {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #ffea80;
+            margin: 1rem 0;
+        }
+        .discount-note {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+        }
+        .form-section {
+            background: rgba(20, 15, 60, 0.32);
+            border-radius: 28px;
+            padding: 4.5rem 3.5rem;
+            backdrop-filter: blur(22px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+            max-width: 720px;
+            margin: 0 auto 5rem;
+        }
+        .form-group {
+            margin-bottom: 3rem;
+        }
+        .form-label {
+            color: #ffea80;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+            font-size: 1.25rem;
+            text-align: center;
+        }
+        .form-control {
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,215,0,0.35);
+            color: white;
+            border-radius: 14px;
+            padding: 1.1rem 1.5rem;
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            display: block;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 0 0.3rem rgba(255,215,0,0.25);
+            outline: none;
+        }
+        .small-hint {
+            color: rgba(255,255,255,0.75);
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: center;
+            display: block;
+            margin-top: 0.8rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .security-note {
+            background: rgba(40,167,69,0.09);
+            border: 1px solid rgba(40,167,69,0.38);
+            border-radius: 16px;
+            padding: 1.8rem 2.5rem;
+            margin: 3.5rem auto 4.5rem;
+            max-width: 620px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.92);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.4rem;
+            flex-wrap: wrap;
+            box-shadow: 0 6px 20px rgba(40,167,69,0.15);
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 5rem;
+        }
+        .btn {
+            padding: 1.2rem 3.5rem;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            transition: all 0.4s;
+            min-width: 280px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #111;
+            box-shadow: 0 16px 45px rgba(255,170,0,0.5);
+        }
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(255,170,0,0.65);
+        }
+        .btn-outline-light {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.4) !important;
+            color: white;
+        }
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.6) !important;
+        }
+        .btn-lg {
+            padding: 1.5rem 3rem;
+            font-size: 1.4rem;
+        }
+        .px-5 { padding-left: 3rem; padding-right: 3rem; }
+        .py-3 { padding-top: 1rem; padding-bottom: 1rem; }
+        .btn-outline-light {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+        }
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.6);
+        }
+        footer {
+            padding: 4rem 0 6rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+            border-top: 1px solid rgba(255,215,0,0.12);
+        }
+        @media (max-width: 768px) {
+            .ticket-grid { grid-template-columns: 1fr; }
+            .form-section { padding: 3.5rem 2.5rem; }
+            .btn-group { flex-direction: column; gap: 1.8rem; }
+        }
+        /* flash message styles */
+        .flash-container { max-width:800px; margin:1rem auto; }
+        .flash-message { padding:1rem; border-radius:8px; margin-bottom:0.5rem; }
+        .flash-message.error { background:#f8d7da; color:#721c24; }
+        .flash-message.success { background:#d4edda; color:#155724; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1 class="brand-title">AAVADINGI 2026</h1>
+        <div class="tagline">Celebrate Talent • Celebrate Inclusion • Celebrate Every Voice</div>
+
+        <!-- Ticket Serial Display -->
+        <div style="
+            background: rgba(20, 15, 60, 0.32);
+            border: 1px solid rgba(255, 215, 0, 0.22);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+            padding: 2rem;
+            margin: 2rem auto 3rem;
+            max-width: 600px;
+            text-align: center;
+        ">
+            <h3 style="color: #ffea80; font-size: 1.8rem; margin-bottom: 1rem;">
+                <i class="fas fa-ticket-alt" style="color: #ffd700; margin-right: 0.5rem;"></i>
+                Your Ticket Reservation
+            </h3>
+            <div style="
+                font-size: 2.5rem;
+                font-weight: 900;
+                color: #ffd700;
+                letter-spacing: 2px;
+                background: rgba(255,215,0,0.1);
+                border: 2px solid rgba(255,215,0,0.3);
+                border-radius: 12px;
+                padding: 1rem;
+                display: inline-block;
+                margin-bottom: 1rem;
+            ">
+                {{ serial }}
+            </div>
+            <p style="color: rgba(255,255,255,0.8); font-size: 1rem;">
+                Keep this number safe — you'll need it for entry & updates
+            </p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-container">
+              {% for category, msg in messages %}
+                <div class="flash-message {{ category }}">
+                  {{ msg }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="bulk-offer">
+            <strong>Bulk Booking Offer:</strong> 4+ tickets – 15% OFF
+        </div>
+
+        <form action="/pay/{{ serial }}" method="POST" id="ticketForm">
+
+            <!-- Ticket Selection Cards -->
+            <div class="ticket-grid">
+
+                <div class="ticket-card" data-price="500">
+                    <input type="radio" name="category" value="general" id="general" required data-name="General">
+                    <label for="general">
+                        <img class="ticket-image" src="https://img.freepik.com/free-vector/gradient-welcome-kit-illustration_23-2149240826.jpg" alt="Welcome Kit">
+                        <div class="ticket-title">General</div>
+                        <div class="ticket-perks">Welcome kit</div>
+                        <div class="ticket-price">₹500</div>
+                    </label>
+                </div>
+
+                <div class="ticket-card" data-price="1200">
+                    <input type="radio" name="category" value="silver" id="silver" data-name="Silver">
+                    <label for="silver">
+                        <img class="ticket-image" src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg" alt="Biryani">
+                        <div class="ticket-title">Silver</div>
+                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg)</div>
+                        <div class="ticket-price">₹1200</div>
+                    </label>
+                </div>
+
+                <div class="ticket-card" data-price="2499">
+                    <input type="radio" name="category" value="gold" id="gold" data-name="Gold">
+                    <label for="gold">
+                        <img class="ticket-image" src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt & Mug">
+                        <div class="ticket-title">Gold</div>
+                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug</div>
+                        <div class="ticket-price">₹2499</div>
+                    </label>
+                </div>
+
+                <div class="ticket-card" data-price="5000">
+                    <input type="radio" name="category" value="platinum" id="platinum" data-name="Platinum">
+                    <label for="platinum">
+                        <img class="ticket-image" src="https://img.freepik.com/free-vector/realistic-golden-award-trophy_23-2149169273.jpg" alt="Award">
+                        <div class="ticket-title">Platinum</div>
+                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award</div>
+                        <div class="ticket-price">₹5000</div>
+                    </label>
+                </div>
+
+                <div class="ticket-card premium" data-price="10000">
+                    <input type="radio" name="category" value="vip" id="vip" data-name="VIP">
+                    <label for="vip">
+                        <img class="ticket-image" src="https://img.freepik.com/free-vector/realistic-golden-award-trophy-medal_23-2149169280.jpg" alt="VIP Award">
+                        <div class="ticket-title">VIP</div>
+                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award + Vision 2025 Wall of Frame</div>
+                        <div class="ticket-price">₹10000</div>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="form-section" style="text-align:center;">
+                <h4 style="color:#ffea80; margin-bottom:1.8rem; font-size:1.9rem;">Number of Tickets</h4>
+                <div style="
+                    display: inline-flex;
+                    align-items: center;
+                    background: rgba(255,215,0,0.05);
+                    border: 2px solid rgba(255,215,0,0.4);
+                    border-radius: 20px;
+                    padding: 0.8rem;
+                    margin: 1.5rem 0 3rem;
+                    box-shadow: 0 8px 25px rgba(255,215,0,0.15);
+                ">
+                    <button type="button" id="decreaseQty" style="
+                        width: 50px;
+                        height: 50px;
+                        font-size: 1.8rem;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2));
+                        border: 1px solid rgba(255,215,0,0.5);
+                        color: #ffea80;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        font-weight: 700;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    " onmouseover="this.style.background='linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,170,0,0.4))'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2))'; this.style.transform='scale(1)';">−</button>
+                    <input 
+                        type="number" 
+                        name="quantity" 
+                        id="quantity" 
+                        value="1" 
+                        min="1" 
+                        max="20" 
+                        class="form-control text-center" 
+                        style="
+                            width: 100px;
+                            height: 50px;
+                            font-size: 1.8rem;
+                            font-weight: 700;
+                            padding: 0.5rem;
+                            margin: 0 0.8rem;
+                            background: transparent;
+                            border: none;
+                            color: #ffea80;
+                            text-align: center;
+                        "
+                        required
+                    >
+                    <button type="button" id="increaseQty" style="
+                        width: 50px;
+                        height: 50px;
+                        font-size: 1.8rem;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2));
+                        border: 1px solid rgba(255,215,0,0.5);
+                        color: #ffea80;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        font-weight: 700;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    " onmouseover="this.style.background='linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,170,0,0.4))'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2))'; this.style.transform='scale(1)';">+</button>
+                </div>
+            </div>
+
+            <!-- Live Total Preview -->
+            <div class="total-preview" id="totalPreview" style="
+                background: rgba(255,215,0,0.08);
+                border: 1px solid rgba(255,215,0,0.35);
+                border-radius: 18px;
+                padding: 2rem;
+                margin: 3rem 0 4rem;
+                text-align: center;
+            ">
+                <div style="font-size:1.4rem; margin-bottom:1rem; color:rgba(255,255,255,0.9);">Total Amount</div>
+                <div class="total-amount" id="totalAmount" style="font-size:3.2rem; font-weight:900; color:#ffea80;">₹0</div>
+                <div class="discount-note" id="discountNote" style="display:none; color:#28a745; font-weight:600; font-size:1.25rem; margin-top:1rem;">
+                    (15% Bulk Discount Applied)
+                </div>
+            </div>
+
+            <!-- Contact Details – Final Attractive & Centered Version -->
+            <div class="form-section" style="
+                max-width: 720px;
+                margin: 0 auto 5rem;
+                background: rgba(20, 15, 60, 0.35);
+                border-radius: 28px;
+                padding: 4.5rem 3.5rem;
+                backdrop-filter: blur(22px);
+                box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+                border: 1px solid rgba(255, 215, 0, 0.18);
+            ">
+
+                <h4 style="
+                    color: #ffea80;
+                    font-size: 2.4rem;
+                    font-weight: 700;
+                    text-align: center;
+                    margin-bottom: 1.2rem;
+                    letter-spacing: 1px;
+                    position: relative;
+                    display: inline-block;
+                ">
+                    Your Contact Details
+                    <span style="
+                        position: absolute;
+                        bottom: -10px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 80%;
+                        height: 4px;
+                        background: linear-gradient(90deg, transparent, #ffd700 20%, #ffea80 50%, #ffd700 80%, transparent);
+                        border-radius: 2px;
+                        opacity: 0.8;
+                    "></span>
+                </h4>
+
+                <p style="
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.90);
+                    margin: 0 auto 3.5rem;
+                    font-size: 1.28rem;
+                    line-height: 1.8;
+                    max-width: 620px;
+                    font-weight: 400;
+                ">
+                    We'll send your digital ticket (with unique QR code) <strong>instantly</strong> to these contacts
+                </p>
+
+                <!-- Email -->
+                <div style="margin-bottom: 4rem;">
+        <label class="d-block mb-3" for="email" style="
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #ffea80;
+            text-align: left;
+        ">
+            <i class="fas fa-envelope me-3" style="color:#ffd700; font-size:1.5rem; vertical-align: middle;"></i>
+            Email Address
+        </label>
+        <input 
+            type="email" 
+            name="email" 
+            id="email"
+            class="form-control mx-auto" 
+            style="max-width: 500px; font-size:1.2rem; padding:1.1rem 1.5rem; border-radius:14px;"
+            placeholder="yourname@example.com"
+            required
+            autocomplete="email"
+        >
+        <small class="d-block mt-3" style="color:rgba(255,255,255,0.75); font-size:1rem; line-height:1.6; text-align: left;">
+                </div>
+
+                <!-- Security & Privacy -->
+                <div style="
+                    background: rgba(40,167,69,0.09);
+                    border: 1px solid rgba(40,167,69,0.38);
+                    border-radius: 16px;
+                    padding: 1.8rem 2.5rem;
+                    margin: 3.5rem auto 4.5rem;
+                    max-width: 620px;
+                    font-size: 1.1rem;
+                    color: rgba(255,255,255,0.92);
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1.4rem;
+                    flex-wrap: wrap;
+                    box-shadow: 0 6px 20px rgba(40,167,69,0.15);
+                ">
+                    <i class="fas fa-shield-alt" style="color:#28a745; font-size:2rem; flex-shrink:0;"></i>
+                    <div>
+                        Your information is <strong style="color:#28a745;">secure & encrypted</strong>.<br>
+                        We never share or sell your data. Read our 
+                        <a href="/privacy-policy" style="color:#ffd900; text-decoration:underline; font-weight:500;">Privacy Policy</a>.
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="btn-group">
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-lg px-5 py-3" disabled>
+                        <i class="fas fa-shopping-cart me-2"></i> Checkout & Pay
+                    </button>
+
+                    <a href="/" class="btn btn-outline-light btn-lg px-5 py-3">
+                        Cancel Booking
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <footer>
+        © 2026 AAVADINGI. All rights reserved.<br>
+        <a href="/privacy-policy" style="color:rgba(255,215,0,0.7);">Privacy Policy</a> •
+        <a href="/terms-and-conditions" style="color:rgba(255,215,0,0.7);">Terms & Conditions</a>
+    </footer>
+
+    <script>
+        // Ticket card selection
+        document.querySelectorAll('.ticket-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.ticket-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                card.querySelector('input[type="radio"]').checked = true;
+                validateForm();
+                updateTotal();
+            });
+        });
+
+        // Also listen for direct radio button changes
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                validateForm();
+                updateTotal();
+            });
+        });
+
+        // Quantity controls
+        const qtyInput = document.getElementById('quantity');
+        document.getElementById('decreaseQty').addEventListener('click', () => {
+            let current = parseInt(qtyInput.value) || 1;
+            if (current > 1) qtyInput.value = current - 1;
+            updateTotal();
+        });
+        document.getElementById('increaseQty').addEventListener('click', () => {
+            let current = parseInt(qtyInput.value) || 1;
+            if (current < 20) qtyInput.value = current + 1;
+            updateTotal();
+        });
+        qtyInput.addEventListener('input', updateTotal);
+
+        // Live total calculation
+        function updateTotal() {
+            const selected = document.querySelector('.ticket-card.selected');
+            if (!selected) {
+                document.getElementById('totalAmount').textContent = '₹0';
+                document.getElementById('discountNote').style.display = 'none';
+                return;
+            }
+
+            const price = parseInt(selected.dataset.price);
+            const qty = parseInt(qtyInput.value) || 1;
+            let total = price * qty;
+            let discountText = '';
+
+            if (qty >= 4) {
+                const discount = Math.round(total * 0.15);
+                total -= discount;
+                discountText = `(15% Bulk Discount Applied: -₹${discount})`;
+                document.getElementById('discountNote').textContent = discountText;
+                document.getElementById('discountNote').style.display = 'block';
+            } else {
+                document.getElementById('discountNote').style.display = 'none';
+            }
+
+            document.getElementById('totalAmount').textContent = `₹${total}`;
+        }
+
+        // Real-time form validation
+        const email = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function validateForm() {
+            const emailValid = email.checkValidity() && email.value.trim() !== '';
+            const categorySelected = !!document.querySelector('input[name="category"]:checked');
+
+            submitBtn.disabled = !(emailValid && categorySelected);
+            // remove/add class only for visual cue, doesn't affect disabled state
+            submitBtn.classList.toggle('enabled', emailValid && categorySelected);
+        }
+
+        email.addEventListener('input', validateForm);
+        document.querySelectorAll('input[name="category"]').forEach(r => r.addEventListener('change', validateForm));
+
+        // Initial setup
+        updateTotal();
+        validateForm();
+    </script>
+
+</body>
+</html>

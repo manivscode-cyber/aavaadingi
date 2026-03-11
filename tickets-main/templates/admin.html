@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin&nbsp;|&nbsp;Tickets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background:#111; color:#fff; margin:0; padding:2rem; }
+        h1 { text-align:center; margin-bottom:1.5rem; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { padding:0.6rem 0.8rem; border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; }
+        th { background:#222; position:sticky; top:0; }
+        tr:nth-child(even) { background:rgba(255,255,255,0.05); }
+        tr:hover { background:rgba(255,255,255,0.1); }
+        .nowrap { white-space:nowrap; }
+        .footer { margin-top:2rem; text-align:center; font-size:0.85rem; color:rgba(255,255,255,0.6); }
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1>Ticket Records</h1>
+        <a href="/" style="color: #ffd700; text-decoration: none; font-size: 1.1rem;">← Back to Home</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Category</th>
+                <th>Paid</th>
+                <th>Email</th>
+                <th>Image URL</th>
+                <th>Email&nbsp;Status</th>
+                <th>Refunded</th>
+                <th class="nowrap">Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tickets %}
+            <tr>
+                <td class="nowrap">{{ t.serial }}</td>
+                <td>{{ t.category }}</td>
+                <td>{{ 'Yes' if t.paid else 'No' }}</td>
+                <td class="nowrap">{{ t.buyer_email }}</td>
+                <td><a href="{{ t.ticket_image_url }}" target="_blank">link</a></td>
+                <td>{{ t.email_status }}</td>
+                <td>{{ 'Yes' if t.refunded else 'No' }}</td>
+                <td class="nowrap">{{ t.payment_confirmed_at }}</td>
+                <td>
+                    {% if not t.refunded %}
+                    <form method="POST" action="/admin/refund/{{ t.serial }}?key={{ request.args.get('key','') }}" style="display:inline">
+                        <button type="submit" style="background:#c00;color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:4px;cursor:pointer;">Mark<br>Refund</button>
+                    </form>
+                    {% else %}
+                    &mdash;
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="footer">
+        <p>Access controlled by ADMIN_KEY parameter. Keep the key secret!</p>
+    </div>
+</body>
+</html>

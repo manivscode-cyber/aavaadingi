@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pay for AAVADINGI Ticket #{{ serial }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem;
+            text-align: center;
+        }
+
+        header {
+            padding: 3rem 0 2rem;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8c00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            margin-bottom: 0.8rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ffea80;
+            margin-bottom: 1rem;
+        }
+
+        .glass-panel {
+            background: rgba(20, 15, 60, 0.32);
+            border: 1px solid rgba(255, 215, 0, 0.22);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+            padding: 3rem 2rem;
+            margin: 0 auto 3rem;
+            max-width: 100%;
+        }
+
+        .ticket-title {
+            color: #ffea80;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price {
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            font-weight: 900;
+            color: #ffea80;
+            text-shadow: 0 6px 20px rgba(255,234,128,0.4);
+            margin: 1.5rem 0 2rem;
+        }
+
+        .timer-section {
+            margin: 2.5rem auto;
+            max-width: 420px;
+        }
+
+        .timer-label {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .timer-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle circle {
+            fill: none;
+            stroke: rgba(255,255,255,0.08);
+            stroke-width: 12;
+        }
+
+        .timer-progress {
+            stroke: #ff7043;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ff7043;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .btn-pay {
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #111;
+        }
+
+        .btn-refresh {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(255,170,0,0.25);
+        }
+
+        .btn:disabled {
+            background: #555 !important;
+            color: #ddd !important;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .steps {
+            background: rgba(255,215,0,0.08);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            text-align: left;
+            color: #fff8d4;
+        }
+
+        .steps strong {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: #ffea80;
+        }
+
+        .steps ol {
+            padding-left: 1.8rem;
+            margin: 0;
+        }
+
+        .steps li {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .alert-warning {
+            background: rgba(255,193,7,0.15);
+            border: 1px solid rgba(255,193,7,0.45);
+            color: #fff3cd;
+            border-radius: 16px;
+            padding: 1.6rem;
+            margin: 2.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .support {
+            margin: 4rem 0 2rem;
+            font-size: 1.15rem;
+        }
+
+        .support a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .support a:hover {
+            color: #ffea80;
+            text-decoration: underline;
+        }
+
+        footer {
+            padding: 3rem 0 5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255,215,0,0.12);
+        }
+
+        footer a {
+            color: rgba(255,215,0,0.7);
+            text-decoration: none;
+        }
+
+        @media (max-width: 576px) {
+            .brand-title { font-size: 2.8rem; }
+            .price { font-size: 2.8rem; }
+            .timer-text { font-size: 2.4rem; }
+            .action-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 class="brand-title">AAVADINGI 2026</h1>
+            <h2 class="subtitle">Complete Your Payment Securely</h2>
+        </header>
+
+        <div class="glass-panel">
+            <h3 class="ticket-title">{{ quantity }}x {{ category_name }} Ticket #{{ serial }}</h3>
+
+            <div class="price">₹{{ price }}</div>
+
+            <div class="timer-section">
+                <p class="timer-label">Time remaining to complete payment:</p>
+                <div class="timer-circle">
+                    <svg width="180" height="180">
+                        <circle cx="90" cy="90" r="80"></circle>
+                        <circle class="timer-progress" cx="90" cy="90" r="80"></circle>
+                    </svg>
+                    <div class="timer-text" id="timer-display">10:00</div>
+                </div>
+            </div>
+
+            <p class="lead">
+                Click the button below to complete your secure payment through Razorpay.
+            </p>
+
+            <div class="action-buttons">
+                <button id="rzp-button" class="btn btn-pay">
+                    <i class="fas fa-credit-card"></i>
+                    Pay ₹{{ price }} Now
+                </button>
+
+                <button id="refresh-btn" class="btn btn-refresh" type="button">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Page
+                </button>
+
+                <a href="/" class="btn btn-cancel">
+                    <i class="fas fa-times"></i>
+                    Cancel & Go Back
+                </a>
+            </div>
+
+            <div class="steps">
+                <strong>Follow these steps:</strong>
+                <ol>
+                    <li>Click "Pay Now" to open Razorpay checkout</li>
+                    <li>Choose your payment method (UPI, Card, Net Banking, Wallet)</li>
+                    <li>Complete the payment securely</li>
+                    <li>You will be redirected back automatically</li>
+                    <li>Your digital ticket will be sent after payment verification</li>
+                </ol>
+            </div>
+
+            <div class="alert-warning">
+                <strong>Important:</strong> Complete payment within the time limit.<br>
+                Razorpay will redirect you back after successful payment.
+            </div>
+
+            <div style="margin: 2rem 0;">
+                <small style="color: rgba(255,255,255,0.7);">
+                    Payment secured by <strong>Razorpay</strong> • Multiple payment options available
+                </small>
+            </div>
+        </div>
+
+        <div class="support">
+            <p>Payment issue or timer expired?</p>
+            <p>
+                <a href="mailto:info@aavadingi.com" target="_blank">
+                    <i class="fas fa-envelope" style="color:#ffd700; font-size:1.5rem;"></i>
+                    Email Support
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 AAVADINGI. All rights reserved.<br>
+        <a href="/privacy-policy">Privacy Policy</a> •
+        <a href="/terms-and-conditions">Terms & Conditions</a>
+    </footer>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        /* eslint-disable */
+        let timeLeft = 600;
+
+        const timerDisplay = document.getElementById("timer-display");
+        const progressCircle = document.querySelector(".timer-progress");
+        const payButton = document.getElementById("rzp-button");
+        const refreshButton = document.getElementById("refresh-btn");
+
+        const radius = 80;
+        const circumference = 2 * Math.PI * radius;
+
+        progressCircle.style.strokeDasharray = circumference;
+        progressCircle.style.strokeDashoffset = 0;
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+        }
+
+        function updateTimer() {
+            const safeTime = Math.max(timeLeft, 0);
+            timerDisplay.textContent = formatTime(safeTime);
+
+            const progress = safeTime / 600;
+            const offset = circumference * (1 - progress);
+            progressCircle.style.strokeDashoffset = offset;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                payButton.disabled = true;
+                payButton.innerHTML = `<i class="fas fa-clock"></i> Time Expired`;
+                return;
+            }
+
+            timeLeft--;
+        }
+
+        payButton.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            if (timeLeft <= 0) {
+                alert("Payment time has expired. Please refresh and try again.");
+                return;
+            }
+
+            const options = {
+                key: "{{ razorpay_key_id }}",
+                amount: {{ price * 100 }},
+                currency: "INR",
+                name: "AAVADINGI 2026",
+                description: "{{ quantity }}x {{ category_name }} Ticket",
+                order_id: "{{ razorpay_order_id }}",
+                handler: function (response) {
+                    const params = new URLSearchParams({
+                        payment_id: response.razorpay_payment_id,
+                        order_id: response.razorpay_order_id,
+                        signature: response.razorpay_signature
+                    });
+
+                    window.location.href = "/confirm/{{ serial }}?" + params.toString();
+                },
+                prefill: {
+                    name: '{{ buyer_name|default("", true) }}',
+                    email: '{{ buyer_email|default("", true) }}',
+                    contact: '{{ buyer_phone|default("", true) }}'
+                },
+                notes: {
+                    serial: "{{ serial }}",
+                    category: "{{ category_name }}",
+                    quantity: "{{ quantity }}"
+                },
+                theme: {
+                    color: "#ffd700"
+                },
+                modal: {
+                    ondismiss: function () {
+                        console.log("Razorpay popup closed");
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        });
+
+        refreshButton.addEventListener("click", function () {
+            console.log("Refresh button clicked");
+            window.location.reload();
+        });
+
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+        /* eslint-enable */
+    </script>
+</body>
+</html>

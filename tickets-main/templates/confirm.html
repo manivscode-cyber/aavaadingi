@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Payment - AAVADINGI 2026</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .confirm-box { background: #f0f8ff; border: 2px solid #007bff; padding: 20px; border-radius: 10px; text-align: center; }
+        .warning { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .btn { background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin: 10px; }
+        .btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="confirm-box">
+        <h2>🎟️ Confirm Your Payment</h2>
+        <p><strong>Ticket Serial:</strong> {{ serial }}</p>
+        <p><strong>Category:</strong> {{ category_name }}</p>
+        <p><strong>Amount:</strong> ₹{{ price }}</p>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Please complete your UPI payment first using the QR code/payment details shown on the previous page.
+            Only click "Payment Completed" after you have successfully made the payment.
+        </div>
+
+        <form method="POST">
+            <button type="submit" class="btn">✅ Payment Completed - Send My Ticket</button>
+        </form>
+
+        <p style="margin-top: 20px; color: #666;">
+            <a href="/" style="color: #007bff; text-decoration: none;">← Back to Home</a>
+        </p>
+    </div>
+</body>
+</html>

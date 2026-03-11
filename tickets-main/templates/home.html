@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AAVADINGI 2026 | Celebrate Every Rhythm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .hero-bg {
+            position: fixed; inset:0;
+            background: linear-gradient(rgba(10,8,35,0.84), rgba(40,10,70,0.80)),
+                        url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=2000&q=85') center/cover no-repeat fixed;
+            z-index: -2;
+        }
+        .overlay {
+            position: relative;
+            background: linear-gradient(135deg, rgba(15,12,45,0.90), rgba(50,20,90,0.78), rgba(100,30,60,0.68));
+            backdrop-filter: blur(3px);
+        }
+        .navbar {
+            position: fixed; top:0; width:100%; padding:1.6rem 5%;
+            display:flex; justify-content:space-between; align-items:center;
+            backdrop-filter: blur(20px); background: rgba(20,20,60,0.38);
+            border-bottom:1px solid rgba(255,215,0,0.10); z-index:1000;
+        }
+        .brand {
+            font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900;
+            letter-spacing:5px; background:linear-gradient(90deg,#ffd700,#ffaa00,#ff8c00);
+            background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .nav-links a { color:#eee; text-decoration:none; margin-left:2.4rem; font-weight:500; }
+        .nav-links a:hover { color:#ffd700; }
+
+        section { padding:6rem 5% 4rem; }
+        .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+        .hero-card {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            align-items: center;
+        }
+        .hero-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .hero-left { max-width:700px; margin:0 auto; }
+        .hero-left h1 {
+            font-family:'Playfair Display',serif; font-size:6.4rem; line-height:0.9; font-weight:900;
+            margin-bottom:1.6rem; text-align:center;
+        }
+        .hero-left h1 span { background:linear-gradient(90deg,#ffd700,#ffaa00,#ff4500); background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero-left p { font-size:1.38rem; line-height:1.82; color:#ddd; max-width:700px; margin:0 auto 2.4rem; text-align:center; }
+        .tag { display:block; width:max-content; margin:0 auto 1rem; padding:0.5rem 1.2rem; border-radius:50px; font-size:0.85rem; background:rgba(255,215,0,0.13); border:1px solid rgba(255,215,0,0.32); color:#ffe9b1; }
+        .offer-banner { padding:1.1rem 1.8rem; border-radius:18px; background:linear-gradient(135deg,rgba(255,215,0,0.28),rgba(255,140,0,0.24)); border:1px solid rgba(255,215,0,0.42); margin-bottom:2.2rem; text-align:center; max-width:600px; margin-left:auto; margin-right:auto; }
+        .cta-group { display:flex; gap:1.6rem; flex-wrap:wrap; justify-content:center; margin-bottom:3.2rem; }
+        .btn { padding:1.2rem 2.8rem; border-radius:50px; font-weight:700; font-size:1.12rem; text-decoration:none; transition:all 0.4s; }
+        .btn-primary { background:linear-gradient(90deg,#ffd700,#ffaa00); color:#111; }
+        .btn-primary:hover { transform:scale(1.05); }
+        .btn-secondary { border:2px solid rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); color:white; }
+        .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1.6rem; max-width:800px; margin:0 auto; }
+        .stat-box { text-align: center; }
+
+        /* Event Highlights */
+        .highlights { padding:4rem 5%; text-align:center; background:rgba(0,0,0,0.1); }
+        .highlights h2 { font-family:'Playfair Display',serif; font-size:3rem; color:#ffd700; margin-bottom:3rem; }
+        .highlight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .highlight-item { background:rgba(255,255,255,0.05); border-radius:20px; padding:2rem; backdrop-filter:blur(10px); border:1px solid rgba(255,215,0,0.2); transition:all 0.3s; }
+        .highlight-item:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(255,215,0,0.2); }
+        .highlight-item i { font-size:3rem; color:#ffd700; margin-bottom:1rem; }
+        .highlight-item h3 { font-size:1.5rem; color:#ffea80; margin-bottom:1rem; }
+        .highlight-item p { color:rgba(255,255,255,0.9); line-height:1.6; }
+
+        /* Tickets - Centered vertical layout */
+        #tickets { background:rgba(0,0,0,0.15); padding:4rem 5%; }
+        .ticket-panel {
+            max-width:1100px; margin:0 auto; background:rgba(20,15,60,0.18);
+            border-radius:28px; padding:2.5rem; backdrop-filter:blur(20px);
+            box-shadow:0 20px 60px rgba(0,0,0,0.5);
+        }
+        .bulk-offer {
+            background:linear-gradient(135deg,rgba(255,215,0,0.3),rgba(255,140,0,0.25));
+            border-radius:16px; padding:1.4rem; margin-bottom:2.5rem; text-align:center;
+            font-size:1.4rem; font-weight:700; color:#fff9e6;
+        }
+        .ticket-item {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,215,0,0.18);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            margin-bottom: 1.8rem;
+            text-align: center;
+            transition: all 0.35s;
+        }
+        .ticket-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.22);
+        }
+        .ticket-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(255,215,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .perk-images {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .perk-images img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1.5px solid rgba(255,215,0,0.35);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .ticket-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            color: #ffea80;
+        }
+        .ticket-info p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.92);
+            margin-bottom: 1.2rem;
+        }
+        .ticket-price {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: #fff;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            border: 2px solid rgba(255,215,0,0.4);
+            display: inline-block;
+        }
+
+        /* Gallery */
+        .gallery-preview h2 { font-family:'Playfair Display',serif; font-size:3.2rem; text-align:center; color:#ffd700; margin-bottom:2.5rem; }
+        .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .gallery img { width:100%; border-radius:20px; box-shadow:0 15px 40px rgba(0,0,0,0.5); }
+
+        /* Footer with social icons */
+        .footer {
+            background: linear-gradient(135deg, rgba(20,15,60,0.4), rgba(40,10,70,0.3));
+            padding: 4rem 5% 3rem;
+            border-top: 1px solid rgba(255,215,0,0.15);
+            text-align: center;
+        }
+        .footer .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8c00);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .social-icons {
+            margin: 2rem 0 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .social-icons a {
+            color: #ffffff;
+            font-size: 2.4rem;
+            transition: all 0.35s ease;
+        }
+        .social-icons a:hover {
+            color: #ffd700;
+            transform: translateY(-5px) scale(1.15);
+            text-shadow: 0 0 15px rgba(255,215,0,0.6);
+        }
+        .legal-links {
+            margin: 1.5rem 0 2.5rem;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.8);
+        }
+        .legal-links a {
+            color: inherit;
+            margin: 0 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .legal-links a:hover {
+            color: #ffd700;
+        }
+        .copyright {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width:900px) { 
+            .hero-card { grid-template-columns: 1fr; }
+            .hero-image { display: none; }
+            .hero-left h1 { font-size:4.8rem; } 
+        }
+        @media (max-width:600px) { .ticket-price { font-size:2.2rem; } .perk-images img { width:90px; height:90px; } .social-icons a { font-size:2rem; } }
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="overlay">
+
+        <nav class="navbar">
+            <div class="brand">AAVADINGI</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/start">Secure Your Pass</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-card">
+                <div class="hero-image left">
+                    <img src="https://navutthangroup.com/wp-content/uploads/2026/01/Bharatanatyam-scaled.jpg" alt="Bharatanatyam Performance">
+                </div>
+                <div class="hero-left">
+                    <h1>Embrace the <span>Power of Every Voice</span></h1>
+                    <p>In 2026, <span class="highlight">AAVADINGI</span> returns as Chennai's most powerful celebration of inclusion. Join a movement where ability meets artistry, culture fuses with courage, and every performer rewrites what's possible on one electrifying stage.</p>
+                    <div class="tag">Diversity • Talent • Unity • Rhythm</div>
+                    <p style="font-size:1.1rem; color:#bbb; margin-bottom:2rem;">AAVADINGI 2026 brings together artists from all walks of life, celebrating the rich tapestry of Chennai's cultural heritage through dance, music, and performance art that transcends boundaries and inspires change.</p>
+                    <div class="offer-banner">Limited Early Bird: Book 4+ passes & unlock <span class="highlight">18% OFF</span> + exclusive gift</div>
+                    <div class="cta-group">
+                        <a href="/start" class="btn btn-primary">Claim Your Spot Now</a>
+                        <a href="#tickets" class="btn btn-secondary">View Tickets</a>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box"><h3>1500+</h3><p>Dreamers, artists & allies uniting in 2026</p></div>
+                        <div class="stat-box"><h3>Elevated</h3><p>Premium tiers packed with memories & meaning</p></div>
+                        <div class="stat-box"><h3>Chennai</h3><p>Where inclusion becomes unstoppable energy</p></div>
+                    </div>
+                </div>
+                <div class="hero-image right">
+                    <img src="https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/slocal/_YSA7849_4__d805d2b8-69ad-452c-9c87-8bb5edf307dc.jpg" alt="Festival Celebration">
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Highlights -->
+        <section class="highlights">
+            <h2>What to Expect at AAVADINGI 2026</h2>
+            <div class="highlight-grid">
+                <div class="highlight-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Inclusive Performances</h3>
+                    <p>Artists of all abilities uniting on one electrifying stage, celebrating diversity through dance, music, and art.</p>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Cultural Cuisine</h3>
+                    <p>Experience Chennai's rich culinary heritage with authentic South Indian delicacies and fusion treats.</p>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-microphone"></i>
+                    <h3>Live Performances</h3>
+                    <p>From traditional Bharatanatyam to contemporary fusion acts, witness breathtaking performances that inspire.</p>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-heart"></i>
+                    <h3>Community Spirit</h3>
+                    <p>Join a movement where every voice is heard, every story matters, and inclusion becomes unstoppable energy.</p>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Recognition Awards</h3>
+                    <p>Celebrate excellence with special awards honoring outstanding contributions to inclusive arts and culture.</p>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-camera"></i>
+                    <h3>Memorable Moments</h3>
+                    <p>Capture the magic with professional photography and create memories that last a lifetime.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tickets Section -->
+        <section id="tickets">
+            <div class="ticket-panel">
+                <div class="bulk-offer">Bulk Booking Offer: 4+ tickets – 15% OFF</div>
+
+                <h2 style="text-align:center; margin:0 0 3rem; font-size:2.8rem; color:#ffea80;">
+                    Choose Your Pass
+                </h2>
+
+                <div class="ticket-item">
+                    <img class="ticket-image" src="https://img.freepik.com/free-vector/gradient-welcome-kit-illustration_23-2149240826.jpg" alt="Welcome Kit">
+                    <div class="ticket-info">
+                        <h3>General</h3>
+                        <p>Welcome kit</p>
+                        <div class="ticket-price">₹500</div>
+                    </div>
+                </div>
+
+                <div class="ticket-item">
+                    <img class="ticket-image" src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=740" alt="Biryani">
+                    <div class="ticket-info">
+                        <h3>Silver</h3>
+                        <p>Welcome kit + Biriyani (Veg or Non-Veg)</p>
+                        <div class="ticket-price">₹1200</div>
+                    </div>
+                </div>
+
+                <div class="ticket-item">
+                    <div class="perk-images">
+                        <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani">
+                        <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt">
+                        <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Printed Mug">
+                    </div>
+                    <div class="ticket-info">
+                        <h3>Gold</h3>
+                        <p>Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug</p>
+                        <div class="ticket-price">₹2499</div>
+                    </div>
+                </div>
+
+                <div class="ticket-item">
+                    <div class="perk-images">
+                        <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani">
+                        <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt">
+                        <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Printed Mug">
+                        <img src="https://img.freepik.com/free-vector/realistic-golden-award-trophy_23-2149169273.jpg" alt="PRI Award">
+                    </div>
+                    <div class="ticket-info">
+                        <h3>Platinum</h3>
+                        <p>Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award</p>
+                        <div class="ticket-price">₹5000</div>
+                    </div>
+                </div>
+
+                <div class="ticket-item" style="border:2px solid #ffd700; box-shadow:0 0 30px rgba(255,215,0,0.25);">
+                    <div class="perk-images">
+                        <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani">
+                        <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt">
+                        <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Printed Mug">
+                        <img src="https://img.freepik.com/free-vector/realistic-golden-award-trophy-medal_23-2149169280.jpg" alt="PRI Award">
+                    </div>
+                    <div class="ticket-info">
+                        <h3>VIP</h3>
+                        <p>Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award + Vision 2025 Wall of Frame</p>
+                        <div class="ticket-price">₹10000</div>
+                    </div>
+                </div>
+
+                <a href="/start" class="btn btn-primary" style="display:block; margin:3.5rem auto 1rem; text-align:center; max-width:380px; padding:1.5rem; font-size:1.25rem; font-weight:700;">
+                    Begin Booking Journey
+                </a>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="gallery-preview">
+            <h2>Moments of 2025</h2>
+            <div class="gallery">
+                <img src="https://thumbs.dreamstime.com/b/joyful-energetic-dance-party-vibrant-lights-music-where-disco-balls-confetti-create-lively-atmosphere-celebrating-296599323.jpg" alt="Celebration">
+                <img src="https://navutthangroup.com/wp-content/uploads/2026/01/Bharatanatyam-scaled.jpg" alt="Performance">
+                <img src="https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/slocal/_YSA7849_4__d805d2b8-69ad-452c-9c87-8bb5edf307dc.jpg" alt="Festival">
+            </div>
+        </section>
+
+        <!-- Footer with social media icons -->
+        <footer class="footer">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div class="brand">AAVADINGI</div>
+
+                <p style="font-size: 1.15rem; color: rgba(255,255,255,0.8); margin: 1.5rem 0 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Where Every Beat Tells a Story • Every Voice Finds a Stage • Every Dream Takes Flight
+                </p>
+
+                <div class="social-icons">
+                    <a href="https://instagram.com/aavadingi" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@aavadingi" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://facebook.com/aavadingi" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                </div>
+
+                <div class="legal-links">
+                    <a href="/terms-and-conditions">Terms & Conditions</a>
+                    <span style="color: rgba(255,255,255,0.4); margin: 0 1.5rem;">•</span>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </div>
+
+                <div class="copyright">
+                    © 2026 AAVADINGI. All rights reserved.<br>
+                    Designed with <span style="color: #ff6b6b;">❤️</span> for Inclusion & Celebration
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>
