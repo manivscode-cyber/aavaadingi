@@ -94,6 +94,23 @@ def check_admin_key(key: str) -> bool:
     return ADMIN_KEY != "" and key == ADMIN_KEY
 
 
+def verify_razorpay_signature(
+    order_id: str, payment_id: str, signature: str
+) -> bool:
+    if not order_id or not payment_id or not signature:
+        return False
+    try:
+        razorpay_client.utility.verify_payment_signature({
+            "razorpay_order_id": order_id,
+            "razorpay_payment_id": payment_id,
+            "razorpay_signature": signature,
+        })
+        return True
+    except Exception as e:
+        app.logger.warning("Razorpay signature verification failed: %s", e)
+        return False
+
+
 if not TEMPLATE_PATH.exists():
     raise FileNotFoundError(f"template.png not found at: {TEMPLATE_PATH}")
 
