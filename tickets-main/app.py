@@ -35,7 +35,10 @@ TEMPLATE_PATH = BASE_DIR / "template.png"
 FONT_PATHS = [
     r"C:\Windows\Fonts\arial.ttf",
     r"C:\Windows\Fonts\ARIALUNI.TTF",
-    "/Library/Fonts/Arial Unicode.ttf"
+    "/Library/Fonts/Arial Unicode.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
 ]
 FONT_PATH = next((p for p in FONT_PATHS if Path(p).exists()), None)
 if not FONT_PATH:
