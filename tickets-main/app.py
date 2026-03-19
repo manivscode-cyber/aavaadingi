@@ -584,6 +584,64 @@ def confirm_payment(serial):
             price=query_price
         )
 
+    # Handle attendee information update from confirmation form
+    if request.method == "POST" and not payment_verified:
+        name = request.form.get("name", "").strip()
+        phone = request.form.get("phone", "").strip()
+        place = request.form.get("place", "").strip()
+
+        if name and phone and place:
+            try:
+                # Update ticket with attendee info in Supabase
+                result = (
+                    supabase.table("tickets")
+                    .update({
+                        "attendee_name": name,
+                        "attendee_phone": phone,
+                        "attendee_place": place
+                    })
+                    .eq("serial", serial)
+                    .execute()
+                )
+                # Also update in-memory cache
+                ticket["attendee_name"] = name
+                ticket["attendee_phone"] = phone
+                ticket["attendee_place"] = place
+
+                app.logger.info(
+                    "Updated attendee info for ticket %s",
+                    serial
+                )
+                flash(
+                    "Your information has been saved successfully!",
+                    "success"
+                )
+            except Exception as e:
+                app.logger.error(
+                    "Failed to update attendee info: %s",
+                    e
+                )
+                flash(
+                    "Failed to save information. Please try again.",
+                    "error"
+                )
+
+            # Redirect to confirmation page to show updated form
+            cat = CATEGORIES.get(ticket["category"], {})
+            query_price = ticket.get(
+                "total_price",
+                cat.get("price", 0) * ticket.get("quantity", 1)
+            )
+            return safe_render_template(
+                "confirm.html",
+                serial=serial,
+                category_name=cat.get("name", "Unknown"),
+                price=query_price,
+                attendee_name=name,
+                attendee_phone=phone,
+                attendee_place=place
+            )
+
     # POST request OR auto-process verified Razorpay payment
     if request.method == "POST" or payment_verified:
         # Actually process the payment and send ticket
@@ -674,6 +732,9 @@ def confirm_payment(serial):
             category_name=cat["name"],
             category_key=category,
             price=final_price,
+            attendee_name=ticket.get("attendee_name", ""),
+            attendee_phone=ticket.get("attendee_phone", ""),
+            attendee_place=ticket.get("attendee_place", ""),
         )
 
 

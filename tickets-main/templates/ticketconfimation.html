@@ -160,6 +160,45 @@
                 Show this QR code at the venue entrance — no need to print!
             </p>
 
+        </div>
+
+        <div class="glass-card">
+            <h3 class="mb-4" style="color:#ffea80;">Attendee Information</h3>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">Please provide your details for check-in:</p>
+
+            <form method="POST" action="/confirm/{{ serial }}" style="max-width: 500px; margin: 0 auto;">
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="name" style="display: block; margin-bottom: 0.5rem; color: #ffea80; font-weight: 600; text-align: left;">Full Name:</label>
+                    <input type="text" id="name" name="name" required 
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.08); color: white; font-size: 1rem;"
+                        placeholder="Enter your full name"
+                        value="{{ attendee_name|default('', true) }}">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="phone" style="display: block; margin-bottom: 0.5rem; color: #ffea80; font-weight: 600; text-align: left;">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required 
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.08); color: white; font-size: 1rem;"
+                        placeholder="Enter your phone number"
+                        value="{{ attendee_phone|default('', true) }}">
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <label for="place" style="display: block; margin-bottom: 0.5rem; color: #ffea80; font-weight: 600; text-align: left;">Place/City:</label>
+                    <input type="text" id="place" name="place" required 
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.08); color: white; font-size: 1rem;"
+                        placeholder="Enter your city or place"
+                        value="{{ attendee_place|default('', true) }}">
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 0.9rem; background: linear-gradient(90deg, #ffd700, #ffaa00); color: #111; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-save me-2"></i> Save Information
+                </button>
+            </form>
+        </div>
+
+        <div class="glass-card">
+
             <div class="mt-5">
                 <a href="/ticket/download/{{ serial }}" class="btn btn-action btn-download" download>
                     <i class="fas fa-download me-2"></i> Download Ticket (PDF)
