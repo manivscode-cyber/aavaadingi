@@ -847,6 +847,33 @@ def confirm_payment(serial):
             return "Internal server error. Check logs.", 500
 
 
+@app.route("/qr/<serial>/<category>")
+def get_qr_ticket(serial: str, category: str):
+    """Generate or retrieve QR code ticket image"""
+    try:
+        app.logger.info("[QR] Generating ticket for %s (category: %s)", serial, category)
+        
+        # Validate category
+        if category not in CATEGORIES:
+            app.logger.error("[QR] Invalid category: %s", category)
+            return "Invalid category", 400
+        
+        # Generate QR ticket image
+        image_path = generate_ticket_image_file(serial, category)
+        
+        # Serve the image
+        app.logger.info("[QR] Serving ticket image: %s", image_path)
+        return send_file(
+            image_path,
+            mimetype="image/png",
+            as_attachment=False,
+            download_name=f"ticket_{serial}.png"
+        )
+    except Exception as e:
+        app.logger.error("[QR] Error generating QR: %s - %s", serial, str(e))
+        return "Error generating QR code", 500
+
+
 # --- admin interface --------------------------------------------------------
 @app.route("/admin")
 def admin_panel():
