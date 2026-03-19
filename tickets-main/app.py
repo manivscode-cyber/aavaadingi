@@ -283,7 +283,7 @@ def send_email_with_attachment(
 @app.after_request
 def set_security_headers(response):
     """Add security headers to suppress browser warnings"""
-    # Permissions-Policy: disable sensor access and other privacy concerns
+    # Permissions-Policy: disable sensor access and privacy concerns
     response.headers['Permissions-Policy'] = (
         'accelerometer=(), '
         'gyroscope=(), '
@@ -294,11 +294,18 @@ def set_security_headers(response):
         'usb=()'
     )
     # Content Security Policy - allow Razorpay and trusted CDNs
-    response.headers['Content-Security-Policy'] = (
+    csp_header = (
         "default-src 'self' https:; "
-        "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdnjs.cloudflare.com; "
-        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
-        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
+        "script-src 'self' 'unsafe-inline' "
+        "https://checkout.razorpay.com "
+        "https://cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' "
+        "https://cdnjs.cloudflare.com "
+        "https://fonts.googleapis.com; "
+        "font-src 'self' https://fonts.gstatic.com "
+        "https://cdnjs.cloudflare.com; "
+    )
+    response.headers['Content-Security-Policy'] = csp_header
         "img-src 'self' https: data:; "
         "connect-src 'self' https://api.razorpay.com https://*.razorpay.com; "
     )
@@ -417,7 +424,9 @@ def pay_page(serial):
 
     # Create Razorpay order (new order for refresh)
     try:
-        receipt_id = f"AAVAA-{serial}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+        now = datetime.datetime.now()
+        timestamp = now.strftime('%Y%m%d%H%M%S')
+        receipt_id = f"AAVAA-{serial}-{timestamp}"
         razorpay_order = razorpay_client.order.create({
             "amount": int(total_price * 100),
             "currency": "INR",
@@ -801,7 +810,8 @@ def homepage_styles():
     try:
         styles_path = BASE_DIR / "Homepage" / "styles.css"
         if styles_path.exists():
-            return styles_path.read_text(encoding="utf-8"), 200, {'Content-Type': 'text/css'}
+            content = styles_path.read_text(encoding="utf-8")
+            return content, 200, {'Content-Type': 'text/css'}
     except Exception as e:
         app.logger.error("Failed to load Homepage styles: %s", e)
     return "", 404
