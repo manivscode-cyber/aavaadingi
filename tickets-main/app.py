@@ -830,7 +830,12 @@ def confirm_payment(serial):
             "[CONFIRM] UNHANDLED EXCEPTION for %s: %s",
             serial, str(e)
         )
-        return "Internal server error. Check logs.", 500
+        # Render error page safely without needing 'cat' variable
+        return safe_render_template(
+            "error.html",
+            error="Payment confirmation failed. Please contact support.",
+            serial=serial
+        ) or "Internal server error. Check logs.", 500
 
 
 # --- admin interface --------------------------------------------------------
