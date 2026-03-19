@@ -450,7 +450,12 @@ def pay_page(serial):
 
     # Save ticket data to Supabase early for recovery after payment
     try:
-        upsert_ticket_to_supabase(
+        app.logger.info(
+            "Saving ticket to Supabase: serial=%s, email=%s, "
+            "category=%s, quantity=%s",
+            serial, email, category, quantity
+        )
+        result = upsert_ticket_to_supabase(
             serial=serial,
             category=category,
             buyer_email=email,
@@ -460,13 +465,14 @@ def pay_page(serial):
             email_status="pending"
         )
         app.logger.info(
-            "Saved ticket to Supabase for %s before payment",
+            "Successfully saved ticket to Supabase for %s",
             serial
         )
     except Exception as e:
-        app.logger.warning(
-            "Failed to save ticket to Supabase: %s",
-            e
+        app.logger.error(
+            "Failed to save ticket to Supabase for %s: %s",
+            serial,
+            str(e)
         )
 
     # render the payment template
@@ -491,6 +497,11 @@ def confirm_payment(serial):
 
     # If buyer_email/category missing from memory, try to fetch from Supabase
     if not ticket.get("buyer_email") or not ticket.get("category"):
+        app.logger.info(
+            "Ticket data missing from memory for %s, "
+            "fetching from Supabase",
+            serial
+        )
         try:
             result = (
                 supabase.table("tickets")
@@ -499,7 +510,7 @@ def confirm_payment(serial):
                 .limit(1)
                 .execute()
             )
-            if result.data:
+            if result.data and len(result.data) > 0:
                 existing = result.data[0]
                 ticket["buyer_email"] = existing.get("buyer_email")
                 ticket["category"] = existing.get("category")
@@ -511,16 +522,32 @@ def confirm_payment(serial):
                     ).get("price", 0)
                 )
                 app.logger.info(
-                    "Restored ticket data from Supabase for %s",
+                    "Successfully restored ticket %s from Supabase: "
+                    "email=%s, category=%s",
+                    serial,
+                    existing.get("buyer_email"),
+                    existing.get("category")
+                )
+            else:
+                app.logger.warning(
+                    "No ticket found in Supabase for %s",
                     serial
                 )
         except Exception as e:
-            app.logger.warning(
-                "Failed to fetch ticket from Supabase: %s",
-                e
+            app.logger.error(
+                "Failed to fetch ticket from Supabase for %s: %s",
+                serial,
+                str(e)
             )
 
     if not ticket.get("buyer_email") or not ticket.get("category"):
+        app.logger.error(
+            "Critical: Buyer details missing for %s - "
+            "memory: email=%s, category=%s",
+            serial,
+            ticket.get("buyer_email"),
+            ticket.get("category")
+        )
         return (
             "Buyer details missing. Start again from the ticket page.",
             400
@@ -572,6 +599,18 @@ def confirm_payment(serial):
             return f"Payment verification failed: {e}", 400
 
     if request.method == "GET" and not payment_verified:
+        if not ticket.get("buyer_email") or not ticket.get("category"):
+            app.logger.warning(
+                "GET request but no ticket data for %s",
+                serial
+            )
+            flash(
+                "Your ticket information was not found. "
+                "Please start over from the booking page.",
+                "error"
+            )
+            return redirect(url_for('start_ticket'))
+
         cat = CATEGORIES.get(ticket["category"], {})
         query_price = ticket.get(
             "total_price",
