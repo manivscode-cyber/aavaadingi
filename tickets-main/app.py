@@ -469,7 +469,8 @@ def pay_page(serial):
             quantity=quantity,
             paid=False,
             ticket_image_url="",
-            email_status="pending"
+            email_status="pending",
+            buyer_whatsapp=""
         )
         app.logger.info(
             "Successfully saved ticket to Supabase for %s",
@@ -708,6 +709,7 @@ def confirm_payment(serial):
                 paid=True,
                 ticket_image_url="",
                 email_status="pending",
+                buyer_whatsapp=""
             )
         except Exception as e:
             return f"Supabase initial save failed: {e}", 500
@@ -733,6 +735,7 @@ def confirm_payment(serial):
                 paid=True,
                 ticket_image_url=image_public_url,
                 email_status="pending",
+                buyer_whatsapp=""
             )
         except Exception as e:
             return f"Supabase image URL update failed: {e}", 500
@@ -758,6 +761,7 @@ def confirm_payment(serial):
                 paid=True,
                 ticket_image_url=image_public_url,
                 email_status=email_status,
+                buyer_whatsapp=""
             )
         except Exception as e:
             return f"Supabase final update failed: {e}", 500
