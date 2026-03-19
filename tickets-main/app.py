@@ -192,11 +192,13 @@ def upsert_ticket_to_supabase(
     ticket_image_url: str,
     email_status: str,
     refunded: bool = False,
+    buyer_whatsapp: str = "",
 ):
     payload = {
         "serial": serial,
         "category": category,
         "buyer_email": buyer_email,
+        "buyer_whatsapp": buyer_whatsapp or "",
         "quantity": quantity,
         "paid": paid,
         "payment_confirmed_at": (
@@ -304,11 +306,10 @@ def set_security_headers(response):
         "https://fonts.googleapis.com; "
         "font-src 'self' https://fonts.gstatic.com "
         "https://cdnjs.cloudflare.com; "
-    )
-    response.headers['Content-Security-Policy'] = csp_header
         "img-src 'self' https: data:; "
         "connect-src 'self' https://api.razorpay.com https://*.razorpay.com; "
     )
+    response.headers['Content-Security-Policy'] = csp_header
     # X-Content-Type-Options: prevent MIME type sniffing
     response.headers['X-Content-Type-Options'] = 'nosniff'
     # X-Frame-Options: prevent clickjacking
