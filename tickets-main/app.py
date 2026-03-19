@@ -874,6 +874,58 @@ def get_qr_ticket(serial: str, category: str):
         return "Error generating QR code", 500
 
 
+@app.route("/ticket/download/<serial>")
+def download_ticket(serial: str):
+    """Download ticket as PNG file"""
+    try:
+        app.logger.info("[DOWNLOAD] Ticket download requested for %s", serial)
+        
+        # Fetch ticket from Supabase to get category
+        try:
+            result = (
+                supabase.table("tickets")
+                .select("*")
+                .eq("serial", serial)
+                .limit(1)
+                .execute()
+            )
+            if not result.data or len(result.data) == 0:
+                app.logger.error("[DOWNLOAD] Ticket not found: %s", serial)
+                return "Ticket not found", 404
+            
+            ticket = result.data[0]
+            category = ticket.get("category", "general")
+            
+        except Exception as e:
+            app.logger.error("[DOWNLOAD] DB fetch failed: %s - %s", serial, str(e))
+            return "Database error", 500
+        
+        # Validate category
+        if category not in CATEGORIES:
+            app.logger.error("[DOWNLOAD] Invalid category for %s: %s", serial, category)
+            return "Invalid category", 400
+        
+        # Generate ticket image
+        try:
+            image_path = generate_ticket_image_file(serial, category)
+            app.logger.info("[DOWNLOAD] Generated ticket image: %s", image_path)
+        except Exception as e:
+            app.logger.error("[DOWNLOAD] Image generation failed: %s - %s", serial, str(e))
+            return "Error generating ticket", 500
+        
+        # Serve as downloadable file
+        return send_file(
+            image_path,
+            mimetype="image/png",
+            as_attachment=True,
+            download_name=f"AAVADINGI_Ticket_{serial}.png"
+        )
+        
+    except Exception as e:
+        app.logger.error("[DOWNLOAD] UNHANDLED ERROR for %s: %s", serial, str(e))
+        return "Error downloading ticket", 500
+
+
 # --- admin interface --------------------------------------------------------
 @app.route("/admin")
 def admin_panel():
