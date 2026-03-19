@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aavaadingi - Chennai's Most Inclusive Cultural Festival</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/static/homepage-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <nav id="navbar" class="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">
-                <img src="images\aavaadingi.jpeg" alt="Aavaadingi logo" class="logo-img">
+                <img src="/images/aavaadingi.jpeg" alt="Aavaadingi logo" class="logo-img">
             </a>
             
             <!-- Desktop Menu -->
@@ -38,7 +38,7 @@
             <!-- Hero Section -->
             <section class="hero">
                 <div class="hero-bg">
-                    <img src="images/festival_performers.jpg" alt="Festival performers">
+                    <img src="/images/festival_performers.jpg" alt="Festival performers">
                     <div class="hero-overlay"></div>
                 </div>
 
@@ -71,8 +71,8 @@
                     </div>
 
                     <div class="hero-buttons fade-in">
-                        <a href="tickets/templates/home.html" class="btn btn-primary">Book Your Tickets</a>
-                        <a href="tickets/templates/home.html" class="btn btn-secondary">Tickets</a>
+                        <a href="tickets-main\templates\home.html" class="btn btn-primary">Book Your Tickets</a>
+                        <a href="/home" class="btn btn-secondary">Tickets</a>
                         <button class="btn btn-secondary">Become a Volunteer</button>
                     </div>
                 </div>
@@ -233,6 +233,76 @@
                 </div>
             </section>
 
+            <!-- Tickets Section -->
+            <section class="section" style="background: linear-gradient(135deg, rgba(20,15,60,0.3), rgba(40,10,70,0.2));">
+                <div class="container">
+                    <h2 class="section-title" style="color: #FFD700; margin-bottom: 3rem;">Choose Your Pass</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                        <!-- General Ticket -->
+                        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.18); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.35s;">
+                            <img src="https://img.freepik.com/free-vector/gradient-welcome-kit-illustration_23-2149240826.jpg" alt="General Pass" style="width: 150px; height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid rgba(255,215,0,0.3);">
+                            <h3 style="font-size: 1.8rem; color: #ffea80; margin-bottom: 0.8rem;">General</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem;">Welcome kit</p>
+                            <div style="font-size: 2rem; font-weight: 900; color: #fff; background: linear-gradient(90deg, #ffd700, #ffaa00); background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">₹500</div>
+                            <a href="/home" style="display: inline-block; padding: 0.8rem 1.5rem; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); border-radius: 25px; color: #fff; text-decoration: none; transition: all 0.3s;">View Details</a>
+                        </div>
+
+                        <!-- Silver Ticket -->
+                        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.18); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.35s;">
+                            <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Silver Pass" style="width: 150px; height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid rgba(255,215,0,0.3);">
+                            <h3 style="font-size: 1.8rem; color: #ffea80; margin-bottom: 0.8rem;">Silver</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem;">Welcome kit + Biryani (Veg or Non-Veg)</p>
+                            <div style="font-size: 2rem; font-weight: 900; color: #fff; background: linear-gradient(90deg, #ffd700, #ffaa00); background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">₹1200</div>
+                            <a href="/home" style="display: inline-block; padding: 0.8rem 1.5rem; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); border-radius: 25px; color: #fff; text-decoration: none; transition: all 0.3s;">View Details</a>
+                        </div>
+
+                        <!-- Gold Ticket -->
+                        <div style="background: rgba(255,255,255,0.06); border: 2px solid #ffd700; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 0 30px rgba(255,215,0,0.25);">
+                            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 1.5px solid rgba(255,215,0,0.35);">
+                                <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 1.5px solid rgba(255,215,0,0.35);">
+                                <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Mug" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 1.5px solid rgba(255,215,0,0.35);">
+                            </div>
+                            <h3 style="font-size: 1.8rem; color: #ffea80; margin-bottom: 0.8rem;">Gold</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem;">Welcome kit + Biryani + T-Shirt + Printed Mug</p>
+                            <div style="font-size: 2rem; font-weight: 900; color: #fff; background: linear-gradient(90deg, #ffd700, #ffaa00); background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">₹1</div>
+                            <a href="/home" style="display: inline-block; padding: 0.8rem 1.5rem; background: linear-gradient(90deg, #ffd700, #ffaa00); border: none; border-radius: 25px; color: #111; font-weight: bold; text-decoration: none; transition: all 0.3s;">Book Now</a>
+                        </div>
+
+                        <!-- Platinum Ticket -->
+                        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.18); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.35s;">
+                            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Mug" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-vector/realistic-golden-award-trophy_23-2149169273.jpg" alt="Award" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                            </div>
+                            <h3 style="font-size: 1.8rem; color: #ffea80; margin-bottom: 0.8rem;">Platinum</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem;">+ PRI Award</p>
+                            <div style="font-size: 2rem; font-weight: 900; color: #fff; background: linear-gradient(90deg, #ffd700, #ffaa00); background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">₹5000</div>
+                            <a href="/home" style="display: inline-block; padding: 0.8rem 1.5rem; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); border-radius: 25px; color: #fff; text-decoration: none; transition: all 0.3s;">View Details</a>
+                        </div>
+
+                        <!-- VIP Ticket -->
+                        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,215,0,0.18); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.35s;">
+                            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                <img src="https://img.freepik.com/free-photo/close-up-delicious-chicken-biryani_23-2151195235.jpg?w=300" alt="Biryani" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-photo/t-shirt-mockup_23-2149394205.jpg" alt="T-Shirt" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-photo/printed-coffee-mug-mockup_23-2149394210.jpg" alt="Mug" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <img src="https://img.freepik.com/free-vector/realistic-golden-award-trophy-medal_23-2149169280.jpg" alt="Award" style="width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                            </div>
+                            <h3 style="font-size: 1.8rem; color: #ffea80; margin-bottom: 0.8rem;">VIP</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem;">+ Wall of Frame</p>
+                            <div style="font-size: 2rem; font-weight: 900; color: #fff; background: linear-gradient(90deg, #ffd700, #ffaa00); background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem;">₹10000</div>
+                            <a href="/home" style="display: inline-block; padding: 0.8rem 1.5rem; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); border-radius: 25px; color: #fff; text-decoration: none; transition: all 0.3s;">View Details</a>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; font-size: 1.1rem; color: #ddd; margin-top: 3rem;">Bulk Booking Offer: 4+ tickets – 15% OFF</p>
+                </div>
+            </section>
+
             <!-- CTA Section -->
             <section class="cta-section">
                 <div class="cta-bg">
@@ -245,7 +315,7 @@
                     <p class="cta-description">Join us in celebrating inclusivity, empowering talent, and creating unforgettable memories at Chennai's most vibrant cultural festival.</p>
                     
                     <div class="cta-buttons">
-                        <a href="tickets/templates/home.html" class="btn btn-primary">Book Your Tickets</a>
+                        <a href="/home" class="btn btn-primary">Book Your Tickets</a>
                         <button class="btn btn-secondary">Volunteer</button>
                         <button class="btn btn-outline">Sponsor</button>
                     </div>
@@ -479,7 +549,7 @@
                 <div class="container">
                     <h2 class="section-title">Gallery - 2026 Event Photos</h2>
                     <p style="text-align: center; color: rgba(233, 213, 255, 0.8); margin-bottom: 20px;">
-                        <a href="admin.html" style="color: #60A5FA; text-decoration: none; font-weight: 600;">📸 Admin: Upload Photos</a>
+                        <a href="/admin" style="color: #60A5FA; text-decoration: none; font-weight: 600;">📸 Admin: Upload Photos</a>
                     </p>
                     
                     <div class="gallery-grid" id="moments2026Gallery">
@@ -511,7 +581,7 @@
                     <h4>Quick Links</h4>
                     <a href="#home" data-page="home">Home</a>
                     <a href="#about" data-page="about">About Us</a>
-                    <a href="tickets/templates/home.html">Book Tickets</a>
+                    <a href="/home">Book Tickets</a>
                     <a href="#live" data-page="live">Live Streaming</a>
                 </div>
 

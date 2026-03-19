@@ -9,7 +9,7 @@ from pathlib import Path
 from email.message import EmailMessage
 from flask import (
     Flask, render_template, render_template_string, request, url_for,
-    flash, redirect
+    flash, redirect, send_file
 )
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
@@ -140,9 +140,7 @@ def safe_render_template(template_name: str, **context):
     app.logger.error("Template not found: %s", template_name)
     return (
         f"<h1>Template not found: {template_name}</h1>"
-        "<p>Put the file under templates/ and restart.</p>",@app.route("/")
-def home():
-    return render_template("index.html")
+        "<p>Put the file under templates/ and restart.</p>",
         500,
     )
 
@@ -287,6 +285,26 @@ def home():
     return safe_render_template("home.html")
 
 
+@app.route("/home")
+@app.route("/home.html")
+def home_explicit():
+    """Explicit route for home.html booking page"""
+    return safe_render_template("home.html")
+
+
+@app.route("/index.html")
+@app.route("/index")
+def landing_page():
+    """Serve the Homepage/index.html landing page"""
+    try:
+        homepage_index = BASE_DIR / "Homepage" / "index.html"
+        if homepage_index.exists():
+            return homepage_index.read_text(encoding="utf-8")
+    except Exception as e:
+        app.logger.error("Failed to load Homepage/index.html: %s", e)
+    return safe_render_template("home.html")
+
+
 @app.route("/start")
 def start_ticket():
     serial = generate_unique_serial()
@@ -364,13 +382,21 @@ def pay_page(serial):
 
     # Create Razorpay order (new order for refresh)
     try:
+        receipt_id = f"AAVAA-{serial}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
         razorpay_order = razorpay_client.order.create({
-            "amount": total_price * 100,
+            "amount": int(total_price * 100),
             "currency": "INR",
-            "payment_capture": "1"
+            "receipt": receipt_id,
+            "payment_capture": 1,
+            "notes": {
+                "serial": serial,
+                "category": category,
+                "quantity": quantity,
+                "email": email
+            }
         })
-    except Exception:
-        app.logger.exception("Razorpay order.create failed")
+    except Exception as e:
+        app.logger.exception("Razorpay order.create failed: %s", e)
         flash(
             "Payment gateway unavailable. Please try again in a few minutes.",
             "error"
@@ -732,6 +758,30 @@ def terms_and_conditions():
     </body>
     </html>
     """)
+
+
+@app.route("/static/homepage-styles.css")
+def homepage_styles():
+    """Serve Homepage/styles.css"""
+    try:
+        styles_path = BASE_DIR / "Homepage" / "styles.css"
+        if styles_path.exists():
+            return styles_path.read_text(encoding="utf-8"), 200, {'Content-Type': 'text/css'}
+    except Exception as e:
+        app.logger.error("Failed to load Homepage styles: %s", e)
+    return "", 404
+
+
+@app.route("/images/<path:filename>")
+def homepage_images(filename):
+    """Serve images from Homepage/images folder"""
+    try:
+        image_path = BASE_DIR / "Homepage" / "images" / filename
+        if image_path.exists():
+            return send_file(image_path)
+    except Exception as e:
+        app.logger.error("Failed to load image: %s", e)
+    return "", 404
 
 
 @app.errorhandler(500)
