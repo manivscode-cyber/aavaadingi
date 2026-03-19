@@ -42,7 +42,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 clamp(1rem, 5vw, 2rem);
 }
 
 .container-wide {
@@ -66,7 +66,7 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 8px 24px;
+    padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -83,8 +83,8 @@ body {
 }
 
 .logo-img {
-    width: 120px;
-    height: 120px;
+    width: clamp(80px, 10vw, 120px);
+    height: clamp(80px, 10vw, 120px);
     object-fit: contain;
     border-radius: 8px;
     border: none;
@@ -98,7 +98,7 @@ body {
 
 .nav-menu {
     display: flex;
-    gap: 32px;
+    gap: clamp(1rem, 3vw, 2rem);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -110,7 +110,7 @@ body {
     font-weight: 600;
     position: relative;
     transition: color 0.3s;
-    font-size: 18px;
+    font-size: clamp(14px, 2vw, 18px);
 }
 
 .nav-link:hover,
@@ -221,7 +221,7 @@ body {
     position: relative;
     z-index: 10;
     text-align: center;
-    padding: 80px 24px;
+    padding: clamp(60px, 15vh, 80px) clamp(1rem, 5vw, 2rem);
     max-width: 1000px;
 }
 
@@ -263,20 +263,21 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 40px;
+    gap: clamp(0.75rem, 3vw, 1rem);
+    margin-bottom: clamp(2rem, 5vh, 2.5rem);
 }
 
 .badge {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
-    padding: 12px 24px;
+    padding: clamp(0.75rem, 2vh, 0.875rem) clamp(1.5rem, 4vw, 1.75rem);
     font-weight: 600;
+    font-size: clamp(14px, 2.5vw, 16px);
     transition: transform 0.3s;
 }
 
@@ -292,7 +293,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
+    gap: clamp(1rem, 3vw, 1rem);
 }
 
 .glow-effect {
@@ -318,15 +319,16 @@ body {
 
 /* Buttons */
 .btn {
-    padding: 16px 32px;
+    padding: clamp(1rem, 2vh, 1rem) clamp(2rem, 4vw, 2rem);
     border: none;
     border-radius: 50px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: clamp(16px, 2.5vw, 16px);
     cursor: pointer;
     transition: all 0.3s;
     text-decoration: none;
     display: inline-block;
+    min-height: 48px; /* Touch-friendly */
 }
 
 .btn-primary {
@@ -369,7 +371,7 @@ body {
 
 /* Sections */
 .section {
-    padding: 80px 0;
+    padding: clamp(60px, 15vh, 80px) 0;
     position: relative;
 }
 
@@ -396,15 +398,15 @@ body {
 .highlights-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
+    gap: clamp(1.5rem, 4vw, 1.5rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .highlight-card {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    height: 300px;
+    height: clamp(250px, 30vh, 300px);
     cursor: pointer;
     animation: fadeInUp 0.6s forwards;
     animation-delay: var(--delay);
@@ -467,7 +469,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 24px;
+    padding: clamp(1.5rem, 4vw, 1.5rem);
 }
 
 .highlight-icon {
@@ -513,8 +515,8 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 48px;
-    margin-top: 32px;
+    padding: clamp(3rem, 8vh, 3rem);
+    margin-top: clamp(2rem, 5vh, 2rem);
 }
 
 .countdown-label {
@@ -545,8 +547,8 @@ body {
 .competitions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
+    gap: clamp(1.5rem, 4vw, 1.5rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .competition-card {
@@ -554,7 +556,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 32px;
+    padding: clamp(2rem, 5vh, 2rem);
     text-align: center;
     transition: all 0.3s;
 }
@@ -620,7 +622,7 @@ body {
 .timeline-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    gap: clamp(2rem, 5vw, 2rem);
 }
 
 .timeline-card {
@@ -629,7 +631,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 32px;
+    padding: clamp(2rem, 5vh, 2rem);
     text-align: center;
     transition: all 0.3s;
     overflow: hidden;
@@ -684,7 +686,7 @@ body {
 /* CTA Section */
 .cta-section {
     position: relative;
-    padding: 128px 24px;
+    padding: clamp(80px, 20vh, 128px) 0;
     overflow: hidden;
 }
 
@@ -713,6 +715,7 @@ body {
     text-align: center;
     max-width: 900px;
     margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 2rem);
 }
 
 .cta-title {
@@ -735,13 +738,13 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 24px;
+    gap: clamp(1.5rem, 4vw, 1.5rem);
 }
 
 /* Page Hero */
 .page-hero {
     position: relative;
-    padding: 120px 24px 80px;
+    padding: clamp(80px, 20vh, 120px) 0 clamp(60px, 15vh, 80px);
     text-align: center;
     overflow: hidden;
 }
@@ -789,7 +792,7 @@ body {
 .about-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 48px;
+    gap: clamp(2rem, 5vw, 3rem);
     align-items: center;
 }
 
@@ -808,15 +811,15 @@ body {
 
 .about-image img {
     width: 100%;
-    height: 400px;
+    height: clamp(300px, 40vh, 400px);
     object-fit: cover;
 }
 
 .about-photos-grid {
     display: grid;
-    gap: 20px;
+    gap: clamp(1rem, 3vw, 1.25rem);
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    margin-top: 32px;
+    margin-top: clamp(2rem, 5vh, 2rem);
 }
 
 .photo-card {
@@ -833,7 +836,7 @@ body {
 
 .photo-card img {
     width: 100%;
-    height: 220px;
+    height: clamp(180px, 25vh, 220px);
     object-fit: cover;
     display: block;
 }
@@ -842,8 +845,8 @@ body {
 .vision-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 32px;
-    margin-top: 48px;
+    gap: clamp(2rem, 5vw, 2rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .vision-card {
@@ -851,7 +854,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 32px;
+    padding: clamp(2rem, 5vh, 2rem);
     text-align: center;
     transition: all 0.3s;
 }
@@ -901,7 +904,7 @@ body {
 .mission-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    gap: clamp(2rem, 5vw, 2rem);
 }
 
 .mission-card {
@@ -909,7 +912,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 40px;
+    padding: clamp(2.5rem, 6vh, 2.5rem);
 }
 
 .mission-icon {
@@ -990,8 +993,8 @@ body {
 .tickets-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
-    margin-top: 48px;
+    gap: clamp(2rem, 5vw, 2rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .ticket-card {
@@ -1000,7 +1003,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 32px;
+    padding: clamp(2rem, 5vh, 2rem);
     transition: all 0.3s;
 }
 
@@ -1067,16 +1070,16 @@ body {
 /* Booking Form */
 .booking-form {
     max-width: 600px;
-    margin: 48px auto 0;
+    margin: clamp(3rem, 8vh, 3rem) auto 0;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 32px;
+    padding: clamp(2rem, 5vh, 2rem);
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: clamp(1.5rem, 4vh, 1.5rem);
 }
 
 .form-group label {
@@ -1088,12 +1091,12 @@ body {
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 12px 16px;
+    padding: clamp(0.75rem, 2vh, 0.75rem) clamp(1rem, 3vw, 1rem);
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     color: white;
-    font-size: 16px;
+    font-size: clamp(16px, 2.5vw, 16px);
     transition: border-color 0.3s;
 }
 
@@ -1119,7 +1122,7 @@ body {
 .live-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 32px;
+    gap: clamp(2rem, 5vw, 2rem);
 }
 
 .video-player {
@@ -1272,8 +1275,8 @@ body {
 .schedule-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
+    gap: clamp(1.5rem, 4vw, 1.5rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .schedule-card {
@@ -1315,8 +1318,8 @@ body {
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
+    gap: clamp(1.5rem, 4vw, 1.5rem);
+    margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 .gallery-item {
@@ -1390,16 +1393,16 @@ body {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(139, 92, 246, 0.3);
-    padding: 48px 24px 24px;
+    padding: clamp(3rem, 8vh, 3rem) clamp(1rem, 5vw, 1rem) clamp(1.5rem, 4vh, 1.5rem);
     text-align: center;
 }
 
 .footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 32px;
+    gap: clamp(2rem, 5vw, 2rem);
     max-width: 1200px;
-    margin: 0 auto 32px;
+    margin: 0 auto clamp(2rem, 5vh, 2rem);
 }
 
 .footer-col h3 {
@@ -1432,8 +1435,9 @@ body {
     font-size: 14px;
 }
 
-/* Responsive Design */
+/* Responsive Design - Mobile First */
 @media (max-width: 768px) {
+    /* Navigation */
     .nav-menu {
         display: none;
     }
@@ -1442,25 +1446,360 @@ body {
         display: block;
     }
 
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-container {
+        padding: 0;
+    }
+
+    .logo-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Hero Section */
+    .hero-content {
+        padding: 60px 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(32px, 12vw, 64px);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(18px, 5vw, 28px);
+    }
+
+    .hero-description {
+        font-size: clamp(14px, 3vw, 18px);
+    }
+
+    .event-badges {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .badge {
+        padding: 0.75rem 1.5rem;
+        font-size: 14px;
+    }
+
     .hero-buttons {
         flex-direction: column;
-        align-items: center;
+        width: 100%;
+        max-width: 300px;
     }
 
     .btn {
         width: 100%;
+        padding: 1rem 2rem;
+        font-size: 16px;
+        min-height: 48px; /* Touch-friendly */
     }
 
+    /* Sections */
+    .section {
+        padding: 60px 0;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section-title {
+        font-size: clamp(28px, 8vw, 48px);
+    }
+
+    .section-subtitle {
+        font-size: clamp(16px, 4vw, 20px);
+    }
+
+    /* Highlights Grid */
+    .highlights-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .highlight-card {
+        height: 250px;
+    }
+
+    /* Countdown */
+    .countdown-card {
+        padding: 2rem;
+    }
+
+    .countdown-date {
+        font-size: 72px;
+    }
+
+    .countdown-month {
+        font-size: 28px;
+    }
+
+    /* Competitions */
+    .competitions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .competition-card {
+        padding: 2rem 1.5rem;
+    }
+
+    /* Timeline */
+    .timeline-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .timeline-card {
+        padding: 2rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 80px 0;
+    }
+
+    .cta-content {
+        padding: 0 1rem;
+    }
+
+    .cta-title {
+        font-size: clamp(32px, 10vw, 64px);
+    }
+
+    .cta-description {
+        font-size: clamp(16px, 4vw, 20px);
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* About Page */
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-image img {
+        height: 250px;
+    }
+
+    .about-photos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .photo-card img {
+        height: 180px;
+    }
+
+    /* Vision Grid */
+    .vision-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Mission Grid */
+    .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .mission-card {
+        padding: 2.5rem 2rem;
+    }
+
+    /* Live Streaming */
     .live-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
+    .video-player iframe {
+        height: 250px;
+    }
+
+    .live-chat {
+        height: auto;
+        max-height: 300px;
+    }
+
+    /* Schedule */
+    .schedule-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Gallery */
     .masonry-grid {
         columns: 1;
     }
 
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 2rem 1rem 1rem;
+    }
+
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-col h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small screens */
+    .hero-content {
+        padding: 40px 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(28px, 14vw, 48px);
+    }
+
+    .event-badges {
+        gap: 0.5rem;
+    }
+
+    .badge {
+        padding: 0.5rem 1rem;
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 15px;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+
+    .section-title {
+        font-size: clamp(24px, 9vw, 36px);
+    }
+
+    .countdown-card {
+        padding: 1.5rem;
+    }
+
+    .countdown-date {
+        font-size: 56px;
+    }
+
+    .competitions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-card {
+        padding: 1.5rem;
+    }
+
+    .cta-title {
+        font-size: clamp(28px, 11vw, 48px);
+    }
+
+    .vision-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .mission-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .video-player iframe {
+        height: 200px;
+    }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .competitions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .vision-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mission-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .live-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .masonry-grid {
+        columns: 2;
+    }
+}
+
+/* Desktop and larger */
+@media (min-width: 1025px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .competitions-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .timeline-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .vision-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mission-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .masonry-grid {
+        columns: 3;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
     </style>
