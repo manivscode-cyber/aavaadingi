@@ -816,8 +816,13 @@ def confirm_payment(serial):
             CATEGORIES[category]["price"] * ticket.get("quantity", 1),
         )
 
+        # Handle template name (there's a typo in the filename: ticketconfimation)
+        template_name = "ticketconfirmation.html"
+        if not (BASE_DIR / "templates" / template_name).exists():
+            template_name = "ticketconfimation.html"  # fallback to typo version
+
         return safe_render_template(
-            "ticketconfirmation.html",
+            template_name,
             serial=serial,
             category_name=cat.get("name", "Unknown"),
             category_key=category,
@@ -831,11 +836,15 @@ def confirm_payment(serial):
             serial, str(e)
         )
         # Render error page safely without needing 'cat' variable
-        return safe_render_template(
-            "error.html",
-            error="Payment confirmation failed. Please contact support.",
-            serial=serial
-        ) or "Internal server error. Check logs.", 500
+        try:
+            return safe_render_template(
+                "error.html",
+                error="Payment confirmation failed. Please contact support.",
+                serial=serial
+            )
+        except Exception:
+            # Final fallback if error.html doesn't exist
+            return "Internal server error. Check logs.", 500
 
 
 # --- admin interface --------------------------------------------------------
