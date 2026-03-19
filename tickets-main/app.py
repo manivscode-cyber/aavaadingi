@@ -140,7 +140,9 @@ def safe_render_template(template_name: str, **context):
     app.logger.error("Template not found: %s", template_name)
     return (
         f"<h1>Template not found: {template_name}</h1>"
-        "<p>Put the file under templates/ and restart.</p>",
+        "<p>Put the file under templates/ and restart.</p>",@app.route("/")
+def home():
+    return render_template("index.html")
         500,
     )
 
