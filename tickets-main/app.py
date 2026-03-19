@@ -18,7 +18,10 @@ import razorpay
 
 load_dotenv()
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_FOLDER = str(BASE_DIR / "static")
+
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path="/static")
 app.secret_key = os.getenv(
     "FLASK_SECRET", "devkey"
 )  # required for flash messages
@@ -26,8 +29,6 @@ app.secret_key = os.getenv(
 # =========================
 # CONFIG
 # =========================
-
-BASE_DIR = Path(__file__).resolve().parent
 STATIC_TICKETS_DIR = BASE_DIR / "static" / "tickets"
 STATIC_TICKETS_DIR.mkdir(parents=True, exist_ok=True)
 
