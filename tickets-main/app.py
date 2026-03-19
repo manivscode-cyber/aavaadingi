@@ -423,7 +423,10 @@ def confirm_payment(serial):
         try:
             payment = razorpay_client.payment.fetch(razorpay_payment_id)
             if payment.get("status") != "captured":
-                return "Payment not completed successfully. Please try again.", 400
+                return (
+                    "Payment not completed successfully. "
+                    "Please try again."
+                ), 400
             payment_verified = True
         except Exception as e:
             app.logger.exception("Razorpay payment fetch failed")
@@ -612,7 +615,7 @@ def privacy_policy():
     <body>
         <h1>Privacy Policy</h1>
         <p><strong>Effective Date:</strong> January 1, 2026</p>
-        
+
         <h2>Information We Collect</h2>
         <p>We collect information you provide directly to us,
         such as when you purchase tickets: your email
@@ -624,7 +627,7 @@ def privacy_policy():
             <li>To communicate important event information</li>
             <li>To provide customer support</li>
         </ul>
-        
+
         <h2>Information Sharing</h2>
         <p>We do not sell, trade, or otherwise transfer your
         personal information to third parties without your
@@ -634,7 +637,7 @@ def privacy_policy():
         <p>We implement appropriate security measures to protect
         your personal information against unauthorized access,
         alteration, disclosure, or destruction.</p>
-        
+
         <h2>Contact Us</h2>
         <p>If you have questions about this Privacy Policy,
         please contact us at
@@ -692,7 +695,7 @@ def terms_and_conditions():
     <body>
         <h1>Terms & Conditions</h1>
         <p><strong>Effective Date:</strong> January 1, 2026</p>
-        
+
         <h2>Ticket Purchase</h2>
         <p>By purchasing a ticket to AAVADINGI 2026, you
         agree to these terms and conditions.</p>
@@ -706,14 +709,14 @@ def terms_and_conditions():
         <p>We reserve the right to make changes to the event
         schedule, venue, or program. Ticket holders will be
         notified of any significant changes.</p>
-        
+
         <h2>Entry Requirements</h2>
         <ul>
             <li>Valid ticket (digital or printed) is required for entry</li>
             <li>Photo ID may be required</li>
             <li>Venue rules and regulations must be followed</li>
         </ul>
-        
+
         <h2>Liability</h2>
         <p>AAVADINGI organizers are not liable for any loss,
         damage, or injury occurring at the event.</p>
