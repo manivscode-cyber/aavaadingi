@@ -442,10 +442,32 @@ def pay_page(serial):
     except Exception as e:
         app.logger.exception("Razorpay order.create failed: %s", e)
         flash(
-            "Payment gateway unavailable. Please try again in a few minutes.",
+            "Payment gateway unavailable. Please try again "
+            "in a few minutes.",
             "error"
         )
         return redirect(url_for("ticket_page", serial=serial))
+
+    # Save ticket data to Supabase early for recovery after payment
+    try:
+        upsert_ticket_to_supabase(
+            serial=serial,
+            category=category,
+            buyer_email=email,
+            quantity=quantity,
+            paid=False,
+            ticket_image_url="",
+            email_status="pending"
+        )
+        app.logger.info(
+            "Saved ticket to Supabase for %s before payment",
+            serial
+        )
+    except Exception as e:
+        app.logger.warning(
+            "Failed to save ticket to Supabase: %s",
+            e
+        )
 
     # render the payment template
     return safe_render_template(
@@ -467,8 +489,42 @@ def pay_page(serial):
 def confirm_payment(serial):
     ticket = get_or_create_ticket(serial)
 
-    if not ticket["buyer_email"] or not ticket["category"]:
-        return "Buyer details missing. Start again from the ticket page.", 400
+    # If buyer_email/category missing from memory, try to fetch from Supabase
+    if not ticket.get("buyer_email") or not ticket.get("category"):
+        try:
+            result = (
+                supabase.table("tickets")
+                .select("*")
+                .eq("serial", serial)
+                .limit(1)
+                .execute()
+            )
+            if result.data:
+                existing = result.data[0]
+                ticket["buyer_email"] = existing.get("buyer_email")
+                ticket["category"] = existing.get("category")
+                ticket["quantity"] = existing.get("quantity", 1)
+                ticket["total_price"] = (
+                    existing.get("quantity", 1) *
+                    CATEGORIES.get(
+                        existing.get("category", "general"), {}
+                    ).get("price", 0)
+                )
+                app.logger.info(
+                    "Restored ticket data from Supabase for %s",
+                    serial
+                )
+        except Exception as e:
+            app.logger.warning(
+                "Failed to fetch ticket from Supabase: %s",
+                e
+            )
+
+    if not ticket.get("buyer_email") or not ticket.get("category"):
+        return (
+            "Buyer details missing. Start again from the ticket page.",
+            400
+        )
 
     razorpay_payment_id = (
         request.args.get("razorpay_payment_id")
