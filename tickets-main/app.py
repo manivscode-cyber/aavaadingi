@@ -323,6 +323,12 @@ def set_security_headers(response):
 # ROUTES
 # =========================
 
+@app.route("/favicon.ico")
+def favicon():
+    """Suppress favicon 404 errors"""
+    return "", 204  # 204 No Content
+
+
 @app.route("/")
 def home():
     return safe_render_template("home.html")
