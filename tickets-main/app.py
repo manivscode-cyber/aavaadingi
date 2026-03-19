@@ -277,6 +277,41 @@ def send_email_with_attachment(
 
 
 # =========================
+# SECURITY HEADERS
+# =========================
+
+@app.after_request
+def set_security_headers(response):
+    """Add security headers to suppress browser warnings"""
+    # Permissions-Policy: disable sensor access and other privacy concerns
+    response.headers['Permissions-Policy'] = (
+        'accelerometer=(), '
+        'gyroscope=(), '
+        'magnetometer=(), '
+        'camera=(), '
+        'microphone=(), '
+        'geolocation=(), '
+        'usb=()'
+    )
+    # Content Security Policy - allow Razorpay and trusted CDNs
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self' https:; "
+        "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
+        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
+        "img-src 'self' https: data:; "
+        "connect-src 'self' https://api.razorpay.com https://*.razorpay.com; "
+    )
+    # X-Content-Type-Options: prevent MIME type sniffing
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    # X-Frame-Options: prevent clickjacking
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    # Referrer-Policy: control referrer information
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
+
+# =========================
 # ROUTES
 # =========================
 

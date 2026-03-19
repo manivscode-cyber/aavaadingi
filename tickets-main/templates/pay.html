@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="accelerometer=(), gyroscope=(), magnetometer=(), camera=(), microphone=(), geolocation=()">
     <title>Pay for AAVADINGI Ticket #{{ serial }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -336,7 +338,7 @@
         <a href="/terms-and-conditions">Terms & Conditions</a>
     </footer>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
     <script>
         /* eslint-disable */
         let timeLeft = 600;
