@@ -477,19 +477,30 @@ def confirm_payment(serial):
     )
     razorpay_order_id = (
         request.args.get("razorpay_order_id")
+        or request.args.get("order_id")
         or request.form.get("razorpay_order_id")
     )
     razorpay_signature = (
         request.args.get("razorpay_signature")
+        or request.args.get("signature")
         or request.form.get("razorpay_signature")
     )
 
     payment_verified = False
 
     if razorpay_payment_id:
+        app.logger.info(
+            "Verifying payment for serial %s: "
+            "order_id=%s, payment_id=%s",
+            serial, razorpay_order_id, razorpay_payment_id
+        )
         if not verify_razorpay_signature(
             razorpay_order_id, razorpay_payment_id, razorpay_signature
         ):
+            app.logger.error(
+                "Signature verification failed for serial %s",
+                serial
+            )
             return "Payment signature verification failed", 400
 
         try:
