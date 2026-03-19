@@ -484,7 +484,7 @@ def pay_page(serial):
             "category=%s, quantity=%s",
             serial, email, category, quantity
         )
-        result = upsert_ticket_to_supabase(
+        upsert_ticket_to_supabase(
             serial=serial,
             category=category,
             buyer_email=email,
@@ -649,15 +649,21 @@ def confirm_payment(serial):
 
             # STEP 5.1: Verify signature (return 400 on failure)
             try:
-                if not verify_razorpay_signature(order_id, payment_id, signature):
+                sig_valid = verify_razorpay_signature(
+                    order_id, payment_id, signature
+                )
+                if not sig_valid:
                     app.logger.error(
                         "[CONFIRM] Signature verification failed for %s",
                         serial
                     )
-                    return "Payment verification failed. Invalid signature.", 400
+                    msg = "Payment verification failed. Invalid "
+                    msg += "signature."
+                    return msg, 400
             except Exception as e:
                 app.logger.error(
-                    "[CONFIRM] Signature verification exception: %s - %s",
+                    "[CONFIRM] Signature verification exception: "
+                    "%s - %s",
                     serial, str(e)
                 )
                 return "Payment verification error.", 400
@@ -667,7 +673,8 @@ def confirm_payment(serial):
                 payment = razorpay_client.payment.fetch(payment_id)
                 if payment.get("status") != "captured":
                     app.logger.warning(
-                        "[CONFIRM] Payment not captured for %s. Status: %s",
+                        "[CONFIRM] Payment not captured for %s. "
+                        "Status: %s",
                         serial, payment.get("status")
                     )
                     return (
@@ -816,10 +823,12 @@ def confirm_payment(serial):
             CATEGORIES[category]["price"] * ticket.get("quantity", 1),
         )
 
-        # Handle template name (there's a typo in the filename: ticketconfimation)
+        # Handle template name with typo in filename
         template_name = "ticketconfirmation.html"
-        if not (BASE_DIR / "templates" / template_name).exists():
-            template_name = "ticketconfimation.html"  # fallback to typo version
+        template_path = BASE_DIR / "templates" / template_name
+        if not template_path.exists():
+            # fallback to typo version
+            template_name = "ticketconfimation.html"
 
         return safe_render_template(
             template_name,
@@ -851,7 +860,10 @@ def confirm_payment(serial):
 def get_qr_ticket(serial: str, category: str):
     """Generate or retrieve QR code ticket image"""
     try:
-        app.logger.info("[QR] Generating ticket for %s (category: %s)", serial, category)
+        app.logger.info(
+            "[QR] Generating ticket for %s (category: %s)",
+            serial, category
+        )
         
         # Validate category
         if category not in CATEGORIES:
@@ -897,20 +909,30 @@ def download_ticket(serial: str):
             category = ticket.get("category", "general")
             
         except Exception as e:
-            app.logger.error("[DOWNLOAD] DB fetch failed: %s - %s", serial, str(e))
+            app.logger.error(
+                "[DOWNLOAD] DB fetch failed: %s - %s",
+                serial, str(e)
+            )
             return "Database error", 500
         
         # Validate category
         if category not in CATEGORIES:
-            app.logger.error("[DOWNLOAD] Invalid category for %s: %s", serial, category)
+            app.logger.error(
+                "[DOWNLOAD] Invalid category for %s: %s",
+                serial, category
+            )
             return "Invalid category", 400
         
         # Generate ticket image
         try:
             image_path = generate_ticket_image_file(serial, category)
-            app.logger.info("[DOWNLOAD] Generated ticket image: %s", image_path)
+            msg = "[DOWNLOAD] Generated ticket image: %s"
+            app.logger.info(msg, image_path)
         except Exception as e:
-            app.logger.error("[DOWNLOAD] Image generation failed: %s - %s", serial, str(e))
+            app.logger.error(
+                "[DOWNLOAD] Image generation failed: %s - %s",
+                serial, str(e)
+            )
             return "Error generating ticket", 500
         
         # Serve as downloadable file
@@ -922,7 +944,10 @@ def download_ticket(serial: str):
         )
         
     except Exception as e:
-        app.logger.error("[DOWNLOAD] UNHANDLED ERROR for %s: %s", serial, str(e))
+        app.logger.error(
+            "[DOWNLOAD] UNHANDLED ERROR for %s: %s",
+            serial, str(e)
+        )
         return "Error downloading ticket", 500
 
 

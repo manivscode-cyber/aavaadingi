@@ -251,6 +251,230 @@
             .action-buttons { flex-direction: column; }
             .btn { width: 100%; }
         }
+
+        /* Comprehensive Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .brand-title {
+                font-size: clamp(2rem, 6vw, 2.8rem);
+                margin-bottom: 0.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+            }
+
+            .glass-panel {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+            }
+
+            .ticket-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .price {
+                font-size: clamp(2.5rem, 7vw, 3.5rem);
+                margin: 1.2rem 0 1.5rem;
+            }
+
+            .timer-section {
+                margin: 2rem auto;
+                max-width: 350px;
+            }
+
+            .timer-label {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .timer-circle {
+                width: 140px;
+                height: 140px;
+                margin-bottom: 1.2rem;
+            }
+
+            .timer-circle circle {
+                stroke-width: 10;
+            }
+
+            .timer-text {
+                font-size: 2.2rem;
+            }
+
+            .lead {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .action-buttons {
+                gap: 1rem;
+                margin: 2rem 0;
+            }
+
+            .btn {
+                padding: 0.9rem 2rem;
+                font-size: 1rem;
+                min-width: 140px;
+            }
+
+            .steps {
+                padding: 1.5rem;
+                margin: 2rem 0;
+                border-radius: 12px;
+            }
+
+            .steps strong {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .steps li {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .alert-warning {
+                padding: 1.2rem;
+                margin: 2rem 0;
+                font-size: 1rem;
+                border-radius: 12px;
+            }
+
+            .support {
+                margin: 3rem 0 1.5rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 2rem 0 3rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.2rem 0.8rem 2.5rem;
+            }
+
+            header {
+                padding: 1.5rem 0 1.2rem;
+            }
+
+            .brand-title {
+                font-size: clamp(1.8rem, 7vw, 2.2rem);
+                margin-bottom: 0.4rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 1.8rem;
+            }
+
+            .glass-panel {
+                padding: 1.5rem 1.2rem;
+                margin-bottom: 1.8rem;
+                border-radius: 16px;
+            }
+
+            .ticket-title {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            .price {
+                font-size: clamp(2.2rem, 8vw, 3rem);
+                margin: 1rem 0 1.2rem;
+            }
+
+            .timer-section {
+                margin: 1.8rem auto;
+                max-width: 300px;
+            }
+
+            .timer-label {
+                font-size: 1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .timer-circle {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1rem;
+            }
+
+            .timer-circle circle {
+                stroke-width: 8;
+            }
+
+            .timer-text {
+                font-size: 1.8rem;
+            }
+
+            .lead {
+                font-size: 1rem;
+                margin-bottom: 1.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+                margin: 1.8rem 0;
+                align-items: center;
+            }
+
+            .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 0.95rem;
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .steps {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+
+            .steps strong {
+                font-size: 1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .steps ol {
+                padding-left: 1.5rem;
+            }
+
+            .steps li {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .alert-warning {
+                padding: 1rem;
+                margin: 1.8rem 0;
+                font-size: 0.95rem;
+            }
+
+            .support {
+                margin: 2.5rem 0 1.2rem;
+                font-size: 0.95rem;
+            }
+
+            footer {
+                padding: 1.5rem 0 2.5rem;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
