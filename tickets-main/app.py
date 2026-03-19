@@ -256,13 +256,21 @@ def generate_ticket_image_file(serial: str, category: str) -> Path:
 def send_email_with_attachment(
     serial: str, buyer_email: str, image_path: Path
 ) -> None:
+    """Send ticket email with QR code attachment"""
+    if not EMAIL_ADDRESS or not EMAIL_PASSWORD:
+        raise ValueError("Email credentials not configured in .env")
+    
     msg = EmailMessage()
-    msg["Subject"] = f"Your Ticket {serial}"
+    msg["Subject"] = f"Your AAVADINGI Ticket {serial}"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = buyer_email
     msg.set_content(
-        f"Hello,\n\nYour ticket {serial} is attached.\n"
-        f"Please keep it safe and show it at entry.\n\nThank you."
+        f"Hello,\n\n"
+        f"Thank you for booking AAVADINGI 2026!\n\n"
+        f"Your ticket {serial} is attached.\n"
+        f"Please keep it safe and show it at entry.\n\n"
+        f"See you there!\n\n"
+        f"Best regards,\nAVAADINGI Team"
     )
 
     with open(image_path, "rb") as f:
@@ -275,10 +283,21 @@ def send_email_with_attachment(
         filename=f"ticket_{serial}.png"
     )
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-        server.send_message(msg)
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(msg)
+            app.logger.info("Email sent successfully to %s", buyer_email)
+    except smtplib.SMTPAuthenticationError as e:
+        raise Exception(
+            f"Gmail authentication failed. Check EMAIL_ADDRESS and "
+            f"EMAIL_PASSWORD in .env. Error: {e}"
+        )
+    except smtplib.SMTPException as e:
+        raise Exception(f"SMTP error sending email: {e}")
+    except Exception as e:
+        raise Exception(f"Unexpected error sending email: {e}")
 
 
 # =========================
@@ -746,13 +765,23 @@ def confirm_payment(serial):
         # 4. Send email
         email_status = "pending"
         try:
+            app.logger.info(
+                "Sending email for ticket %s to %s",
+                serial,
+                ticket["buyer_email"]
+            )
             send_email_with_attachment(
                 serial, ticket["buyer_email"], image_path
             )
             email_status = "sent"
+            app.logger.info("Email sent successfully for %s", serial)
         except Exception as e:
-            print("Email error:", e)
-            email_status = f"failed: {e}"
+            app.logger.error(
+                "Email sending failed for %s: %s",
+                serial,
+                str(e)
+            )
+            email_status = f"failed: {str(e)}"
 
         # 5. Final update in Supabase
         try:
@@ -1014,6 +1043,40 @@ def homepage_images(filename):
 def internal_server_error(err):
     app.logger.exception("Unhandled 500")
     return "Internal server error. See logs.", 500
+
+
+@app.route("/health/email-test", methods=["POST"])
+def email_test():
+    """Test email configuration - Admin only"""
+    key = request.form.get("key", "")
+    if not check_admin_key(key):
+        return "Unauthorized", 401
+    
+    test_email = request.form.get("email", "test@example.com")
+    
+    try:
+        # Test SMTP connection
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(
+                EmailMessage(
+                    subject="AAVADINGI Email Test",
+                    from_addr=EMAIL_ADDRESS,
+                    to=test_email,
+                    text="Email configuration is working!"
+                )
+            )
+        return (
+            f"✅ Email test successful! Sent to {test_email}"
+        ), 200
+    except smtplib.SMTPAuthenticationError as e:
+        return (
+            f"❌ Gmail authentication failed. Check EMAIL_ADDRESS "
+            f"and EMAIL_PASSWORD. Error: {e}"
+        ), 400
+    except Exception as e:
+        return f"❌ Email test failed: {e}", 400
 
 
 if __name__ == "__main__":
