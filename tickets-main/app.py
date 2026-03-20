@@ -323,6 +323,7 @@ def set_security_headers(response):
         "default-src 'self' https:; "
         "script-src 'self' 'unsafe-inline' "
         "https://checkout.razorpay.com "
+        "https://cdn.razorpay.com "
         "https://cdnjs.cloudflare.com; "
         "style-src 'self' 'unsafe-inline' "
         "https://cdnjs.cloudflare.com "
