@@ -80,11 +80,19 @@
         .timer-section {
             margin: 2.5rem auto;
             max-width: 420px;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .timer-label {
             font-size: 1.3rem;
             margin-bottom: 1rem;
+            text-align: center;
+            width: 100%;
         }
 
         .timer-circle {
@@ -92,6 +100,9 @@
             width: 180px;
             height: 180px;
             margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .timer-circle svg {
@@ -124,6 +135,11 @@
             font-size: 1.25rem;
             max-width: 600px;
             margin: 0 auto 2.5rem;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 1.6;
         }
 
         .action-buttons {
@@ -132,6 +148,9 @@
             justify-content: center;
             gap: 1.5rem;
             margin: 2.5rem 0;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
         }
 
         .btn {
@@ -252,22 +271,42 @@
             .price { 
                 font-size: 2.6rem;
             }
+            .timer-section {
+                margin: 1.5rem auto;
+                padding: 0 0.5rem;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .timer-label {
+                font-size: 1rem;
+                margin-bottom: 0.6rem;
+                text-align: center;
+            }
+            .timer-circle {
+                width: 130px;
+                height: 130px;
+                margin: 0 auto 1rem;
+            }
             .timer-text { 
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             .action-buttons { 
                 flex-direction: column;
                 padding: 0 0.5rem;
+                margin: 1.5rem 0;
             }
             .btn { 
                 width: 100%;
                 max-width: none;
+                padding: 0.8rem 1.5rem;
             }
             .ticket-title {
                 word-wrap: break-word;
             }
             .lead {
                 word-wrap: break-word;
+                padding: 0 0.5rem;
+                margin: 0 0 1.5rem;
             }
         }
 
@@ -311,18 +350,26 @@
 
             .timer-section {
                 margin: 1.8rem auto;
-                max-width: 350px;
+                max-width: 100%;
+                width: 100%;
+                padding: 0 0.5rem;
+                box-sizing: border-box;
             }
 
             .timer-label {
                 font-size: 1.1rem;
                 margin-bottom: 0.8rem;
+                text-align: center;
+                width: 100%;
             }
 
             .timer-circle {
                 width: 140px;
                 height: 140px;
                 margin: 0 auto 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .timer-circle circle {
@@ -451,18 +498,24 @@
                 margin: 1.5rem auto;
                 max-width: 100%;
                 padding: 0 0.5rem;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .timer-label {
                 font-size: 0.95rem;
                 margin-bottom: 0.8rem;
                 word-wrap: break-word;
+                text-align: center;
             }
 
             .timer-circle {
                 width: 120px;
                 height: 120px;
                 margin: 0 auto 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .timer-circle circle {
