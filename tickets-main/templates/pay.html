@@ -100,13 +100,13 @@
             width: 180px;
             height: 180px;
             margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .timer-circle svg {
             transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .timer-circle circle {
@@ -286,9 +286,13 @@
                 width: 130px;
                 height: 130px;
                 margin: 0 auto 1rem;
+                position: relative;
             }
-            .timer-text { 
-                font-size: 2rem;
+
+            .timer-circle svg {
+                width: 100%;
+                height: 100%;
+                display: block;
             }
             .action-buttons { 
                 flex-direction: column;
@@ -367,13 +371,12 @@
                 width: 140px;
                 height: 140px;
                 margin: 0 auto 1.2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                position: relative;
             }
 
-            .timer-circle circle {
-                stroke-width: 10;
+            .timer-circle svg {
+                width: 100%;
+                height: 100%;
             }
 
             .timer-text {
@@ -513,9 +516,13 @@
                 width: 120px;
                 height: 120px;
                 margin: 0 auto 1rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                position: relative;
+            }
+
+            .timer-circle svg {
+                width: 100%;
+                height: 100%;
+                display: block;
             }
 
             .timer-circle circle {
@@ -618,7 +625,7 @@
             <div class="timer-section">
                 <p class="timer-label">Time remaining to complete payment:</p>
                 <div class="timer-circle">
-                    <svg width="180" height="180">
+                    <svg viewBox="0 0 180 180" preserveAspectRatio="xMidYMid meet">
                         <circle cx="90" cy="90" r="80"></circle>
                         <circle class="timer-progress" cx="90" cy="90" r="80"></circle>
                     </svg>
