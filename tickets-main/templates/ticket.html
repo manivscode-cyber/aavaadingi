@@ -985,13 +985,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 0.75rem;
+            flex-wrap: nowrap;
             margin-bottom: 1rem;
             width: 100%;
+            text-align: center;
         ">
-            <i class="fas fa-envelope" style="color:#ffd700; font-size: clamp(1.2rem, 2vw, 1.5rem);"></i>
-            <span>Email Address</span>
+            <i class="fas fa-envelope" style="color:#ffd700; font-size: clamp(1.2rem, 2vw, 1.5rem); flex-shrink: 0;"></i>
+            <span style="white-space: nowrap;">Email Address</span>
         </label>
         <input 
             type="email" 
