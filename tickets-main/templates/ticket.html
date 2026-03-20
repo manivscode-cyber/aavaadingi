@@ -962,16 +962,17 @@
                     padding: 0 1rem;
                     width: 100%;
                 ">
-        <label class="d-block mb-3" for="email" style="
+        <label for="email" style="
             font-size: clamp(1rem, 2vw, 1.25rem);
             font-weight: 600;
             color: #ffea80;
-            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
             flex-wrap: wrap;
+            margin-bottom: 1rem;
+            width: 100%;
         ">
             <i class="fas fa-envelope" style="color:#ffd700; font-size: clamp(1.2rem, 2vw, 1.5rem);"></i>
             <span>Email Address</span>
@@ -988,10 +989,16 @@
                 border-radius: 14px; 
                 width: 100%;
                 box-sizing: border-box;
+                background: rgba(255, 255, 255, 0.95);
+                border: 2px solid rgba(255, 215, 0, 0.3);
+                color: #333;
+                transition: all 0.3s ease;
             "
             placeholder="yourname@example.com"
             required
             autocomplete="email"
+            onfocus="this.style.borderColor='rgba(255, 215, 0, 0.8)'; this.style.boxShadow='0 0 8px rgba(255, 215, 0, 0.3)';"
+            onblur="this.style.borderColor='rgba(255, 215, 0, 0.3)'; this.style.boxShadow='none';"
         >
         <small class="d-block mt-3" style="
             color: rgba(255,255,255,0.75); 
