@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff5a7a"/>
+      <stop offset="50%" stop-color="#7a3cff"/>
+      <stop offset="100%" stop-color="#00b8ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.4" r="0.8">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#120324" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="600" rx="40" fill="url(#bg)"/>
+  <rect width="1200" height="600" rx="40" fill="url(#glow)"/>
+  <rect x="18" y="18" width="1164" height="564" rx="32" fill="none" stroke="#ffd7f2" stroke-opacity="0.7" stroke-width="4"/>
+  <g fill="#1f0a3b" opacity="0.9">
+    <path d="M0 420c70-62 130-75 210-12s124 80 212 20 139-83 240-18 183 77 278 10 173-78 260-4v184H0z"/>
+    <path d="M0 470c82-46 147-52 240 8s140 68 223 26 149-60 239 1 175 73 265 15 150-77 233-28v108H0z" opacity="0.75"/>
+  </g>
+  <g stroke="#ffcf5a" stroke-width="6" stroke-linecap="round" opacity="0.85">
+    <path d="M95 250l55-40 62 22 74-58"/>
+    <path d="M902 124l48-35 52 16 64-48"/>
+    <path d="M910 325l82-46 71 20 50-30"/>
+  </g>
+  <g fill="#fff0a6" font-family="Poppins, Arial, sans-serif" text-anchor="middle">
+    <text x="600" y="115" font-size="54" font-weight="700">AAVAADINGI</text>
+    <text x="600" y="175" font-size="34" font-weight="600">(MUSIC &amp; DANCE FESTIVAL)</text>
+    <text x="600" y="325" font-size="122" font-weight="900" fill="#ffffff" filter="url(#shadow)">GENERAL PASS</text>
+    <text x="600" y="430" font-size="82" font-weight="900" fill="#fff8d8">₹500</text>
+    <text x="600" y="500" font-size="40" font-weight="700" fill="#ffffff">Date: 23 &amp; 24 MAY 2026</text>
+    <text x="600" y="550" font-size="40" font-weight="700" fill="#ffffff">Location: CHENNAI</text>
+  </g>
+</svg>

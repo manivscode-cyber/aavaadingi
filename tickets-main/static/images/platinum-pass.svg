@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0b23"/>
+      <stop offset="45%" stop-color="#17153d"/>
+      <stop offset="100%" stop-color="#090b1d"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4ff6ff"/>
+      <stop offset="50%" stop-color="#8d5bff"/>
+      <stop offset="100%" stop-color="#ff66f7"/>
+    </linearGradient>
+    <filter id="neonGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#6af7ff" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="600" rx="40" fill="url(#bg)"/>
+  <g stroke="#24315e" stroke-width="3" opacity="0.45" fill="none">
+    <path d="M0 80h120l40 40h140"/><path d="M250 0v100"/><path d="M900 0v120"/><path d="M1040 90h160"/>
+    <path d="M50 540h180l45-45h160"/><path d="M780 550h220"/><path d="M1120 420v180"/>
+  </g>
+  <rect x="48" y="48" width="1104" height="504" rx="34" fill="none" stroke="url(#neon)" stroke-width="7" filter="url(#neonGlow)"/>
+  <rect x="84" y="84" width="1032" height="432" rx="28" fill="none" stroke="#5ad7ff" stroke-opacity="0.55" stroke-width="2"/>
+  <g fill="url(#neon)" text-anchor="middle" font-family="Poppins, Arial, sans-serif" filter="url(#neonGlow)">
+    <text x="600" y="165" font-size="60" font-weight="700">AAVAADINGI</text>
+    <text x="600" y="325" font-size="118" font-weight="900">PLATINUM PASS</text>
+    <text x="600" y="432" font-size="88" font-weight="900">₹5000</text>
+  </g>
+  <text x="600" y="515" font-size="42" fill="#bff6ff" text-anchor="middle" font-family="Poppins, Arial, sans-serif">Date: 23 &amp; 24 May 2026   Location: Chennai</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#271507"/>
+      <stop offset="100%" stop-color="#0d0905"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff0a4"/>
+      <stop offset="45%" stop-color="#d79b1f"/>
+      <stop offset="100%" stop-color="#fff0b8"/>
+    </linearGradient>
+    <filter id="shine">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#ffcf59" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="600" rx="40" fill="url(#bg)"/>
+  <rect x="24" y="24" width="1152" height="552" rx="34" fill="none" stroke="url(#gold)" stroke-width="8"/>
+  <rect x="60" y="60" width="1080" height="480" rx="28" fill="none" stroke="#c08418" stroke-width="3" stroke-opacity="0.7"/>
+  <g stroke="url(#gold)" stroke-width="7" fill="none" opacity="0.95">
+    <path d="M90 120c24-26 58-26 82 0 24 26 58 26 82 0"/>
+    <path d="M946 120c24-26 58-26 82 0 24 26 58 26 82 0"/>
+    <path d="M90 482c24 26 58 26 82 0 24-26 58-26 82 0"/>
+    <path d="M946 482c24 26 58 26 82 0 24-26 58-26 82 0"/>
+  </g>
+  <g fill="url(#gold)" text-anchor="middle">
+    <text x="600" y="160" font-size="66" font-family="Playfair Display, Georgia, serif" filter="url(#shine)">AAVAADINGI</text>
+    <text x="600" y="325" font-size="130" font-family="Playfair Display, Georgia, serif" font-weight="700" filter="url(#shine)">GOLD PASS</text>
+    <text x="600" y="430" font-size="88" font-family="Poppins, Arial, sans-serif" font-weight="900">₹2499</text>
+    <text x="600" y="512" font-size="42" font-family="Poppins, Arial, sans-serif">Date: 23 &amp; 24 May 2026   Location: Chennai</text>
+  </g>
+</svg>

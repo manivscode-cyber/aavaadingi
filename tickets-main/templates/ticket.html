@@ -65,10 +65,10 @@
         .ticket-card {
             background: rgba(20, 15, 60, 0.32);
             border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 22px;
+            border-radius: 24px;
             backdrop-filter: blur(18px);
             box-shadow: 0 18px 50px rgba(0,0,0,0.55);
-            padding: 2rem;
+            padding: 1.35rem;
             transition: all 0.4s ease;
             cursor: pointer;
             text-align: center;
@@ -89,12 +89,14 @@
         }
         .ticket-image {
             width: 100%;
-            height: 180px;
+            aspect-ratio: 16 / 9;
             object-fit: cover;
-            border-radius: 14px;
-            margin-bottom: 1.5rem;
+            object-position: center;
+            border-radius: 18px;
+            margin-bottom: 1.25rem;
             border: 2px solid rgba(255,215,0,0.3);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+            background: rgba(8, 6, 28, 0.6);
         }
         .ticket-title {
             font-size: 1.9rem;
@@ -335,13 +337,13 @@
             }
 
             .ticket-card {
-                padding: clamp(1.5rem, 3vw, 2rem);
-                border-radius: clamp(16px, 3.5vw, 22px);
+                padding: clamp(1rem, 2.5vw, 1.35rem);
+                border-radius: clamp(18px, 3.5vw, 24px);
             }
 
             .ticket-image {
-                height: clamp(140px, 25vw, 180px);
-                border-radius: clamp(10px, 2.5vw, 14px);
+                aspect-ratio: 16 / 9;
+                border-radius: clamp(12px, 2.5vw, 18px);
             }
 
             .ticket-title {
@@ -786,7 +788,7 @@
                 <div class="ticket-card" data-price="500">
                     <input type="radio" name="category" value="general" id="general" required data-name="General">
                     <label for="general">
-                        <img class="ticket-image" src="/static/images/general.jpeg" alt="General Access Pass">
+                        <img class="ticket-image" src="/static/images/general-pass.svg" alt="General Access Pass">
                         <div class="ticket-title">General</div>
                         <div class="ticket-perks">Welcome kit</div>
                         <div class="ticket-price">₹500</div>
@@ -796,7 +798,7 @@
                 <div class="ticket-card" data-price="1200">
                     <input type="radio" name="category" value="silver" id="silver" data-name="Silver">
                     <label for="silver">
-                        <img class="ticket-image" src="/static/images/silver.jpeg" alt="Silver Premium Pass">
+                        <img class="ticket-image" src="/static/images/silver-pass.svg" alt="Silver Premium Pass">
                         <div class="ticket-title">Silver</div>
                         <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg)</div>
                         <div class="ticket-price">₹1200</div>
@@ -806,7 +808,7 @@
                 <div class="ticket-card" data-price="2499">
                     <input type="radio" name="category" value="gold" id="gold" data-name="Gold">
                     <label for="gold">
-                        <img class="ticket-image" src="/static/images/gold.jpeg" alt="Gold Exclusive Pass">
+                        <img class="ticket-image" src="/static/images/gold-pass.svg" alt="Gold Exclusive Pass">
                         <div class="ticket-title">Gold</div>
                         <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug</div>
                         <div class="ticket-price">₹2499</div>
@@ -816,7 +818,7 @@
                 <div class="ticket-card" data-price="5000">
                     <input type="radio" name="category" value="platinum" id="platinum" data-name="Platinum">
                     <label for="platinum">
-                        <img class="ticket-image" src="/static/images/platinum.jpeg" alt="Platinum VIP Pass">
+                        <img class="ticket-image" src="/static/images/platinum-pass.svg" alt="Platinum VIP Pass">
                         <div class="ticket-title">Platinum</div>
                         <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award</div>
                         <div class="ticket-price">₹5000</div>
@@ -826,7 +828,7 @@
                 <div class="ticket-card premium" data-price="10000">
                     <input type="radio" name="category" value="vip" id="vip" data-name="VIP">
                     <label for="vip">
-                        <img class="ticket-image" src="/static/images/vip.jpeg" alt="VIP Elite Pass">
+                        <img class="ticket-image" src="/static/images/vip-pass.svg" alt="VIP Elite Pass">
                         <div class="ticket-title">VIP</div>
                         <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award + Vision 2025 Wall of Frame</div>
                         <div class="ticket-price">₹10000</div>
