@@ -701,6 +701,22 @@
         .flash-message { padding:1rem; border-radius:8px; margin-bottom:0.5rem; }
         .flash-message.error { background:#f8d7da; color:#721c24; }
         .flash-message.success { background:#d4edda; color:#155724; }
+        
+        /* Prevent browser autofill orange/blue background */
+        #email:-webkit-autofill,
+        #email:-webkit-autofill:hover,
+        #email:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
+            -webkit-text-fill-color: #333 !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-color: rgba(255, 215, 0, 0.3) !important;
+        }
+        
+        #email:focus {
+            border: 2px solid rgba(255, 215, 0, 0.8) !important;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3) !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
     </style>
 </head>
 <body>
@@ -989,16 +1005,17 @@
                 border-radius: 14px; 
                 width: 100%;
                 box-sizing: border-box;
-                background: rgba(255, 255, 255, 0.95);
-                border: 2px solid rgba(255, 215, 0, 0.3);
-                color: #333;
+                background: rgba(255, 255, 255, 0.95) !important;
+                border: 2px solid rgba(255, 215, 0, 0.3) !important;
+                color: #333 !important;
                 transition: all 0.3s ease;
+                -webkit-autofill: none !important;
             "
             placeholder="yourname@example.com"
             required
             autocomplete="email"
-            onfocus="this.style.borderColor='rgba(255, 215, 0, 0.8)'; this.style.boxShadow='0 0 8px rgba(255, 215, 0, 0.3)';"
-            onblur="this.style.borderColor='rgba(255, 215, 0, 0.3)'; this.style.boxShadow='none';"
+            onfocus="this.style.borderColor='rgba(255, 215, 0, 0.8)'; this.style.boxShadow='0 0 8px rgba(255, 215, 0, 0.3)'; this.style.background='rgba(255, 255, 255, 0.95) !important';"
+            onblur="this.style.borderColor='rgba(255, 215, 0, 0.3)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.95) !important';"
         >
         <small class="d-block mt-3" style="
             color: rgba(255,255,255,0.75); 
