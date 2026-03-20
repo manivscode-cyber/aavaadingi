@@ -909,7 +909,7 @@ def download_ticket(serial: str):
 
             ticket = result.data[0]
             category = ticket.get("category", "general")
-            
+
         except Exception as e:
             app.logger.error(
                 "[DOWNLOAD] DB fetch failed: %s - %s",
@@ -944,7 +944,7 @@ def download_ticket(serial: str):
             as_attachment=True,
             download_name=f"AAVADINGI_Ticket_{serial}.png"
         )
-        
+
     except Exception as e:
         app.logger.error(
             "[DOWNLOAD] UNHANDLED ERROR for %s: %s",
