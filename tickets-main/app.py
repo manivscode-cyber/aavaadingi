@@ -260,7 +260,7 @@ def send_email_with_attachment(
     """Send ticket email with QR code attachment"""
     if not EMAIL_ADDRESS or not EMAIL_PASSWORD:
         raise ValueError("Email credentials not configured in .env")
-    
+
     msg = EmailMessage()
     msg["Subject"] = f"Your AAVADINGI Ticket {serial}"
     msg["From"] = EMAIL_ADDRESS
@@ -865,15 +865,15 @@ def get_qr_ticket(serial: str, category: str):
             "[QR] Generating ticket for %s (category: %s)",
             serial, category
         )
-        
+
         # Validate category
         if category not in CATEGORIES:
             app.logger.error("[QR] Invalid category: %s", category)
             return "Invalid category", 400
-        
+
         # Generate QR ticket image
         image_path = generate_ticket_image_file(serial, category)
-        
+
         # Serve the image
         app.logger.info("[QR] Serving ticket image: %s", image_path)
         return send_file(
@@ -882,6 +882,7 @@ def get_qr_ticket(serial: str, category: str):
             as_attachment=False,
             download_name=f"ticket_{serial}.png"
         )
+
     except Exception as e:
         app.logger.error("[QR] Error generating QR: %s - %s", serial, str(e))
         return "Error generating QR code", 500
@@ -892,7 +893,7 @@ def download_ticket(serial: str):
     """Download ticket as PNG file"""
     try:
         app.logger.info("[DOWNLOAD] Ticket download requested for %s", serial)
-        
+
         # Fetch ticket from Supabase to get category
         try:
             result = (
@@ -905,7 +906,7 @@ def download_ticket(serial: str):
             if not result.data or len(result.data) == 0:
                 app.logger.error("[DOWNLOAD] Ticket not found: %s", serial)
                 return "Ticket not found", 404
-            
+
             ticket = result.data[0]
             category = ticket.get("category", "general")
             
@@ -915,7 +916,7 @@ def download_ticket(serial: str):
                 serial, str(e)
             )
             return "Database error", 500
-        
+
         # Validate category
         if category not in CATEGORIES:
             app.logger.error(
@@ -923,7 +924,7 @@ def download_ticket(serial: str):
                 serial, category
             )
             return "Invalid category", 400
-        
+
         # Generate ticket image
         try:
             image_path = generate_ticket_image_file(serial, category)
@@ -935,7 +936,7 @@ def download_ticket(serial: str):
                 serial, str(e)
             )
             return "Error generating ticket", 500
-        
+
         # Serve as downloadable file
         return send_file(
             image_path,
@@ -1183,9 +1184,9 @@ def email_test():
     key = request.form.get("key", "")
     if not check_admin_key(key):
         return "Unauthorized", 401
-    
+
     test_email = request.form.get("email", "test@example.com")
-    
+
     try:
         # Test SMTP connection
         with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
