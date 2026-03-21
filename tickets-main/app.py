@@ -76,7 +76,6 @@ tickets = {}
 required_vars = {
     "SUPABASE_URL": SUPABASE_URL,
     "SUPABASE_KEY": SUPABASE_KEY,
-    "PUBLIC_BASE_URL": PUBLIC_BASE_URL,
     "EMAIL_ADDRESS": EMAIL_ADDRESS,
     "EMAIL_PASSWORD": EMAIL_PASSWORD,
     "RAZORPAY_KEY_ID": RAZORPAY_KEY_ID,
@@ -176,6 +175,23 @@ def generate_unique_serial(length=6, max_attempts=100) -> str:
     raise Exception("Could not generate unique serial after many attempts")
 
 
+def get_public_base_url() -> str:
+    configured = PUBLIC_BASE_URL.rstrip("/")
+
+    # If the configured base URL is local-only, prefer the current request
+    # host so generated links work correctly on the deployed site.
+    if configured and not any(
+        token in configured for token in ("localhost", "127.0.0.1")
+    ):
+        return configured
+
+    request_root = request.url_root.rstrip("/")
+    if request_root:
+        return request_root
+
+    return configured
+
+
 def get_or_create_ticket(serial: str) -> dict:
     if serial not in tickets:
         tickets[serial] = {
@@ -221,12 +237,14 @@ def upsert_ticket_to_supabase(
     )
 
 
-def generate_ticket_image_file(serial: str, category: str) -> Path:
+def generate_ticket_image_file(
+    serial: str, category: str, public_base_url: str
+) -> Path:
     ticket_image = template.copy()
     draw = ImageDraw.Draw(ticket_image)
 
     # This QR should point to your validation/check page
-    qr_data = f"{PUBLIC_BASE_URL}/ticket/{serial}"
+    qr_data = f"{public_base_url}/ticket/{serial}"
     qr = qrcode.make(qr_data).convert("RGBA")
     qr = qr.resize((250, 250))
 
@@ -739,7 +757,10 @@ def confirm_payment(serial):
                 "[CONFIRM] Generating ticket image for %s",
                 serial
             )
-            image_path = generate_ticket_image_file(serial, category)
+            public_base_url = get_public_base_url()
+            image_path = generate_ticket_image_file(
+                serial, category, public_base_url
+            )
         except Exception as e:
             app.logger.error(
                 "[CONFIRM] Image generation failed: %s - %s",
@@ -748,7 +769,7 @@ def confirm_payment(serial):
             return "Failed to generate ticket image", 500
 
         image_public_url = (
-            f"{PUBLIC_BASE_URL}/static/tickets/{image_path.name}"
+            f"{public_base_url}/static/tickets/{image_path.name}"
         )
         ticket["ticket_image_url"] = image_public_url
 
