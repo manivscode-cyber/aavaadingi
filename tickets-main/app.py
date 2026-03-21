@@ -5,6 +5,7 @@ import string
 import datetime
 import smtplib
 import socket
+import ssl
 import time
 
 from pathlib import Path
@@ -482,6 +483,85 @@ def paste_rounded_image(
     base_image.paste(prepared, (bounds[0], bounds[1]), mask)
 
 
+def get_text_width(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    font: ImageFont.FreeTypeFont,
+) -> int:
+    if not text:
+        return 0
+    left, _, right, _ = draw.textbbox((0, 0), text, font=font)
+    return right - left
+
+
+def truncate_text_to_width(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    font: ImageFont.FreeTypeFont,
+    max_width: int,
+) -> str:
+    cleaned = " ".join((text or "").split())
+    if not cleaned or get_text_width(draw, cleaned, font) <= max_width:
+        return cleaned
+
+    ellipsis = "..."
+    trimmed = cleaned
+    while trimmed and get_text_width(draw, trimmed + ellipsis, font) > max_width:
+        trimmed = trimmed[:-1]
+    return (trimmed.rstrip() + ellipsis) if trimmed else ellipsis
+
+
+def wrap_text_to_width(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    font: ImageFont.FreeTypeFont,
+    max_width: int,
+    max_lines: int | None = None,
+) -> str:
+    words = " ".join((text or "").split()).split()
+    if not words:
+        return ""
+
+    lines: list[str] = []
+    current = ""
+    remaining = words[:]
+
+    while remaining:
+        word = remaining.pop(0)
+        candidate = word if not current else f"{current} {word}"
+        if get_text_width(draw, candidate, font) <= max_width:
+            current = candidate
+            continue
+
+        if current:
+            lines.append(current)
+            current = word
+        else:
+            lines.append(
+                truncate_text_to_width(draw, word, font, max_width)
+            )
+            current = ""
+
+        if max_lines and len(lines) >= max_lines:
+            break
+
+    if current and (not max_lines or len(lines) < max_lines):
+        lines.append(current)
+
+    if max_lines and len(lines) > max_lines:
+        lines = lines[:max_lines]
+
+    if max_lines and remaining and lines:
+        lines[-1] = truncate_text_to_width(
+            draw,
+            f"{lines[-1]} {' '.join(remaining)}",
+            font,
+            max_width,
+        )
+
+    return "\n".join(lines)
+
+
 def draw_detail_row(
     draw: ImageDraw.ImageDraw,
     row_box: tuple[int, int, int, int],
@@ -503,9 +583,16 @@ def draw_detail_row(
         font=label_font,
         fill=(123, 111, 82, 255),
     )
+    max_value_width = row_box[2] - row_box[0] - 56
+    fitted_value = truncate_text_to_width(
+        draw,
+        value,
+        value_font,
+        max_value_width,
+    )
     draw.text(
         (row_box[0] + 28, row_box[1] + 45),
-        value,
+        fitted_value,
         font=value_font,
         fill=(29, 28, 42, 255),
     )
@@ -568,7 +655,7 @@ def generate_ticket_image_file(
     card_bounds = (48, 52, 1552, 848)
     left_bounds = (88, 92, 652, 808)
     right_bounds = (700, 92, 1512, 808)
-    qr_box = (1136, 566, 1468, 808)
+    qr_box = (1122, 548, 1470, 802)
 
     draw.rounded_rectangle(
         card_bounds,
@@ -662,12 +749,20 @@ def generate_ticket_image_file(
         font=load_font(26),
         fill=(220, 225, 238, 255),
     )
+    perks_font = load_font(22)
+    perks_text = wrap_text_to_width(
+        draw,
+        f"Includes: {category_meta['perks']}",
+        perks_font,
+        max_width=left_bounds[2] - 164,
+        max_lines=4,
+    )
     draw.multiline_text(
-        (124, 686),
-        truncate_text(category_meta["perks"], 92),
-        font=load_font(24),
+        (124, 682),
+        perks_text,
+        font=perks_font,
         fill=(255, 241, 192, 255),
-        spacing=8,
+        spacing=6,
     )
 
     logo_bg_bounds = (896, 128, 1320, 220)
@@ -717,26 +812,43 @@ def generate_ticket_image_file(
         )
 
     qr_target = f"{public_base_url}/ticket/{serial}"
-    qr = qrcode.make(qr_target).convert("RGBA").resize((248, 248), RESAMPLE)
+    qr_builder = qrcode.QRCode(
+        border=2,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=10,
+    )
+    qr_builder.add_data(qr_target)
+    qr_builder.make(fit=True)
+    qr_size = 184
+    qr = qr_builder.make_image(
+        fill_color="black",
+        back_color="white",
+    ).convert("RGBA").resize((qr_size, qr_size), RESAMPLE)
     draw.rounded_rectangle(
         qr_box,
         radius=26,
         fill=(255, 255, 255, 255),
     )
     qr_x = qr_box[0] + ((qr_box[2] - qr_box[0] - qr.width) // 2)
-    qr_y = qr_box[1] + 20
+    qr_y = qr_box[1] + 18
     canvas.paste(qr, (qr_x, qr_y), qr)
+    qr_caption = "Show this QR at the entry gate"
+    caption_font = load_font(18)
+    caption_width = get_text_width(draw, qr_caption, caption_font)
+    caption_x = qr_box[0] + ((qr_box[2] - qr_box[0] - caption_width) // 2)
     draw.text(
-        (qr_box[0] + 42, qr_box[1] + 258),
-        "Scan for entry validation",
-        font=load_font(18),
+        (caption_x, qr_y + qr.height + 14),
+        qr_caption,
+        font=caption_font,
         fill=(53, 51, 67, 255),
     )
 
+    url_font = load_font(15)
+    url_text = truncate_text_to_width(draw, qr_target, url_font, 430)
     draw.text(
         (744, 772),
-        truncate_text(qr_target, 56),
-        font=load_font(16),
+        url_text,
+        font=url_font,
         fill=(123, 111, 82, 255),
     )
 
@@ -751,38 +863,71 @@ def send_smtp_message(message: EmailMessage) -> None:
     if not EMAIL_ADDRESS or not EMAIL_PASSWORD:
         raise ValueError("Email credentials not configured in .env")
 
-    try:
-        if SMTP_USE_TLS:
-            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as server:
-                server.ehlo()
-                server.starttls()
-                server.ehlo()
-                server.login(username, EMAIL_PASSWORD)
-                server.send_message(message)
-        else:
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=20) as server:
-                server.login(username, EMAIL_PASSWORD)
-                server.send_message(message)
-    except smtplib.SMTPAuthenticationError as exc:
+    delivery_options = [(SMTP_HOST, SMTP_PORT, SMTP_USE_TLS)]
+    if (
+        SMTP_HOST == "smtp.gmail.com"
+        and SMTP_PORT == 587
+        and SMTP_USE_TLS
+    ):
+        delivery_options.append(("smtp.gmail.com", 465, False))
+
+    ssl_context = ssl.create_default_context()
+    failures: list[str] = []
+
+    for host, port, use_tls in delivery_options:
+        try:
+            if use_tls:
+                with smtplib.SMTP(host, port, timeout=30) as server:
+                    server.ehlo()
+                    server.starttls(context=ssl_context)
+                    server.ehlo()
+                    server.login(username, EMAIL_PASSWORD)
+                    server.send_message(message)
+            else:
+                with smtplib.SMTP_SSL(
+                    host,
+                    port,
+                    timeout=30,
+                    context=ssl_context,
+                ) as server:
+                    server.login(username, EMAIL_PASSWORD)
+                    server.send_message(message)
+            app.logger.info(
+                "Email delivered via %s:%s (tls=%s)",
+                host,
+                port,
+                use_tls,
+            )
+            return
+        except smtplib.SMTPAuthenticationError as exc:
+            raise RuntimeError(
+                "SMTP authentication failed. If you use Gmail, set "
+                "EMAIL_PASSWORD to a Gmail App Password."
+            ) from exc
+        except smtplib.SMTPRecipientsRefused as exc:
+            raise RuntimeError(
+                f"Recipient address was refused by the SMTP server: {exc}"
+            ) from exc
+        except (TimeoutError, socket.timeout) as exc:
+            failures.append(
+                f"{host}:{port} timed out ({exc})"
+            )
+        except OSError as exc:
+            failures.append(
+                f"{host}:{port} connection error ({exc})"
+            )
+        except smtplib.SMTPException as exc:
+            failures.append(
+                f"{host}:{port} SMTP error ({exc})"
+            )
+
+    if failures:
         raise RuntimeError(
-            "SMTP authentication failed. If you use Gmail, set "
-            "EMAIL_PASSWORD to a Gmail App Password."
-        ) from exc
-    except smtplib.SMTPRecipientsRefused as exc:
-        raise RuntimeError(
-            f"Recipient address was refused by the SMTP server: {exc}"
-        ) from exc
-    except (TimeoutError, socket.timeout) as exc:
-        raise RuntimeError(
-            f"SMTP connection to {SMTP_HOST}:{SMTP_PORT} timed out. "
-            "Check whether the hosting server can reach the mail server."
-        ) from exc
-    except OSError as exc:
-        raise RuntimeError(
-            f"Unable to connect to {SMTP_HOST}:{SMTP_PORT}: {exc}"
-        ) from exc
-    except smtplib.SMTPException as exc:
-        raise RuntimeError(f"SMTP error while sending email: {exc}") from exc
+            "Unable to send email with the configured SMTP settings. "
+            + "; ".join(failures)
+        )
+
+    raise RuntimeError("Unable to send email with the configured SMTP settings.")
 
 
 def send_email_with_attachment(
@@ -809,6 +954,7 @@ def send_email_with_attachment(
     )
     msg["From"] = formataddr((EMAIL_FROM_NAME, EMAIL_ADDRESS))
     msg["To"] = buyer_email
+    msg["Reply-To"] = EMAIL_ADDRESS
 
     text_body = (
         f"Hello {buyer_name},\n\n"
