@@ -976,6 +976,8 @@ def ticket_page(serial):
         serial=serial,
         categories=CATEGORIES,
         ticket=ticket,
+        selected_category=ticket.get("category", ""),
+        selected_quantity=max(1, safe_int(ticket.get("quantity"), 1)),
     )
 
 

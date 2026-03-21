@@ -4,1239 +4,807 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="accelerometer=(), gyroscope=(), magnetometer=(), camera=(), microphone=(), geolocation=()">
-    <title>Book Your AAVADINGI 2026 Ticket #{{ serial }}</title>
+    <title>Choose Your Ticket | AAVADINGI 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #ffffff;
-            min-height: 100vh;
+        :root {
+            --bg-top: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-bottom: #24243e;
+            --card: rgba(20, 15, 60, 0.48);
+            --card-border: rgba(255, 215, 0, 0.18);
+            --gold: #ffd86d;
+            --gold-soft: #ffefb3;
+            --text-soft: rgba(255, 255, 255, 0.78);
+            --blue: #4da6ff;
+            --blue-strong: #0080ff;
+            --success: #6ed39b;
+            --danger: #ff7c7c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
-        .container {
-            max-width: 1100px;
-            width: 100%;
+
+        body {
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            background:
+                radial-gradient(circle at top left, rgba(77, 166, 255, 0.18), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255, 216, 109, 0.14), transparent 25%),
+                linear-gradient(135deg, var(--bg-top), var(--bg-mid), var(--bg-bottom));
+        }
+
+        .page-shell {
+            width: min(1180px, calc(100% - 2rem));
             margin: 0 auto;
-            padding: 3rem 1.5rem 6rem;
+            padding: 2rem 0 4rem;
         }
-        .brand-title {
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.8rem, 7vw, 4.5rem);
-            font-weight: 900;
-            background: linear-gradient(90deg, #4da6ff, #0080ff, #0052cc);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 3px;
-            text-align: center;
-            margin-bottom: 0.8rem;
+            font-size: clamp(2.4rem, 5vw, 4.4rem);
+            line-height: 1.02;
+            margin-bottom: 0.65rem;
+            color: var(--gold-soft);
         }
-        .tagline {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #ffea80;
-            margin-bottom: 2.5rem;
+
+        .hero p {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-soft);
         }
-        .bulk-offer {
-            background: linear-gradient(135deg, rgba(255,215,0,0.28), rgba(255,140,0,0.22));
-            border: 1px solid rgba(255,215,0,0.45);
+
+        .serial-banner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            margin: 1.75rem 0 2rem;
+            padding: 1.1rem 1.25rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+        }
+
+        .serial-copy {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        .serial-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.85rem 1rem;
             border-radius: 18px;
-            padding: 1.6rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            font-size: 1.5rem;
+            background: rgba(255, 216, 109, 0.12);
+            border: 1px solid rgba(255, 216, 109, 0.34);
+            color: var(--gold-soft);
             font-weight: 700;
-            color: #fff8d4;
-            box-shadow: 0 12px 40px rgba(255,170,0,0.35);
+            letter-spacing: 0.08em;
         }
+
+        .flash-stack {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .flash-message {
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
+        }
+
+        .flash-message.error {
+            background: rgba(255, 124, 124, 0.14);
+            border: 1px solid rgba(255, 124, 124, 0.34);
+            color: #ffd7d7;
+        }
+
+        .flash-message.success {
+            background: rgba(110, 211, 155, 0.14);
+            border: 1px solid rgba(110, 211, 155, 0.34);
+            color: #d7ffe7;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.95fr);
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .surface {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+        }
+
+        .selection-panel {
+            padding: 1.4rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--gold-soft);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .section-note {
+            margin-bottom: 1.2rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            font-size: 0.96rem;
+        }
+
+        .offer-banner {
+            margin-bottom: 1.2rem;
+            padding: 1rem 1.1rem;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 216, 109, 0.24), rgba(255, 140, 0, 0.16));
+            border: 1px solid rgba(255, 216, 109, 0.34);
+            color: #fff5cf;
+            font-weight: 600;
+            line-height: 1.55;
+        }
+
         .ticket-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
         }
-        .ticket-card {
-            background: rgba(20, 15, 60, 0.32);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 24px;
-            backdrop-filter: blur(18px);
-            box-shadow: 0 18px 50px rgba(0,0,0,0.55);
-            padding: 1.35rem;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            text-align: center;
+
+        .ticket-option {
+            position: relative;
         }
-        .ticket-card:hover,
-        .ticket-card.selected {
-            transform: translateY(-12px);
-            box-shadow: 0 30px 80px rgba(255,215,0,0.4);
-            border-color: #ffd700;
-        }
-        .ticket-card input[type="radio"] {
+
+        .ticket-option input {
             position: absolute;
+            inset: 0;
             opacity: 0;
+            pointer-events: none;
         }
-        .ticket-card label {
+
+        .ticket-card {
             display: block;
+            padding: 1rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             cursor: pointer;
+            min-height: 100%;
         }
-        .ticket-quantity-shell {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255,215,0,0.05);
-            border: 2px solid rgba(255,215,0,0.4);
-            border-radius: 20px;
-            padding: 0.8rem;
-            margin: 1.5rem 0 3rem;
-            box-shadow: 0 8px 25px rgba(255,215,0,0.15);
-            max-width: 100%;
+
+        .ticket-card:hover,
+        .ticket-option input:checked + .ticket-card {
+            transform: translateY(-4px);
+            border-color: rgba(255, 216, 109, 0.52);
+            box-shadow: 0 20px 38px rgba(0, 0, 0, 0.24);
         }
-        .ticket-qty-button {
-            width: 50px;
-            height: 50px;
-            font-size: 1.8rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2));
-            border: 1px solid rgba(255,215,0,0.5);
-            color: #ffea80;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 auto;
-        }
-        .ticket-qty-input {
-            width: 100px;
-            height: 50px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            padding: 0.5rem;
-            margin: 0 0.8rem;
-            background: transparent;
-            border: none;
-            color: #ffea80;
-            text-align: center;
-            min-width: 0;
-        }
+
         .ticket-image {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            aspect-ratio: 16 / 10;
             object-fit: cover;
-            object-position: center;
             border-radius: 18px;
-            margin-bottom: 1.25rem;
-            border: 2px solid rgba(255,215,0,0.3);
-            box-shadow: 0 10px 28px rgba(0,0,0,0.4);
-            background: rgba(8, 6, 28, 0.6);
+            margin-bottom: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
-        .ticket-title {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: #ffea80;
-            margin-bottom: 0.8rem;
+
+        .ticket-card-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            align-items: start;
+            margin-bottom: 0.5rem;
         }
-        .ticket-perks {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 1.2rem;
-        }
-        .ticket-price {
-            font-size: 2.4rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, #4da6ff, #0080ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .quantity-section {
-            background: rgba(20, 15, 60, 0.32);
-            border-radius: 20px;
-            padding: 2.5rem;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.5);
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-        .quantity-controls {
-            display: inline-flex;
-            align-items: center;
-            gap: 1.8rem;
-            margin: 1.5rem 0 2.5rem;
-        }
-        .qty-btn {
-            width: 55px;
-            height: 55px;
-            font-size: 1.8rem;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,215,0,0.3);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .qty-btn:hover {
-            background: rgba(255,215,0,0.2);
-            transform: scale(1.1);
-        }
-        #quantity {
-            width: 110px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: center;
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,215,0,0.4);
-            color: white;
-            border-radius: 12px;
-            padding: 0.8rem;
-        }
-        .total-preview {
-            background: rgba(255,215,0,0.08);
-            border: 1px solid rgba(255,215,0,0.35);
-            border-radius: 18px;
-            padding: 2rem;
-            margin: 3rem 0 4rem;
-            text-align: center;
-        }
-        .total-amount {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: #ffea80;
-            margin: 1rem 0;
-        }
-        .discount-note {
-            color: #28a745;
-            font-weight: 600;
-            font-size: 1.25rem;
-            margin-top: 1rem;
-        }
-        .form-section {
-            background: rgba(20, 15, 60, 0.32);
-            border-radius: 28px;
-            padding: 4.5rem 3.5rem;
-            backdrop-filter: blur(22px);
-            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
-            max-width: 720px;
-            margin: 0 auto 5rem;
-        }
-        .form-group {
-            margin-bottom: 3rem;
-        }
-        .form-label {
-            color: #ffea80;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: block;
-            font-size: 1.25rem;
-            text-align: center;
-        }
-        .form-control {
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,215,0,0.35);
-            color: white;
-            border-radius: 14px;
-            padding: 1.1rem 1.5rem;
+
+        .ticket-name {
             font-size: 1.2rem;
-            max-width: 500px;
-            margin: 0 auto;
-            display: block;
-            transition: all 0.3s;
+            font-weight: 700;
+            color: var(--gold-soft);
         }
-        .form-control:focus {
-            border-color: #ffd700;
-            box-shadow: 0 0 0 0.3rem rgba(255,215,0,0.25);
-            outline: none;
-        }
-        .small-hint {
-            color: rgba(255,255,255,0.75);
-            font-size: 1rem;
-            line-height: 1.6;
-            text-align: center;
-            display: block;
-            margin-top: 0.8rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .security-note {
-            background: rgba(40,167,69,0.09);
-            border: 1px solid rgba(40,167,69,0.38);
-            border-radius: 16px;
-            padding: 1.8rem 2.5rem;
-            margin: 3.5rem auto 4.5rem;
-            max-width: 620px;
+
+        .ticket-price {
             font-size: 1.1rem;
-            color: rgba(255,255,255,0.92);
-            text-align: center;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .ticket-perks {
+            color: var(--text-soft);
+            font-size: 0.93rem;
+            line-height: 1.55;
+        }
+
+        .details-panel {
+            padding: 1.4rem;
+            position: sticky;
+            top: 1.25rem;
+        }
+
+        .details-panel-inner {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .summary-card {
+            padding: 1.1rem;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row strong {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .total-row {
+            color: var(--gold-soft);
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
+
+        .discount-note {
+            display: none;
+            margin-top: 0.85rem;
+            color: #caffd8;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .contact-grid {
+            display: grid;
+            gap: 0.95rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .field label {
+            color: var(--gold-soft);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font: inherit;
+        }
+
+        .field input::placeholder {
+            color: rgba(255, 255, 255, 0.46);
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: rgba(255, 216, 109, 0.56);
+            box-shadow: 0 0 0 4px rgba(255, 216, 109, 0.12);
+        }
+
+        .hint {
+            color: var(--text-soft);
+            font-size: 0.84rem;
+            line-height: 1.55;
+        }
+
+        .qty-wrap {
             display: flex;
             align-items: center;
+            gap: 0.8rem;
             justify-content: center;
-            gap: 1.4rem;
-            flex-wrap: wrap;
-            box-shadow: 0 6px 20px rgba(40,167,69,0.15);
         }
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            flex-wrap: wrap;
-            margin-top: 5rem;
-        }
-        .btn {
-            padding: 1.2rem 3.5rem;
-            border-radius: 50px;
+
+        .qty-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 216, 109, 0.42);
+            background: rgba(255, 216, 109, 0.12);
+            color: var(--gold-soft);
             font-size: 1.4rem;
             font-weight: 700;
-            transition: all 0.4s;
-            min-width: 280px;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            border: none;
             cursor: pointer;
         }
-        .btn-primary {
-            background: linear-gradient(90deg, #4da6ff, #0080ff);
-            color: #fff;
-            box-shadow: 0 16px 45px rgba(77, 166, 255, 0.5);
-        }
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 70px rgba(255,170,0,0.65);
-        }
-        .btn-outline-light {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.4) !important;
-            color: white;
-        }
-        .btn-outline-light:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.6) !important;
-        }
-        .btn-lg {
-            padding: 1.5rem 3rem;
-            font-size: 1.4rem;
-        }
-        .px-5 { padding-left: 3rem; padding-right: 3rem; }
-        .py-3 { padding-top: 1rem; padding-bottom: 1rem; }
-        .btn-outline-light {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
-            color: white;
-        }
-        .btn-outline-light:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.6);
-        }
-        footer {
-            padding: 4rem 0 6rem;
+
+        .qty-input {
+            width: 88px;
             text-align: center;
-            color: rgba(255,255,255,0.6);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .ticket-preview-note {
+            padding: 1rem 1.05rem;
+            border-radius: 20px;
+            background: rgba(77, 166, 255, 0.12);
+            border: 1px solid rgba(77, 166, 255, 0.2);
+            color: #d8ebff;
+            line-height: 1.6;
+            font-size: 0.92rem;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.55rem;
+            min-height: 54px;
+            padding: 0.95rem 1.3rem;
+            border-radius: 999px;
+            border: none;
+            text-decoration: none;
+            font-weight: 700;
             font-size: 1rem;
-            border-top: 1px solid rgba(255,215,0,0.12);
-        }
-        @media (max-width: 768px) {
-            .ticket-grid { grid-template-columns: 1fr; }
-            .form-section { padding: 3.5rem 2.5rem; }
-            .btn-group { flex-direction: column; gap: 1.8rem; }
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        /* Comprehensive Mobile-First Responsive Design */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 2rem 1.5rem 4rem;
+        .btn-primary {
+            flex: 1 1 220px;
+            background: linear-gradient(90deg, var(--blue), var(--blue-strong));
+            color: #fff;
+            box-shadow: 0 16px 34px rgba(0, 94, 255, 0.24);
+        }
+
+        .btn-secondary {
+            flex: 1 1 180px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        @media (max-width: 960px) {
+            .booking-grid {
+                grid-template-columns: 1fr;
             }
 
-            .brand-title {
-                font-size: clamp(2.5rem, 6vw, 4rem);
-            }
-
-            .tagline {
-                font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-                margin-bottom: clamp(2rem, 4vw, 2.5rem);
-            }
-
-            .bulk-offer {
-                padding: clamp(1.2rem, 2.5vw, 1.6rem);
-                margin-bottom: clamp(2rem, 4vw, 3rem);
-                font-size: clamp(1.2rem, 3vw, 1.5rem);
-                border-radius: clamp(12px, 3vw, 18px);
-            }
-
-            .ticket-grid {
-                gap: clamp(1.5rem, 3vw, 2rem);
-            }
-
-            .ticket-card {
-                padding: clamp(1rem, 2.5vw, 1.35rem);
-                border-radius: clamp(18px, 3.5vw, 24px);
-            }
-
-            .ticket-image {
-                aspect-ratio: 16 / 9;
-                border-radius: clamp(12px, 2.5vw, 18px);
-            }
-
-            .ticket-title {
-                font-size: clamp(1.5rem, 4vw, 1.9rem);
-                margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .ticket-perks {
-                font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-                line-height: 1.5;
-                margin-bottom: clamp(1rem, 2.5vw, 1.2rem);
-            }
-
-            .ticket-price {
-                font-size: clamp(1.8rem, 5vw, 2.4rem);
-            }
-
-            .quantity-section {
-                padding: clamp(2rem, 4vw, 2.5rem);
-                margin-bottom: clamp(2rem, 4vw, 3rem);
-            }
-
-            .quantity-controls {
-                gap: clamp(1.2rem, 3vw, 1.8rem);
-                margin: clamp(1rem, 2.5vw, 1.5rem) 0 clamp(2rem, 4vw, 2.5rem);
-            }
-
-            .qty-btn {
-                width: clamp(45px, 8vw, 55px);
-                height: clamp(45px, 8vw, 55px);
-                font-size: clamp(1.4rem, 3.5vw, 1.8rem);
-            }
-
-            #quantity {
-                width: clamp(80px, 15vw, 110px);
-                font-size: clamp(1.4rem, 3.5vw, 1.8rem);
-                padding: clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .total-preview {
-                padding: clamp(1.5rem, 3vw, 2rem);
-                margin: clamp(2rem, 4vw, 3rem) 0 clamp(3rem, 5vw, 4rem);
-                border-radius: clamp(12px, 3vw, 18px);
-            }
-
-            .total-amount {
-                font-size: clamp(2.5rem, 6vw, 3.2rem);
-                margin: clamp(0.75rem, 2vw, 1rem) 0;
-            }
-
-            .discount-note {
-                font-size: clamp(1rem, 2.5vw, 1.25rem);
-                margin-top: clamp(0.75rem, 2vw, 1rem);
-            }
-
-            .form-section {
-                padding: clamp(3rem, 5vw, 4.5rem) clamp(2rem, 4vw, 3.5rem);
-                margin-bottom: clamp(3rem, 5vw, 5rem);
-                border-radius: clamp(20px, 4vw, 28px);
-            }
-
-            .form-label {
-                font-size: clamp(1rem, 2.5vw, 1.25rem);
-                margin-bottom: clamp(0.75rem, 2vw, 1rem);
-            }
-
-            .form-control {
-                font-size: clamp(1rem, 2.5vw, 1.2rem);
-                padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.2rem, 2.5vw, 1.5rem);
-                border-radius: clamp(10px, 2.5vw, 14px);
+            .details-panel {
+                position: static;
             }
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem 1rem 3rem;
+        @media (max-width: 720px) {
+            .page-shell {
+                width: min(100% - 1rem, 100%);
+                padding-top: 1rem;
             }
 
-            header {
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-
-            .brand-title {
-                font-size: clamp(2.2rem, 7vw, 3.2rem);
-                line-height: 1.1;
-            }
-
-            .tagline {
-                font-size: clamp(1rem, 3vw, 1.2rem);
-                margin-bottom: clamp(1.5rem, 3vw, 2rem);
-            }
-
-            .bulk-offer {
-                padding: clamp(1rem, 2.5vw, 1.4rem);
-                margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-                font-size: clamp(1.1rem, 3vw, 1.3rem);
-                border-radius: clamp(10px, 2.5vw, 16px);
+            .serial-banner {
+                align-items: stretch;
             }
 
             .ticket-grid {
                 grid-template-columns: 1fr;
-                gap: clamp(1.25rem, 3vw, 1.5rem);
             }
 
-            .ticket-card {
-                padding: clamp(1.25rem, 3vw, 1.75rem);
-                border-radius: clamp(14px, 3vw, 18px);
+            .selection-panel,
+            .details-panel {
+                padding: 1rem;
+                border-radius: 24px;
             }
 
-            .ticket-image {
-                height: clamp(120px, 30vw, 160px);
-                border-radius: clamp(8px, 2vw, 12px);
-                margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
-            }
-
-            .ticket-quantity-shell {
-                width: min(100%, 320px);
-                margin: 1rem auto 2rem;
-                padding: 0.65rem;
-            }
-
-            .ticket-qty-button {
-                width: 46px;
-                height: 46px;
-                font-size: 1.5rem;
-            }
-
-            .ticket-qty-input {
-                width: 72px;
-                height: 46px;
-                margin: 0 0.45rem;
-                font-size: 1.45rem;
-            }
-
-            .ticket-title {
-                font-size: clamp(1.3rem, 4vw, 1.6rem);
-                margin-bottom: clamp(0.5rem, 1.5vw, 0.7rem);
-            }
-
-            .ticket-perks {
-                font-size: clamp(0.9rem, 2.8vw, 1rem);
-                line-height: 1.4;
-                margin-bottom: clamp(0.8rem, 2vw, 1rem);
-            }
-
-            .ticket-price {
-                font-size: clamp(1.6rem, 5vw, 2rem);
-            }
-
-            .quantity-section {
-                padding: clamp(1.5rem, 3.5vw, 2rem);
-                margin-bottom: clamp(1.5rem, 3vw, 2rem);
-            }
-
-            .quantity-controls {
-                gap: clamp(1rem, 2.5vw, 1.5rem);
-                margin: clamp(0.75rem, 2vw, 1rem) 0 clamp(1.5rem, 3vw, 2rem);
-                padding: clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .qty-btn {
-                width: clamp(42px, 9vw, 50px);
-                height: clamp(42px, 9vw, 50px);
-                font-size: clamp(1.3rem, 3.5vw, 1.6rem);
-            }
-
-            #quantity {
-                width: clamp(70px, 16vw, 90px);
-                font-size: clamp(1.3rem, 3.5vw, 1.6rem);
-                padding: clamp(0.5rem, 1.2vw, 0.7rem);
-                margin: 0 clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .total-preview {
-                padding: clamp(1.25rem, 3vw, 1.75rem);
-                margin: clamp(1.5rem, 3vw, 2rem) 0 clamp(2rem, 4vw, 3rem);
-                border-radius: clamp(10px, 2.5vw, 16px);
-            }
-
-            .total-amount {
-                font-size: clamp(2.2rem, 7vw, 2.8rem);
-                margin: clamp(0.6rem, 1.8vw, 0.8rem) 0;
-            }
-
-            .discount-note {
-                font-size: clamp(0.95rem, 2.8vw, 1.1rem);
-                margin-top: clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .form-section {
-                padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
-                margin-bottom: clamp(2.5rem, 4vw, 4rem);
-                border-radius: clamp(16px, 3.5vw, 24px);
-                max-width: 100%;
-            }
-
-            .form-group {
-                margin-bottom: clamp(2.5rem, 4vw, 3rem);
-            }
-
-            .form-label {
-                font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-                margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
-                text-align: center;
-            }
-
-            .form-control {
-                font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-                padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.3rem);
-                border-radius: clamp(8px, 2vw, 12px);
-                max-width: 100%;
-            }
-
-            .btn-group {
+            .cta-row {
                 flex-direction: column;
-                gap: clamp(1.2rem, 3vw, 1.8rem);
-                align-items: center;
             }
 
-            .btn-group .btn {
+            .btn {
                 width: 100%;
-                max-width: 300px;
-                padding: clamp(0.9rem, 2.5vw, 1.1rem) clamp(1.5rem, 3vw, 2rem);
-                font-size: clamp(1rem, 2.5vw, 1.15rem);
-                min-height: 48px;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 1rem 0.75rem 2rem;
+            .page-shell {
+                width: calc(100% - 0.75rem);
             }
 
-            header {
-                margin-bottom: 1.5rem;
+            .hero h1 {
+                font-size: 2rem;
             }
 
-            .brand-title {
-                font-size: clamp(2rem, 8vw, 2.8rem);
-                line-height: 1.1;
-                letter-spacing: 1px;
+            .hero p {
+                font-size: 0.94rem;
             }
 
-            .tagline {
-                font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-                margin-bottom: clamp(1.25rem, 3vw, 1.5rem);
+            .serial-banner {
+                padding: 0.95rem;
+                border-radius: 20px;
             }
 
-            .bulk-offer {
-                padding: clamp(0.9rem, 2.5vw, 1.2rem);
-                margin-bottom: clamp(1.25rem, 3vw, 2rem);
-                font-size: clamp(1rem, 3.5vw, 1.2rem);
-                border-radius: clamp(8px, 2vw, 14px);
-            }
-
-            .ticket-grid {
-                gap: clamp(1rem, 2.5vw, 1.25rem);
+            .serial-chip {
+                width: 100%;
+                justify-content: center;
             }
 
             .ticket-card {
-                padding: clamp(1rem, 2.5vw, 1.5rem);
-                border-radius: clamp(12px, 2.5vw, 16px);
+                padding: 0.9rem;
+                border-radius: 20px;
             }
 
-            .ticket-image {
-                height: clamp(100px, 35vw, 140px);
-                border-radius: clamp(6px, 1.8vw, 10px);
-                margin-bottom: clamp(0.8rem, 2vw, 1.25rem);
-            }
-
-            .ticket-quantity-shell {
-                width: 100%;
-                max-width: 280px;
-                margin: 0.85rem auto 1.6rem;
-                padding: 0.5rem;
+            .summary-card,
+            .ticket-preview-note {
                 border-radius: 18px;
             }
 
-            .ticket-qty-button {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
+            .qty-wrap {
+                gap: 0.55rem;
             }
 
-            .ticket-qty-input {
-                width: 60px;
-                height: 40px;
-                margin: 0 0.35rem;
-                font-size: 1.2rem;
-                padding: 0.25rem;
+            .qty-button {
+                width: 44px;
+                height: 44px;
             }
 
-            .ticket-title {
-                font-size: clamp(1.2rem, 4.5vw, 1.4rem);
-                margin-bottom: clamp(0.4rem, 1.2vw, 0.6rem);
+            .qty-input {
+                width: 74px;
             }
-
-            .ticket-perks {
-                font-size: clamp(0.85rem, 3vw, 0.95rem);
-                line-height: 1.3;
-                margin-bottom: clamp(0.7rem, 1.8vw, 0.9rem);
-            }
-
-            .ticket-price {
-                font-size: clamp(1.4rem, 5.5vw, 1.8rem);
-            }
-
-            .quantity-section {
-                padding: clamp(1.25rem, 3.5vw, 1.75rem);
-                margin-bottom: clamp(1.25rem, 3vw, 1.5rem);
-            }
-
-            .quantity-controls {
-                gap: clamp(0.8rem, 2vw, 1.2rem);
-                margin: clamp(0.6rem, 1.5vw, 0.8rem) 0 clamp(1.25rem, 2.8vw, 1.75rem);
-                padding: clamp(0.5rem, 1.2vw, 0.7rem);
-                border-radius: clamp(16px, 3vw, 20px);
-            }
-
-            .qty-btn {
-                width: clamp(38px, 10vw, 45px);
-                height: clamp(38px, 10vw, 45px);
-                font-size: clamp(1.2rem, 3.5vw, 1.4rem);
-            }
-
-            #quantity {
-                width: clamp(60px, 18vw, 80px);
-                font-size: clamp(1.2rem, 3.5vw, 1.4rem);
-                padding: clamp(0.4rem, 1vw, 0.6rem);
-                margin: 0 clamp(0.5rem, 1.2vw, 0.7rem);
-            }
-
-            .total-preview {
-                padding: clamp(1rem, 2.5vw, 1.5rem);
-                margin: clamp(1.25rem, 2.8vw, 1.75rem) 0 clamp(1.5rem, 3.5vw, 2.5rem);
-                border-radius: clamp(8px, 2vw, 14px);
-            }
-
-            .total-preview div:first-child {
-                font-size: clamp(1.1rem, 3vw, 1.4rem);
-                margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
-            }
-
-            .total-amount {
-                font-size: clamp(2rem, 8vw, 2.5rem);
-                margin: clamp(0.5rem, 1.5vw, 0.7rem) 0;
-            }
-
-            .discount-note {
-                font-size: clamp(0.9rem, 3vw, 1rem);
-                margin-top: clamp(0.5rem, 1.2vw, 0.7rem);
-            }
-
-            .form-section {
-                padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 2.8vw, 2rem);
-                margin-bottom: clamp(2rem, 4vw, 3.5rem);
-                border-radius: clamp(14px, 3vw, 20px);
-            }
-
-            .form-group {
-                margin-bottom: clamp(2rem, 4vw, 2.5rem);
-            }
-
-            .form-label {
-                font-size: clamp(0.9rem, 2.8vw, 1.1rem);
-                margin-bottom: clamp(0.5rem, 1.2vw, 0.7rem);
-            }
-
-            .form-control {
-                font-size: clamp(0.9rem, 2.8vw, 1rem);
-                padding: clamp(0.75rem, 2vw, 0.9rem) clamp(0.9rem, 2.2vw, 1.1rem);
-                border-radius: clamp(6px, 1.8vw, 10px);
-            }
-
-            .btn-group {
-                gap: clamp(1rem, 2.5vw, 1.5rem);
-            }
-
-            .btn-group .btn {
-                padding: clamp(0.8rem, 2.2vw, 1rem) clamp(1.2rem, 2.8vw, 1.8rem);
-                font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-                min-height: 44px;
-                border-radius: clamp(6px, 1.8vw, 10px);
-            }
-
-            footer {
-                padding: clamp(1rem, 2.5vw, 1.5rem) 0;
-                font-size: clamp(0.85rem, 2.2vw, 0.95rem);
-            }
-
-            footer a {
-                display: inline-block;
-                margin: clamp(0.25rem, 0.8vw, 0.5rem) 0;
-            }
-        }
-        /* flash message styles */
-        .flash-container { max-width:800px; margin:1rem auto; }
-        .flash-message { padding:1rem; border-radius:8px; margin-bottom:0.5rem; }
-        .flash-message.error { background:#f8d7da; color:#721c24; }
-        .flash-message.success { background:#d4edda; color:#155724; }
-        
-        /* Prevent browser autofill orange/blue background */
-        #email:-webkit-autofill,
-        #email:-webkit-autofill:hover,
-        #email:-webkit-autofill:focus {
-            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
-            -webkit-text-fill-color: #333 !important;
-            background-color: rgba(255, 255, 255, 0.95) !important;
-            border-color: rgba(255, 215, 0, 0.3) !important;
-        }
-        
-        #email:focus {
-            border: 2px solid rgba(255, 215, 0, 0.8) !important;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3) !important;
-            background-color: rgba(255, 255, 255, 0.95) !important;
         }
     </style>
 </head>
 <body>
+    {% set selected_category = ticket.get('category') %}
+    {% set selected_quantity = ticket.get('quantity', 1) %}
 
-    <div class="container">
+    <div class="page-shell">
+        <header class="hero">
+            <h1>Book Your AAVADINGI Pass</h1>
+            <p>
+                Choose the right ticket class, add your attendee details, and we will place
+                the same information on your downloadable ticket and email delivery.
+            </p>
+        </header>
 
-        <h1 class="brand-title">AAVADINGI 2026</h1>
-        <div class="tagline">Celebrate Talent • Celebrate Inclusion • Celebrate Every Voice</div>
-
-        <!-- Ticket Serial Display -->
-        <div style="
-            background: rgba(20, 15, 60, 0.32);
-            border: 1px solid rgba(255, 215, 0, 0.22);
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.4);
-            padding: 2rem;
-            margin: 2rem auto 3rem;
-            max-width: 600px;
-            text-align: center;
-        ">
-            <h3 style="color: #ffea80; font-size: 1.8rem; margin-bottom: 1rem;">
-                <i class="fas fa-ticket-alt" style="color: #ffd700; margin-right: 0.5rem;"></i>
-                Your Ticket Reservation
-            </h3>
-            <div style="
-                font-size: 2.5rem;
-                font-weight: 900;
-                color: #ffd700;
-                letter-spacing: 2px;
-                background: rgba(255,215,0,0.1);
-                border: 2px solid rgba(255,215,0,0.3);
-                border-radius: 12px;
-                padding: 1rem;
-                display: inline-block;
-                margin-bottom: 1rem;
-            ">
+        <section class="serial-banner">
+            <div>
+                <div class="section-title">
+                    <i class="fas fa-ticket-alt"></i>
+                    Reservation Started
+                </div>
+                <p class="serial-copy">
+                    Keep this serial safe. It identifies this booking through payment,
+                    confirmation, and download.
+                </p>
+            </div>
+            <div class="serial-chip">
+                <i class="fas fa-hashtag"></i>
                 {{ serial }}
             </div>
-            <p style="color: rgba(255,255,255,0.8); font-size: 1rem;">
-                Keep this number safe — you'll need it for entry & updates
-            </p>
-        </div>
+        </section>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div class="flash-container">
-              {% for category, msg in messages %}
-                <div class="flash-message {{ category }}">
-                  {{ msg }}
+            {% if messages %}
+                <div class="flash-stack">
+                    {% for category, msg in messages %}
+                        <div class="flash-message {{ category }}">{{ msg }}</div>
+                    {% endfor %}
                 </div>
-              {% endfor %}
-            </div>
-          {% endif %}
+            {% endif %}
         {% endwith %}
 
-        <div class="bulk-offer">
-            <strong>Bulk Booking Offer:</strong> 4+ tickets – 15% OFF
-        </div>
-
-        <form action="/pay/{{ serial }}" method="POST" id="ticketForm">
-
-            <!-- Ticket Selection Cards -->
-            <div class="ticket-grid">
-
-                <div class="ticket-card" data-price="500">
-                    <input type="radio" name="category" value="general" id="general" required data-name="General">
-                    <label for="general">
-                        <img class="ticket-image" src="/static/images/general.jpeg" alt="General Pass">
-                        <div class="ticket-title">General</div>
-                        <div class="ticket-perks">Welcome kit</div>
-                        <div class="ticket-price">₹500</div>
-                    </label>
-                </div>
-
-                <div class="ticket-card" data-price="1200">
-                    <input type="radio" name="category" value="silver" id="silver" data-name="Silver">
-                    <label for="silver">
-                        <img class="ticket-image" src="/static/images/silver.jpeg" alt="Silver Pass">
-                        <div class="ticket-title">Silver</div>
-                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg)</div>
-                        <div class="ticket-price">₹1200</div>
-                    </label>
-                </div>
-
-                <div class="ticket-card" data-price="2499">
-                    <input type="radio" name="category" value="gold" id="gold" data-name="Gold">
-                    <label for="gold">
-                        <img class="ticket-image" src="/static/images/gold.jpeg" alt="Gold Pass">
-                        <div class="ticket-title">Gold</div>
-                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug</div>
-                        <div class="ticket-price">₹2499</div>
-                    </label>
-                </div>
-
-                <div class="ticket-card" data-price="5000">
-                    <input type="radio" name="category" value="platinum" id="platinum" data-name="Platinum">
-                    <label for="platinum">
-                        <img class="ticket-image" src="/static/images/platinum.jpeg" alt="Platinum Pass">
-                        <div class="ticket-title">Platinum</div>
-                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award</div>
-                        <div class="ticket-price">₹5000</div>
-                    </label>
-                </div>
-
-                <div class="ticket-card premium" data-price="10000">
-                    <input type="radio" name="category" value="vip" id="vip" data-name="VIP">
-                    <label for="vip">
-                        <img class="ticket-image" src="/static/images/vip.jpeg" alt="VIP Pass">
-                        <div class="ticket-title">VIP</div>
-                        <div class="ticket-perks">Welcome kit + Biriyani (Veg or Non-Veg) + T-Shirt + Printed Mug + PRI Award + Vision 2025 Wall of Frame</div>
-                        <div class="ticket-price">₹10000</div>
-                    </label>
-                </div>
-
-            </div>
-
-            <!-- Quantity Selector -->
-            <div class="form-section" style="text-align:center;">
-                <h4 style="color:#ffea80; margin-bottom:1.8rem; font-size:1.9rem;">Number of Tickets</h4>
-                <div class="ticket-quantity-shell" style="
-                    display: inline-flex;
-                    align-items: center;
-                    background: rgba(255,215,0,0.05);
-                    border: 2px solid rgba(255,215,0,0.4);
-                    border-radius: 20px;
-                    padding: 0.8rem;
-                    margin: 1.5rem 0 3rem;
-                    box-shadow: 0 8px 25px rgba(255,215,0,0.15);
-                ">
-                    <button type="button" id="decreaseQty" class="ticket-qty-button" style="
-                        width: 50px;
-                        height: 50px;
-                        font-size: 1.8rem;
-                        border-radius: 50%;
-                        background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2));
-                        border: 1px solid rgba(255,215,0,0.5);
-                        color: #ffea80;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                        font-weight: 700;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    " onmouseover="this.style.background='linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,170,0,0.4))'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2))'; this.style.transform='scale(1)';">−</button>
-                    <input 
-                        type="number" 
-                        name="quantity" 
-                        id="quantity" 
-                        value="1" 
-                        min="1" 
-                        max="20" 
-                        class="form-control text-center ticket-qty-input" 
-                        style="
-                            width: 100px;
-                            height: 50px;
-                            font-size: 1.8rem;
-                            font-weight: 700;
-                            padding: 0.5rem;
-                            margin: 0 0.8rem;
-                            background: transparent;
-                            border: none;
-                            color: #ffea80;
-                            text-align: center;
-                        "
-                        required
-                    >
-                    <button type="button" id="increaseQty" class="ticket-qty-button" style="
-                        width: 50px;
-                        height: 50px;
-                        font-size: 1.8rem;
-                        border-radius: 50%;
-                        background: linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2));
-                        border: 1px solid rgba(255,215,0,0.5);
-                        color: #ffea80;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                        font-weight: 700;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    " onmouseover="this.style.background='linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,170,0,0.4))'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(255,170,0,0.2), rgba(255,215,0,0.2))'; this.style.transform='scale(1)';">+</button>
-                </div>
-            </div>
-
-            <!-- Live Total Preview -->
-            <div class="total-preview" id="totalPreview" style="
-                background: rgba(255,215,0,0.08);
-                border: 1px solid rgba(255,215,0,0.35);
-                border-radius: 18px;
-                padding: 2rem;
-                margin: 3rem 0 4rem;
-                text-align: center;
-            ">
-                <div style="font-size:1.4rem; margin-bottom:1rem; color:rgba(255,255,255,0.9);">Total Amount</div>
-                <div class="total-amount" id="totalAmount" style="font-size:3.2rem; font-weight:900; color:#ffea80;">₹0</div>
-                <div class="discount-note" id="discountNote" style="display:none; color:#28a745; font-weight:600; font-size:1.25rem; margin-top:1rem;">
-                    (15% Bulk Discount Applied)
-                </div>
-            </div>
-
-            <!-- Contact Details – Final Attractive & Centered Version -->
-            <div class="form-section" style="
-                max-width: 720px;
-                margin: 0 auto 5rem;
-                background: rgba(20, 15, 60, 0.35);
-                border-radius: 28px;
-                padding: 4.5rem 3.5rem;
-                backdrop-filter: blur(22px);
-                box-shadow: 0 25px 80px rgba(0,0,0,0.6);
-                border: 1px solid rgba(255, 215, 0, 0.18);
-            ">
-
-                <h4 style="
-                    color: #ffea80;
-                    font-size: clamp(1.8rem, 5vw, 2.4rem);
-                    font-weight: 700;
-                    text-align: center;
-                    margin-bottom: 1.2rem;
-                    letter-spacing: 1px;
-                    position: relative;
-                    display: block;
-                    width: 100%;
-                    padding: 0 1rem;
-                ">
-                    Your Contact Details
-                    <span style="
-                        position: absolute;
-                        bottom: -10px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 80%;
-                        height: 4px;
-                        background: linear-gradient(90deg, transparent, #ffd700 20%, #ffea80 50%, #ffd700 80%, transparent);
-                        border-radius: 2px;
-                        opacity: 0.8;
-                    "></span>
-                </h4>
-
-                <p style="
-                    text-align: center;
-                    color: rgba(255, 255, 255, 0.90);
-                    margin: 2.5rem auto 3.5rem;
-                    font-size: clamp(1rem, 2.5vw, 1.28rem);
-                    line-height: 1.8;
-                    max-width: 620px;
-                    font-weight: 400;
-                    padding: 0 1rem;
-                ">
-                    We'll send your digital ticket (with unique QR code) <strong>instantly</strong> to these contacts
-                </p>
-
-                <!-- Email -->
-                <div style="
-                    margin-bottom: 4rem; 
-                    max-width: 600px; 
-                    margin-left: auto; 
-                    margin-right: auto;
-                    padding: 0 1rem;
-                    width: 100%;
-                ">
-        <label for="email" style="
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            font-weight: 600;
-            color: #ffea80;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: nowrap;
-            margin-bottom: 1rem;
-            width: 100%;
-            text-align: center;
-        ">
-            <i class="fas fa-envelope" style="color:#ffd700; font-size: clamp(1.2rem, 2vw, 1.5rem); flex-shrink: 0;"></i>
-            <span style="white-space: nowrap;">Email Address</span>
-        </label>
-        <input 
-            type="email" 
-            name="email" 
-            id="email"
-            class="form-control" 
-            style="
-                max-width: 100%; 
-                font-size: clamp(0.95rem, 2vw, 1.2rem); 
-                padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1rem, 2vw, 1.5rem); 
-                border-radius: 14px; 
-                width: 100%;
-                box-sizing: border-box;
-                background: rgba(255, 255, 255, 0.95) !important;
-                border: 2px solid rgba(255, 215, 0, 0.3) !important;
-                color: #333 !important;
-                transition: all 0.3s ease;
-                -webkit-autofill: none !important;
-            "
-            placeholder="yourname@example.com"
-            required
-            autocomplete="email"
-            onfocus="this.style.borderColor='rgba(255, 215, 0, 0.8)'; this.style.boxShadow='0 0 8px rgba(255, 215, 0, 0.3)'; this.style.background='rgba(255, 255, 255, 0.95) !important';"
-            onblur="this.style.borderColor='rgba(255, 215, 0, 0.3)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.95) !important';"
-        >
-        <small class="d-block mt-3" style="
-            color: rgba(255,255,255,0.75); 
-            font-size: clamp(0.85rem, 1.5vw, 1rem); 
-            line-height: 1.6; 
-            text-align: center;
-        ">
-                </div>
-
-                <!-- Security & Privacy -->
-                <div style="
-                    background: rgba(40,167,69,0.09);
-                    border: 1px solid rgba(40,167,69,0.38);
-                    border-radius: 16px;
-                    padding: 1.8rem 2.5rem;
-                    margin: 3.5rem auto 4.5rem;
-                    max-width: 620px;
-                    font-size: 1.1rem;
-                    color: rgba(255,255,255,0.92);
-                    text-align: center;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1.4rem;
-                    flex-wrap: wrap;
-                    box-shadow: 0 6px 20px rgba(40,167,69,0.15);
-                ">
-                    <i class="fas fa-shield-alt" style="color:#28a745; font-size:2rem; flex-shrink:0;"></i>
-                    <div>
-                        Your information is <strong style="color:#28a745;">secure & encrypted</strong>.<br>
-                        We never share or sell your data. Read our 
-                        <a href="/privacy-policy" style="color:#ffd900; text-decoration:underline; font-weight:500;">Privacy Policy</a>.
+        <form action="{{ url_for('pay_page', serial=serial) }}" method="POST" id="ticketForm">
+            <div class="booking-grid">
+                <section class="surface selection-panel">
+                    <div class="section-title">
+                        <i class="fas fa-layer-group"></i>
+                        Choose Your Ticket Type
                     </div>
-                </div>
+                    <p class="section-note">
+                        The selected class will be printed clearly on the generated ticket image.
+                    </p>
+                    <div class="offer-banner">
+                        Book 4 or more tickets in one order and get 15% off automatically.
+                    </div>
 
-                <!-- Buttons -->
-                <div class="btn-group">
-                    <button type="submit" id="submitBtn" class="btn btn-primary btn-lg px-5 py-3" disabled>
-                        <i class="fas fa-shopping-cart me-2"></i> Checkout & Pay
-                    </button>
+                    <div class="ticket-grid">
+                        {% for key, cat in categories.items() %}
+                            <div class="ticket-option">
+                                <input
+                                    type="radio"
+                                    name="category"
+                                    value="{{ key }}"
+                                    id="category-{{ key }}"
+                                    data-price="{{ cat.price }}"
+                                    data-name="{{ cat.name }}"
+                                    {% if selected_category == key %}checked{% endif %}
+                                    required
+                                >
+                                <label class="ticket-card" for="category-{{ key }}">
+                                    <img
+                                        class="ticket-image"
+                                        src="{{ url_for('static', filename=cat.image) }}"
+                                        alt="{{ cat.name }} ticket"
+                                    >
+                                    <div class="ticket-card-top">
+                                        <span class="ticket-name">{{ cat.name }}</span>
+                                        <span class="ticket-price">&#8377;{{ cat.price }}</span>
+                                    </div>
+                                    <p class="ticket-perks">{{ cat.perks }}</p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
 
-                    <a href="/" class="btn btn-outline-light btn-lg px-5 py-3">
-                        Cancel Booking
-                    </a>
-                </div>
+                <aside class="surface details-panel">
+                    <div class="details-panel-inner">
+                        <section class="summary-card">
+                            <div class="section-title">
+                                <i class="fas fa-user-check"></i>
+                                Buyer Details
+                            </div>
+                            <div class="contact-grid">
+                                <div class="field">
+                                    <label for="name">Full Name</label>
+                                    <input
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        placeholder="Enter your full name"
+                                        value="{{ ticket.get('buyer_name', '') }}"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="field">
+                                    <label for="email">Email Address</label>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="yourname@example.com"
+                                        value="{{ ticket.get('buyer_email', '') }}"
+                                        autocomplete="email"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="field">
+                                    <label for="phone">Contact Number</label>
+                                    <input
+                                        id="phone"
+                                        name="phone"
+                                        type="tel"
+                                        placeholder="Enter your phone number"
+                                        value="{{ ticket.get('buyer_phone', '') }}"
+                                        inputmode="tel"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="field">
+                                    <label for="place">City / Place</label>
+                                    <input
+                                        id="place"
+                                        name="place"
+                                        type="text"
+                                        placeholder="Enter your city or place"
+                                        value="{{ ticket.get('buyer_place', '') }}"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="field">
+                                    <label for="quantity">Number of Tickets</label>
+                                    <div class="qty-wrap">
+                                        <button class="qty-button" id="decreaseQty" type="button" aria-label="Decrease quantity">-</button>
+                                        <input
+                                            id="quantity"
+                                            name="quantity"
+                                            class="field qty-input"
+                                            type="number"
+                                            min="1"
+                                            max="20"
+                                            value="{{ selected_quantity }}"
+                                            required
+                                        >
+                                        <button class="qty-button" id="increaseQty" type="button" aria-label="Increase quantity">+</button>
+                                    </div>
+                                    <p class="hint">
+                                        These details are used in Razorpay checkout, your emailed ticket,
+                                        and the downloadable PNG.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="summary-card">
+                            <div class="section-title">
+                                <i class="fas fa-receipt"></i>
+                                Live Price Summary
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Ticket Class</span>
+                                <strong id="summaryCategory">Choose a pass</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>Quantity</span>
+                                <strong id="summaryQuantity">{{ selected_quantity }}</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>Reservation Serial</span>
+                                <strong>{{ serial }}</strong>
+                            </div>
+                            <div class="summary-row total-row">
+                                <span>Total</span>
+                                <strong id="summaryTotal">&#8377;0</strong>
+                            </div>
+                            <p id="discountNote" class="discount-note">
+                                Bulk booking discount applied to this order.
+                            </p>
+                        </section>
+
+                        <section class="ticket-preview-note">
+                            Your generated ticket will include the event logo, ticket class,
+                            buyer name, email, phone number, city, ticket serial, and a QR code.
+                        </section>
+
+                        <div class="cta-row">
+                            <button type="submit" id="submitBtn" class="btn btn-primary" disabled>
+                                <i class="fas fa-credit-card"></i>
+                                Continue to Payment
+                            </button>
+                            <a href="{{ url_for('home_explicit') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i>
+                                Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </aside>
             </div>
-
         </form>
-
     </div>
 
     {% include '_site_footer.html' %}
 
     <script>
-        // Ticket card selection
-        document.querySelectorAll('.ticket-card').forEach(card => {
-            card.addEventListener('click', () => {
-                document.querySelectorAll('.ticket-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                card.querySelector('input[type="radio"]').checked = true;
-                validateForm();
-                updateTotal();
-            });
-        });
+        const quantityInput = document.getElementById('quantity');
+        const categoryInputs = Array.from(document.querySelectorAll('input[name="category"]'));
+        const submitBtn = document.getElementById('submitBtn');
+        const discountNote = document.getElementById('discountNote');
 
-        // Also listen for direct radio button changes
-        document.querySelectorAll('input[name="category"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                validateForm();
-                updateTotal();
-            });
-        });
+        const fields = {
+            name: document.getElementById('name'),
+            email: document.getElementById('email'),
+            phone: document.getElementById('phone'),
+            place: document.getElementById('place')
+        };
 
-        // Quantity controls
-        const qtyInput = document.getElementById('quantity');
-        document.getElementById('decreaseQty').addEventListener('click', () => {
-            let current = parseInt(qtyInput.value) || 1;
-            if (current > 1) qtyInput.value = current - 1;
-            updateTotal();
-        });
-        document.getElementById('increaseQty').addEventListener('click', () => {
-            let current = parseInt(qtyInput.value) || 1;
-            if (current < 20) qtyInput.value = current + 1;
-            updateTotal();
-        });
-        qtyInput.addEventListener('input', updateTotal);
+        function getSelectedCategory() {
+            return categoryInputs.find((input) => input.checked) || null;
+        }
 
-        // Live total calculation
-        function updateTotal() {
-            const selected = document.querySelector('.ticket-card.selected');
-            if (!selected) {
-                document.getElementById('totalAmount').textContent = '₹0';
-                document.getElementById('discountNote').style.display = 'none';
+        function updateSummary() {
+            const selectedCategory = getSelectedCategory();
+            const qty = Math.min(Math.max(parseInt(quantityInput.value || '1', 10), 1), 20);
+            quantityInput.value = qty;
+
+            document.getElementById('summaryQuantity').textContent = qty;
+
+            if (!selectedCategory) {
+                document.getElementById('summaryCategory').textContent = 'Choose a pass';
+                document.getElementById('summaryTotal').textContent = '\u20b90';
+                discountNote.style.display = 'none';
                 return;
             }
 
-            const price = parseInt(selected.dataset.price);
-            const qty = parseInt(qtyInput.value) || 1;
+            const price = parseInt(selectedCategory.dataset.price, 10);
             let total = price * qty;
-            let discountText = '';
+            let hasDiscount = false;
 
             if (qty >= 4) {
-                const discount = Math.round(total * 0.15);
-                total -= discount;
-                discountText = `(15% Bulk Discount Applied: -₹${discount})`;
-                document.getElementById('discountNote').textContent = discountText;
-                document.getElementById('discountNote').style.display = 'block';
-            } else {
-                document.getElementById('discountNote').style.display = 'none';
+                total = Math.floor(total * 0.85);
+                hasDiscount = true;
             }
 
-            document.getElementById('totalAmount').textContent = `₹${total}`;
+            document.getElementById('summaryCategory').textContent = selectedCategory.dataset.name;
+            document.getElementById('summaryTotal').textContent = `\u20b9${total}`;
+            discountNote.style.display = hasDiscount ? 'block' : 'none';
         }
-
-        // Real-time form validation
-        const email = document.getElementById('email');
-        const submitBtn = document.getElementById('submitBtn');
 
         function validateForm() {
-            const emailValid = email.checkValidity() && email.value.trim() !== '';
-            const categorySelected = !!document.querySelector('input[name="category"]:checked');
+            const selectedCategory = getSelectedCategory();
+            const nameValid = fields.name.value.trim().length > 1;
+            const emailValid = fields.email.checkValidity();
+            const phoneDigits = fields.phone.value.replace(/\D/g, '');
+            const phoneValid = phoneDigits.length >= 10;
+            const placeValid = fields.place.value.trim().length > 1;
 
-            submitBtn.disabled = !(emailValid && categorySelected);
-            // remove/add class only for visual cue, doesn't affect disabled state
-            submitBtn.classList.toggle('enabled', emailValid && categorySelected);
+            submitBtn.disabled = !(selectedCategory && nameValid && emailValid && phoneValid && placeValid);
         }
 
-        email.addEventListener('input', validateForm);
-        document.querySelectorAll('input[name="category"]').forEach(r => r.addEventListener('change', validateForm));
+        document.getElementById('decreaseQty').addEventListener('click', () => {
+            quantityInput.value = Math.max(parseInt(quantityInput.value || '1', 10) - 1, 1);
+            updateSummary();
+        });
 
-        // Initial setup
-        updateTotal();
+        document.getElementById('increaseQty').addEventListener('click', () => {
+            quantityInput.value = Math.min(parseInt(quantityInput.value || '1', 10) + 1, 20);
+            updateSummary();
+        });
+
+        quantityInput.addEventListener('input', updateSummary);
+        quantityInput.addEventListener('input', validateForm);
+
+        categoryInputs.forEach((input) => {
+            input.addEventListener('change', () => {
+                updateSummary();
+                validateForm();
+            });
+        });
+
+        Object.values(fields).forEach((field) => {
+            field.addEventListener('input', validateForm);
+        });
+
+        updateSummary();
         validateForm();
     </script>
-
 </body>
 </html>
