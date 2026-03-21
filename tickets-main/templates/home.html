@@ -43,14 +43,16 @@
 
         
         .brand {
-            font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900;
-            letter-spacing:5px; background:linear-gradient(90deg,#4da6ff,#0080ff,#0052cc);
-            background-clip:text; -webkit-text-fill-color:transparent;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            white-space: nowrap;
             flex-shrink: 0;
+        }
+        .brand img {
+            display: block;
+            width: clamp(180px, 20vw, 280px);
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.28));
         }
         .nav-links a { color:#eee; text-decoration:none; margin-left:2.4rem; font-weight:500; }
         .nav-links a:hover { color:#ffd700; }
@@ -288,14 +290,13 @@
             text-align: center;
         }
         .footer .brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(90deg, #4da6ff, #0080ff, #0052cc);
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: inline-flex;
             margin-bottom: 1.5rem;
+        }
+        .footer .brand img {
+            width: min(320px, 70vw);
+            height: auto;
+            filter: drop-shadow(0 14px 24px rgba(0,0,0,0.25));
         }
         .footer p {
             font-size: 1.15rem;
@@ -316,6 +317,15 @@
             color: #ffffff;
             font-size: 2.4rem;
             transition: all 0.35s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,215,0,0.18);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.18);
         }
         .social-icons a:hover {
             color: #ffd700;
@@ -359,9 +369,8 @@
                 padding: 1rem 3%;
             }
 
-            .brand {
-                font-size: 2.2rem;
-                letter-spacing: 3px;
+            .brand img {
+                width: clamp(165px, 22vw, 240px);
             }
 
             .nav-links {
@@ -511,9 +520,8 @@
                 padding: 3rem 3% 2rem;
             }
 
-            .footer .brand {
-                font-size: 2.2rem;
-                letter-spacing: 3px;
+            .footer .brand img {
+                width: min(280px, 64vw);
             }
 
             .social-icons {
@@ -522,6 +530,8 @@
 
             .social-icons a {
                 font-size: 2rem;
+                width: 58px;
+                height: 58px;
             }
 
             .legal-links {
@@ -541,10 +551,8 @@
                 justify-content: center;
             }
 
-            .brand {
-                font-size: 1.8rem;
-                letter-spacing: 2px;
-                text-align: center;
+            .brand img {
+                width: clamp(150px, 42vw, 220px);
             }
 
             .nav-links {
@@ -700,9 +708,8 @@
                 padding: 0;
             }
 
-            .footer .brand {
-                font-size: 1.8rem;
-                margin-bottom: 1.2rem;
+            .footer .brand img {
+                width: min(245px, 72vw);
             }
 
             .social-icons {
@@ -712,6 +719,8 @@
 
             .social-icons a {
                 font-size: 1.8rem;
+                width: 52px;
+                height: 52px;
             }
 
             .legal-links {
@@ -734,11 +743,8 @@
                 padding: 0.75rem 0.75rem 0.9rem;
             }
 
-            .brand {
-                font-size: 1.7rem;
-                letter-spacing: 1px;
-                white-space: normal;
-                line-height: 1;
+            .brand img {
+                width: clamp(138px, 46vw, 190px);
             }
 
             .nav-links {
@@ -898,9 +904,8 @@
                 padding: 2.5rem 1.5% 1.5rem;
             }
 
-            .footer .brand {
-                font-size: 1.5rem;
-                letter-spacing: 2px;
+            .footer .brand img {
+                width: min(210px, 68vw);
             }
 
             .social-icons {
@@ -934,7 +939,9 @@
     <div class="overlay">
 
         <nav class="navbar">
-            <div class="brand">AAVADINGI</div>
+            <div class="brand">
+                <img src="{{ url_for('static', filename='images/aavadingi-logo.svg') }}" alt="AAVADINGI logo">
+            </div>
             <div class="nav-links">
                 <a href="/">Home</a>
                 <a href="/start">Secure Your Pass</a>
@@ -1079,16 +1086,18 @@
         <!-- Footer with social media icons -->
         <footer class="footer">
             <div style="max-width: 1200px; margin: 0 auto;">
-                <div class="brand">AAVADINGI</div>
+                <div class="brand">
+                    <img src="{{ url_for('static', filename='images/aavadingi-logo.svg') }}" alt="AAVADINGI logo">
+                </div>
 
                 <p style="font-size: 1.15rem; color: rgba(255,255,255,0.8); margin: 1.5rem 0 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
                     Where Every Beat Tells a Story • Every Voice Finds a Stage • Every Dream Takes Flight
                 </p>
 
                 <div class="social-icons">
-                    <a href="https://www.instagram.com/aavaadingi?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/@AAVAADINGI" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://facebook.com/aavadingi" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/aavaadingi/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@AAVAADINGI" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://facebook.com/aavadingi" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 </div>
 
                 <div class="legal-links">
