@@ -1035,6 +1035,21 @@ def pay_page(serial):
         buyer_place = compact_text(request.form.get("place", ""), "")
         quantity_str = request.form.get("quantity", "1").strip()
 
+        # Older cached ticket pages only submit email/category. Guide users to
+        # refresh so they load the current booking form with all required fields.
+        if (
+            email
+            and not request.form.get("name")
+            and not request.form.get("phone")
+            and not request.form.get("place")
+        ):
+            flash(
+                "This booking page is outdated. Please refresh once and enter "
+                "your full contact details.",
+                "error"
+            )
+            return redirect(url_for('ticket_page', serial=serial))
+
         if category not in CATEGORIES:
             flash("Please select a valid ticket category.", "error")
             return redirect(url_for('ticket_page', serial=serial))
