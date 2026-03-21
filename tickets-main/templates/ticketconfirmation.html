@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Ticket Confirmed | AAVADINGI 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
+    <style>
+        :root {
+            --bg-top: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-bottom: #24243e;
+            --card: rgba(20, 15, 60, 0.44);
+            --card-border: rgba(255, 215, 0, 0.18);
+            --gold: #ffd86d;
+            --gold-soft: #fff0be;
+            --text-soft: rgba(255, 255, 255, 0.78);
+            --blue: #4da6ff;
+            --blue-strong: #0080ff;
+            --success: #6ed39b;
+            --warning: #ffb77a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            background:
+                radial-gradient(circle at top left, rgba(77, 166, 255, 0.2), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255, 216, 109, 0.18), transparent 24%),
+                linear-gradient(135deg, var(--bg-top), var(--bg-mid), var(--bg-bottom));
+        }
+
+        .page-shell {
+            width: min(1160px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .success-icon {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 1rem;
+            background: rgba(110, 211, 155, 0.16);
+            border: 1px solid rgba(110, 211, 155, 0.34);
+            color: #d9ffeb;
+            font-size: 2.2rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            color: var(--gold-soft);
+            margin-bottom: 0.55rem;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: 0 auto;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .status-banner {
+            margin: 1.5rem auto 2rem;
+            padding: 1rem 1.1rem;
+            border-radius: 22px;
+            line-height: 1.6;
+            font-size: 0.96rem;
+        }
+
+        .status-banner.success {
+            background: rgba(110, 211, 155, 0.14);
+            border: 1px solid rgba(110, 211, 155, 0.32);
+            color: #d7ffe7;
+        }
+
+        .status-banner.warning {
+            background: rgba(255, 183, 122, 0.14);
+            border: 1px solid rgba(255, 183, 122, 0.32);
+            color: #ffe3ca;
+        }
+
+        .confirmation-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.92fr);
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .surface {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+            padding: 1.4rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gold-soft);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-preview {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .ticket-preview img {
+            width: 100%;
+            display: block;
+        }
+
+        .ticket-preview-note {
+            margin-top: 1rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            font-size: 0.94rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .detail-card {
+            padding: 1rem;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-label {
+            display: block;
+            color: var(--text-soft);
+            font-size: 0.82rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .detail-value {
+            display: block;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #fff;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .cta-grid {
+            display: grid;
+            gap: 0.85rem;
+            margin-top: 1.1rem;
+        }
+
+        .btn {
+            width: 100%;
+            min-height: 54px;
+            padding: 0.95rem 1.1rem;
+            border-radius: 18px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--blue), var(--blue-strong));
+            color: #fff;
+            box-shadow: 0 16px 34px rgba(0, 94, 255, 0.24);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+
+        .btn-tertiary {
+            background: rgba(255, 216, 109, 0.12);
+            border: 1px solid rgba(255, 216, 109, 0.26);
+            color: #fff2c4;
+        }
+
+        .next-steps {
+            margin-top: 1rem;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .next-step {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.95rem 1rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-soft);
+            line-height: 1.55;
+        }
+
+        .next-step i {
+            color: var(--gold);
+            margin-top: 0.2rem;
+        }
+
+        @media (max-width: 960px) {
+            .confirmation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .page-shell {
+                width: min(100% - 1rem, 100%);
+                padding-top: 1rem;
+            }
+
+            .surface {
+                padding: 1rem;
+                border-radius: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-shell {
+                width: calc(100% - 0.75rem);
+            }
+
+            .success-icon {
+                width: 74px;
+                height: 74px;
+                font-size: 1.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p,
+            .ticket-preview-note,
+            .status-banner {
+                font-size: 0.92rem;
+            }
+
+            .ticket-preview,
+            .detail-card,
+            .next-step {
+                border-radius: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% set email_failed = email_status and email_status[:6] == 'failed' %}
+
+    <div class="page-shell">
+        <header class="hero">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h1>Your Ticket Is Confirmed</h1>
+            <p>
+                Payment has been verified. Your digital ticket now includes the logo,
+                ticket class, buyer details, and QR code for venue entry.
+            </p>
+        </header>
+
+        <div class="status-banner {{ 'warning' if email_failed else 'success' }}">
+            {% if email_failed %}
+                Ticket generation completed, but email delivery reported an issue. Your ticket is ready below and can still be downloaded immediately from this page.
+            {% else %}
+                Your ticket image has been generated and emailed successfully. Keep the PNG handy and show the QR code at the venue entrance.
+            {% endif %}
+        </div>
+
+        {% if test_payment_mode %}
+            <div class="status-banner warning">
+                This {{ category_name }} booking was charged only &#8377;{{ price }}, while the normal ticket value for this selection is &#8377;{{ actual_price }}.
+            </div>
+        {% endif %}
+
+        <div class="confirmation-grid">
+            <section class="surface">
+                <div class="section-title">
+                    <i class="fas fa-image"></i>
+                    Ticket Preview
+                </div>
+
+                <div class="ticket-preview">
+                    <img
+                        src="{{ url_for('get_qr_ticket', serial=serial, category=category_key) }}"
+                        alt="AAVADINGI ticket preview"
+                    >
+                </div>
+
+                <p class="ticket-preview-note">
+                    Download the PNG below to keep a full-resolution copy with your name,
+                    contact details, ticket type, and event QR code.
+                </p>
+
+                <div class="cta-grid">
+                    <a href="{{ url_for('download_ticket', serial=serial) }}" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i>
+                        Download Ticket PNG
+                    </a>
+                    <a href="{{ url_for('home_explicit') }}" class="btn btn-secondary">
+                        <i class="fas fa-house"></i>
+                        Back to Home
+                    </a>
+                    <a href="{{ url_for('start_ticket') }}" class="btn btn-tertiary">
+                        <i class="fas fa-ticket"></i>
+                        Book Another Ticket
+                    </a>
+                </div>
+            </section>
+
+            <aside class="surface">
+                <div class="section-title">
+                    <i class="fas fa-clipboard-list"></i>
+                    Ticket Details
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <span class="detail-label">Ticket Serial</span>
+                        <span class="detail-value">{{ serial }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">Ticket Type</span>
+                        <span class="detail-value">{{ category_name }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">Quantity</span>
+                        <span class="detail-value">{{ quantity }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">Amount Paid</span>
+                        <span class="detail-value">&#8377;{{ price }}</span>
+                    </div>
+                    {% if test_payment_mode %}
+                        <div class="detail-card">
+                            <span class="detail-label">Normal Ticket Value</span>
+                            <span class="detail-value">&#8377;{{ actual_price }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="detail-card">
+                        <span class="detail-label">Buyer Name</span>
+                        <span class="detail-value">{{ buyer_name or 'Not provided' }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">Email Address</span>
+                        <span class="detail-value">{{ buyer_email or 'Not provided' }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">Contact Number</span>
+                        <span class="detail-value">{{ buyer_phone or 'Not provided' }}</span>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-label">City / Place</span>
+                        <span class="detail-value">{{ buyer_place or 'Not provided' }}</span>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <div class="next-step">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Bring this QR ticket on the event day. A phone display is enough.</span>
+                    </div>
+                    <div class="next-step">
+                        <i class="fas fa-circle-check"></i>
+                        <span>The ticket PNG now carries your selected class, name, contact details, and event branding.</span>
+                    </div>
+                    <div class="next-step">
+                        <i class="fas fa-circle-check"></i>
+                        <span>If email delivery was delayed, use the download button here and keep the file safe.</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    {% include '_site_footer.html' %}
+</body>
+</html>
