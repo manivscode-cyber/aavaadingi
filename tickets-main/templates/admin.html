@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -64,6 +66,12 @@
         
         .nowrap { white-space: nowrap; }
         .footer { 
+            margin-top: 2rem;
+            text-align: center;
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .admin-note {
             margin-top: 2rem;
             text-align: center;
             font-size: clamp(0.8rem, 2vw, 0.85rem);
@@ -322,8 +330,9 @@
         </tbody>
     </table>
     </div>
-    <div class="footer">
+    <div class="admin-note">
         <p>Access controlled by ADMIN_KEY parameter. Keep the key secret!</p>
     </div>
+    {% include '_site_footer.html' %}
 </body>
 </html>

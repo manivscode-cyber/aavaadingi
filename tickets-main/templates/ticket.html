@@ -11,6 +11,7 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -1153,11 +1154,7 @@
 
     </div>
 
-    <footer>
-        © 2026 AAVADINGI. All rights reserved.<br>
-        <a href="/privacy-policy" style="color:rgba(255,215,0,0.7);">Privacy Policy</a> •
-        <a href="/terms-and-conditions" style="color:rgba(255,215,0,0.7);">Terms & Conditions</a>
-    </footer>
+    {% include '_site_footer.html' %}
 
     <script>
         // Ticket card selection

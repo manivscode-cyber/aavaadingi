@@ -9,6 +9,7 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -518,21 +519,7 @@
 
     </div>
 
-    <footer>
-        <div class="social-icons mb-4">
-            <a href="https://instagram.com/aavadingi" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtube.com/@aavadingi" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://facebook.com/aavadingi" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        </div>
-
-        <p class="mb-2">
-            © 2026 AAVADINGI. All rights reserved.
-        </p>
-        <p style="font-size:0.9rem;">
-            <a href="/privacy-policy" style="color:rgba(255,215,0,0.7);">Privacy Policy</a> •
-            <a href="/terms-and-conditions" style="color:rgba(255,215,0,0.7);">Terms & Conditions</a>
-        </p>
-    </footer>
+    {% include '_site_footer.html' %}
 
 </body>
 </html>

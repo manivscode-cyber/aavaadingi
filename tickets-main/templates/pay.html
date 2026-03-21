@@ -12,6 +12,7 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -147,11 +148,19 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: stretch;
             gap: 1.5rem;
-            margin: 2.5rem 0;
+            margin: 2.5rem auto;
             width: 100%;
+            max-width: 760px;
             padding: 0 1rem;
             box-sizing: border-box;
+        }
+
+        .action-buttons .btn {
+            flex: 1 1 220px;
+            max-width: 240px;
+            min-height: 56px;
         }
 
         .btn {
@@ -297,8 +306,10 @@
             }
             .action-buttons { 
                 flex-direction: column;
-                padding: 0 0.5rem;
-                margin: 1.5rem 0;
+                padding: 0;
+                margin: 1.5rem auto;
+                max-width: 340px;
+                align-items: stretch;
             }
             .btn { 
                 width: 100%;
@@ -393,17 +404,22 @@
 
             .action-buttons {
                 gap: 1rem;
-                margin: 1.8rem 0;
-                padding: 0 1rem;
-                flex-wrap: wrap;
+                margin: 1.8rem auto;
+                padding: 0;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                max-width: 360px;
+                align-items: stretch;
             }
 
             .btn {
                 padding: 0.9rem 2rem;
                 font-size: 1rem;
-                min-width: 140px;
+                min-width: 0;
                 flex: 1 1 auto;
-                max-width: 240px;
+                max-width: none;
+                width: 100%;
+                min-height: 52px;
             }
 
             .steps {
@@ -544,9 +560,10 @@
             .action-buttons {
                 flex-direction: column;
                 gap: 0.8rem;
-                margin: 1.5rem 0;
-                padding: 0 0.5rem;
+                margin: 1.5rem auto;
+                padding: 0;
                 width: 100%;
+                max-width: 320px;
             }
 
             .btn {
@@ -555,6 +572,7 @@
                 width: 100%;
                 max-width: none;
                 white-space: normal;
+                min-height: 50px;
             }
 
             .steps {
@@ -630,7 +648,7 @@
                         <circle cx="90" cy="90" r="80"></circle>
                         <circle class="timer-progress" cx="90" cy="90" r="80"></circle>
                     </svg>
-                    <div class="timer-text" id="timer-display">10:00</div>
+                    <div class="timer-text" id="timer-display">01:00</div>
                 </div>
             </div>
 
@@ -667,7 +685,7 @@
             </div>
 
             <div class="alert-warning">
-                <strong>Important:</strong> Complete payment within the time limit.<br>
+                <strong>Important:</strong> Complete payment within 1 minute.<br>
                 Razorpay will redirect you back after successful payment.
             </div>
 
@@ -689,16 +707,13 @@
         </div>
     </div>
 
-    <footer>
-        © 2026 AAVADINGI. All rights reserved.<br>
-        <a href="/privacy-policy">Privacy Policy</a> •
-        <a href="/terms-and-conditions">Terms & Conditions</a>
-    </footer>
+    {% include '_site_footer.html' %}
 
     <script src="https://checkout.razorpay.com/v1/checkout.js" async defer></script>
     <script>
         /* eslint-disable */
-        let timeLeft = 600;
+        const paymentWindowSeconds = 60;
+        let timeLeft = paymentWindowSeconds;
 
         const timerDisplay = document.getElementById("timer-display");
         const progressCircle = document.querySelector(".timer-progress");
@@ -721,7 +736,7 @@
             const safeTime = Math.max(timeLeft, 0);
             timerDisplay.textContent = formatTime(safeTime);
 
-            const progress = safeTime / 600;
+            const progress = safeTime / paymentWindowSeconds;
             const offset = circumference * (1 - progress);
             progressCircle.style.strokeDashoffset = offset;
 
@@ -772,6 +787,7 @@
                 theme: {
                     color: "#ffd700"
                 },
+                timeout: paymentWindowSeconds,
                 modal: {
                     ondismiss: function () {
                         console.log("Razorpay popup closed");

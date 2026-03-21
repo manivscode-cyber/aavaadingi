@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site-footer.css') }}">
     <!-- Font Awesome 6 for social media icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -34,27 +35,44 @@
             backdrop-filter: blur(3px);
         }
         .navbar {
-            position: fixed; top:0; width:100%; padding:1.6rem 5%;
+            position: fixed; top:0; width:100%;
+            padding: 1.3rem 5%;
             display:flex; justify-content:space-between; align-items:center;
-            backdrop-filter: blur(20px); background: rgba(20,20,60,0.38);
-            border-bottom:1px solid rgba(255,215,0,0.10); z-index:1000;
+            backdrop-filter: blur(20px); background: rgba(20,20,60,0.45);
+            border-bottom:1px solid rgba(255,215,0,0.12); z-index:1000;
             gap: 1.5rem;
         }
-
-        
         .brand {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
-        .brand img {
-            display: block;
-            width: clamp(180px, 20vw, 280px);
-            height: auto;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.28));
+        .nav-brand {
+            justify-content: center;
+            width: min(300px, 28vw);
+            padding: 0.65rem 0.9rem;
+            background: rgba(255,255,255,0.96);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.38);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.20);
+            text-decoration: none;
         }
-        .nav-links a { color:#eee; text-decoration:none; margin-left:2.4rem; font-weight:500; }
+        .logo-main {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-width: 100%;
+        }
+        .nav-brand .logo-main {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+        .logo-slogan {
+            display: none;
+        }
+        .nav-links a { color:#eee; text-decoration:none; margin-left:0; font-weight:500; }
         .nav-links a:hover { color:#ffd700; }
         .nav-links {
             display: flex;
@@ -66,9 +84,53 @@
         .nav-links a {
             white-space: nowrap;
         }
+        .nav-toggle {
+            display: none;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.08);
+            color: #ffefb3;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+        .nav-toggle:hover {
+            transform: translateY(-2px);
+            background: rgba(255,215,0,0.14);
+            border-color: rgba(255,215,0,0.4);
+        }
+        .nav-toggle:focus-visible {
+            outline: 2px solid rgba(255,215,0,0.7);
+            outline-offset: 3px;
+        }
+        .nav-toggle-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .nav-toggle-lines span {
+            width: 20px;
+            height: 2px;
+            display: block;
+            background: currentColor;
+            border-radius: 999px;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .navbar.menu-open .nav-toggle-lines span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .navbar.menu-open .nav-toggle-lines span:nth-child(2) {
+            opacity: 0;
+        }
+        .navbar.menu-open .nav-toggle-lines span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
 
         section { padding:6rem 5% 4rem; }
-        .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+        .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; padding-top: 11.5rem; }
         .hero-card {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
@@ -282,46 +344,173 @@
             box-shadow:0 15px 40px rgba(0,0,0,0.5);
         }
 
-        /* Footer with social icons */
+        /* Footer */
         .footer {
-            background: linear-gradient(135deg, rgba(20,15,60,0.4), rgba(40,10,70,0.3));
-            padding: 4rem 5% 3rem;
+            background:
+                radial-gradient(circle at top left, rgba(255,215,0,0.10), transparent 36%),
+                linear-gradient(150deg, rgba(10,8,35,0.96), rgba(24,18,58,0.94), rgba(39,14,72,0.92));
+            padding: 4.5rem 5% 3rem;
             border-top: 1px solid rgba(255,215,0,0.15);
-            text-align: center;
+        }
+        .footer-shell {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            gap: 2rem;
+            align-items: start;
+        }
+        .footer-intro {
+            background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+            border: 1px solid rgba(255,215,0,0.16);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+            backdrop-filter: blur(18px);
+            text-align: left;
         }
         .footer .brand {
             display: inline-flex;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.35rem;
+            background: rgba(255,255,255,0.96);
+            width: min(340px, 100%);
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.38);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.20);
         }
-        .footer .brand img {
-            width: min(320px, 70vw);
-            height: auto;
-            filter: drop-shadow(0 14px 24px rgba(0,0,0,0.25));
+        .footer-tagline {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.82);
+            margin-bottom: 1.4rem;
+            max-width: 58ch;
         }
-        .footer p {
-            font-size: 1.15rem;
-            color: rgba(255,255,255,0.8);
-            margin: 1.5rem 0 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+        .footer-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.6rem;
+        }
+        .footer-badge {
+            padding: 0.55rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,215,0,0.24);
+            background: rgba(255,215,0,0.08);
+            color: #ffe9b1;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .footer-actions {
+            display: flex;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .footer-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0.9rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .footer-action:hover {
+            transform: translateY(-2px);
+        }
+        .footer-action-primary {
+            background: linear-gradient(90deg, #4da6ff, #0080ff);
+            color: #fff;
+            box-shadow: 0 14px 32px rgba(0,128,255,0.28);
+        }
+        .footer-action-secondary {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+        .footer-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,215,0,0.12);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+            backdrop-filter: blur(12px);
+            text-align: left;
+        }
+        .footer-card-wide {
+            grid-column: 1 / -1;
+        }
+        .footer-card h4 {
+            font-size: 0.92rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #ffea80;
+            margin-bottom: 1rem;
+        }
+        .footer-links,
+        .footer-points {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.82);
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #fff4bf;
+            transform: translateX(4px);
+        }
+        .footer-points span {
+            position: relative;
+            padding-left: 1.05rem;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.65;
+        }
+        .footer-points span::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.72rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #ffd700;
+            box-shadow: 0 0 12px rgba(255,215,0,0.45);
+        }
+        .footer-note {
+            color: rgba(255,255,255,0.76);
+            line-height: 1.7;
+            margin-bottom: 1.15rem;
+            max-width: 52ch;
         }
         .social-icons {
-            margin: 2rem 0 2.5rem;
+            margin: 0;
             display: flex;
-            justify-content: center;
-            gap: 2rem;
+            justify-content: flex-start;
+            gap: 1rem;
             flex-wrap: wrap;
         }
         .social-icons a {
             color: #ffffff;
-            font-size: 2.4rem;
+            font-size: 1.6rem;
             transition: all 0.35s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,215,0,0.18);
@@ -329,31 +518,49 @@
         }
         .social-icons a:hover {
             color: #ffd700;
-            transform: translateY(-5px) scale(1.15);
+            transform: translateY(-4px);
             text-shadow: 0 0 15px rgba(255,215,0,0.6);
         }
-        .legal-links {
-            margin: 1.5rem 0 2.5rem;
-            font-size: 1.05rem;
-            color: rgba(255,255,255,0.8);
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.45rem;
+            border-top: 1px solid rgba(255,255,255,0.10);
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .legal-links {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.74);
+            display: flex;
+            justify-content: flex-start;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.7rem 1rem;
         }
         .legal-links a {
             color: inherit;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s ease;
         }
         .legal-links a:hover {
             color: #ffd700;
         }
+        .footer-divider {
+            color: rgba(255,255,255,0.32);
+        }
         .copyright {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.65);
-            margin-top: 1.5rem;
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.60);
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.28rem;
+            text-align: right;
+            align-items: flex-end;
         }
 
         @media (max-width:900px) { 
@@ -365,13 +572,9 @@
 
         /* Comprehensive Mobile Responsive Design */
         @media (max-width: 1024px) {
-            .navbar {
-                padding: 1rem 3%;
-            }
-
-            .brand img {
-                width: clamp(165px, 22vw, 240px);
-            }
+            .navbar { padding: 1rem 4%; }
+            .nav-brand { width: min(280px, 36vw); }
+            .hero { padding-top: 10.5rem; }
 
             .nav-links {
                 gap: 1.5rem;
@@ -520,18 +723,32 @@
                 padding: 3rem 3% 2rem;
             }
 
-            .footer .brand img {
-                width: min(280px, 64vw);
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-columns {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .footer .brand { width: min(320px, 74vw); }
+
+            .footer-tagline {
+                max-width: none;
             }
 
             .social-icons {
-                gap: 1.5rem;
+                gap: 0.9rem;
             }
 
             .social-icons a {
-                font-size: 2rem;
+                font-size: 1.5rem;
                 width: 58px;
                 height: 58px;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
             }
 
             .legal-links {
@@ -545,22 +762,25 @@
 
         @media (max-width: 900px) {
             .navbar {
-                padding: 0.85rem 1rem 0.95rem;
-                gap: 0.65rem;
-                flex-direction: column;
-                justify-content: center;
+                padding: 0.9rem 3%;
+                gap: 1rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
             }
-
-            .brand img {
-                width: clamp(150px, 42vw, 220px);
+            .nav-brand {
+                margin-bottom: 0;
+                width: min(260px, 52vw);
             }
+            .hero { padding-top: 9.75rem; }
 
             .nav-links {
-                width: 100%;
-                justify-content: center;
-                gap: 1.1rem;
+                width: auto;
+                justify-content: flex-end;
+                gap: 1.2rem;
                 row-gap: 0.35rem;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
             }
 
             .nav-links a {
@@ -574,6 +794,68 @@
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.85rem 0.95rem;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 0.85rem;
+                flex-wrap: nowrap;
+            }
+
+            .nav-brand {
+                width: min(220px, 56vw);
+                margin: 0 auto;
+                padding: 0.55rem 0.8rem;
+                justify-content: center;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+                flex: 0 0 auto;
+                position: absolute;
+                top: 50%;
+                right: 0.95rem;
+                transform: translateY(-50%);
+            }
+
+            .nav-toggle:hover {
+                transform: translateY(calc(-50% - 2px));
+            }
+
+            .nav-links {
+                position: absolute;
+                top: calc(100% + 0.65rem);
+                left: 0.95rem;
+                right: 0.95rem;
+                width: auto;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: center;
+                gap: 0.65rem;
+                padding: 0.85rem;
+                border-radius: 18px;
+                background: rgba(15,12,45,0.97);
+                border: 1px solid rgba(255,215,0,0.18);
+                box-shadow: 0 18px 36px rgba(0,0,0,0.35);
+                flex-wrap: nowrap;
+            }
+
+            .navbar.menu-open .nav-links {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                min-height: 46px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 12px;
+                padding: 0.8rem 1rem;
+                background: rgba(255,255,255,0.06);
+            }
 
             section {
                 padding: 4rem 2% 3rem;
@@ -581,7 +863,7 @@
 
             .hero {
                 min-height: auto;
-                padding: 6.2rem 0 3rem;
+                padding: 9.6rem 0 3rem;
             }
 
             .hero-left h1 {
@@ -708,23 +990,50 @@
                 padding: 0;
             }
 
-            .footer .brand img {
-                width: min(245px, 72vw);
+            .footer-intro,
+            .footer-card {
+                padding: 1.35rem;
+                border-radius: 20px;
+            }
+
+            .footer-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-card-wide {
+                grid-column: auto;
+            }
+
+            .footer .brand { width: min(285px, 76vw); }
+
+            .footer-actions {
+                flex-direction: column;
+            }
+
+            .footer-action {
+                width: 100%;
             }
 
             .social-icons {
-                margin: 1.5rem 0 2rem;
+                margin: 0;
                 gap: 1.2rem;
+                justify-content: flex-start;
             }
 
             .social-icons a {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
                 width: 52px;
                 height: 52px;
             }
 
+            .footer-bottom {
+                margin-top: 1.6rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .legal-links {
-                margin: 1.2rem 0 2rem;
+                margin: 0;
                 font-size: 0.9rem;
             }
 
@@ -734,34 +1043,34 @@
 
             .copyright {
                 font-size: 0.85rem;
-                margin-top: 1.2rem;
+                text-align: left;
+                align-items: flex-start;
             }
         }
 
         @media (max-width: 480px) {
             .navbar {
-                padding: 0.75rem 0.75rem 0.9rem;
+                padding: 0.75rem 0.65rem;
+                justify-content: center;
             }
-
-            .brand img {
-                width: clamp(138px, 46vw, 190px);
-            }
+            .nav-brand { width: min(190px, 58vw); padding: 0.45rem 0.6rem; }
+            .nav-toggle { right: 0.65rem; }
+            .hero { padding-top: 8.8rem; }
 
             .nav-links {
-                width: 100%;
-                justify-content: center;
-                gap: 0.4rem 0.9rem;
-                flex-wrap: nowrap;
+                left: 0.65rem;
+                right: 0.65rem;
+                top: calc(100% + 0.55rem);
+                padding: 0.75rem;
             }
 
             .nav-links a {
                 font-size: 0.88rem;
-                margin-left: 0;
                 letter-spacing: 0.01em;
             }
 
             .hero {
-                padding: 6.6rem 0 2.5rem;
+                padding: 8.8rem 0 2.5rem;
             }
 
             .hero-card {
@@ -904,21 +1213,21 @@
                 padding: 2.5rem 1.5% 1.5rem;
             }
 
-            .footer .brand img {
-                width: min(210px, 68vw);
-            }
+            .footer .brand { width: min(235px, 76vw); padding: 0.65rem 0.85rem; }
 
             .social-icons {
-                margin: 1.2rem 0 1.8rem;
-                gap: 1rem;
+                margin: 0;
+                gap: 0.85rem;
             }
 
             .social-icons a {
-                font-size: 1.6rem;
+                font-size: 1.25rem;
+                width: 46px;
+                height: 46px;
             }
 
             .legal-links {
-                margin: 1rem 0 1.8rem;
+                margin: 0;
                 font-size: 0.85rem;
                 flex-wrap: wrap;
             }
@@ -932,17 +1241,24 @@
             }
         }
     </style>
-    </style>
 </head>
 <body>
     <div class="hero-bg"></div>
     <div class="overlay">
 
         <nav class="navbar">
-            <div class="brand">
-                <img src="{{ url_for('static', filename='images/aavaadingi logo.png') }}" alt="AAVADINGI logo">
-            </div>
-            <div class="nav-links">
+            <a href="{{ url_for('home_explicit') }}" class="brand nav-brand" aria-label="Reload home page">
+                <img class="logo-main" src="{{ url_for('static', filename='images/aavaadingi-logo-wide.png') }}" alt="aavaadingi - Try for a Measure of Mercy">
+                <div class="logo-slogan">TRY FOR A MEASURE OF MERCY</div>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="primary-nav" aria-expanded="false">
+                <span class="nav-toggle-lines" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+            <div class="nav-links" id="primary-nav">
                 <a href="/">Home</a>
                 <a href="/start">Secure Your Pass</a>
             </div>
@@ -977,7 +1293,7 @@
         </section>
 
         <!-- Event Highlights -->
-        <section class="highlights">
+        <section id="highlights" class="highlights">
             <h2>What to Expect at AAVADINGI 2026</h2>
             <div class="highlight-grid">
                 <div class="highlight-item">
@@ -1074,7 +1390,7 @@
         </section>
 
         <!-- Gallery -->
-        <section class="gallery-preview">
+        <section id="gallery" class="gallery-preview">
             <h2>Moments of 2025</h2>
             <div class="gallery">
                 <img src="https://thumbs.dreamstime.com/b/joyful-energetic-dance-party-vibrant-lights-music-where-disco-balls-confetti-create-lively-atmosphere-celebrating-296599323.jpg" alt="Celebration">
@@ -1083,36 +1399,49 @@
             </div>
         </section>
 
-        <!-- Footer with social media icons -->
-        <footer class="footer">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <div class="brand">
-                    <img src="{{ url_for('static', filename='images/aavaadingi logo.png') }}" alt="AAVADINGI logo">
-                </div>
-
-                <p style="font-size: 1.15rem; color: rgba(255,255,255,0.8); margin: 1.5rem 0 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                    Where Every Beat Tells a Story • Every Voice Finds a Stage • Every Dream Takes Flight
-                </p>
-
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/aavaadingi/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/@AAVAADINGI" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://facebook.com/aavadingi" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                </div>
-
-                <div class="legal-links">
-                    <a href="/terms-and-conditions">Terms & Conditions</a>
-                    <span style="color: rgba(255,255,255,0.4); margin: 0 1.5rem;">•</span>
-                    <a href="/privacy-policy">Privacy Policy</a>
-                </div>
-
-                <div class="copyright">
-                    © 2026 AAVADINGI. All rights reserved.<br>
-                    Designed with <span style="color: #ff6b6b;">❤️</span> for Inclusion & Celebration
-                </div>
-            </div>
-        </footer>
+        {% include '_site_footer.html' %}
 
     </div>
+    <script>
+        (() => {
+            const navbar = document.querySelector('.navbar');
+            const toggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (!navbar || !toggle || !navLinks) {
+                return;
+            }
+
+            const closeMenu = () => {
+                navbar.classList.remove('menu-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+
+            toggle.addEventListener('click', () => {
+                const isOpen = navbar.classList.toggle('menu-open');
+                toggle.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            navLinks.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('click', (event) => {
+                if (window.innerWidth > 768) {
+                    return;
+                }
+
+                if (!navbar.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
